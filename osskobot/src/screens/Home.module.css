@@ -1,0 +1,78 @@
+.mainDiv {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .banner {
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        width: 90%;
+
+        .imgDiv {
+            flex: 0 0 80%;
+            height: auto;
+
+            .bannerImg {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .buttonDiv {
+            flex: 0 0 20%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+
+            .serviceBtn,
+            .applyBtn {
+                width: 100%;
+                height: 50%;
+            }
+            .applyLink,
+            .serviceLink{
+                text-decoration: none;
+                color: black;
+            }
+        }
+    }
+
+    .bookshelp{
+        width: 90%;
+        border: 2px solid black;
+        margin-top: 50px;
+        .bookFilter{
+            display: inline-flex;
+            flex-wrap: nowrap;
+            padding-right: 24px;
+            .filter{
+                margin-left: 8px;
+                list-style: none;
+                .filterBtn{
+                    font-size: large;
+                }
+            }
+        }
+
+        .bookSlide{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            .book{
+                .bookImg{
+                    width: calc(33.33% - 20px);
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    margin: 10px;
+                    box-sizing: border-box;
+                }
+            }
+
+        }
+    }
+}
