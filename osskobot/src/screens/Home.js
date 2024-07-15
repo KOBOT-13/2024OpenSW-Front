@@ -1,12 +1,13 @@
 import styles from './Home.module.css';
 import { Link } from 'react-router-dom';
+import banner from '../assets/banner.jpg'
 
 function Home() {
     return (
         <div className={styles.mainDiv}>
             <div className={styles.banner}>
                 <div className={styles.imgDiv}>
-                    <img className={styles.bannerImg} src='https://ci3.googleusercontent.com/meips/ADKq_NZWpXCcwS5WLxUAJUoR0x0UwOHOEtHQao9UtwGuDZsw8CgPZ6SjyAA5PxXcd3g192Hdik48hSLWPVucde9ovYmtItnDxGXqEORmaoC9-C87lcU=s0-d-e1-ft#https://img2.stibee.com/1863_2278046_1720571255588408847.png' />
+                    <img className={styles.bannerImg} alt='이미지' src={banner} />
                 </div>
                 <div className={styles.buttonDiv}>
                     <button className={styles.serviceBtn}>
@@ -38,20 +39,20 @@ function Home() {
                 </div>
                 <div className={styles.bookSlide}>
                     <div className={styles.book}>
-                        <Link to="/book">
-                            <img className={styles.bookImg} src="https://image.yes24.com/goods/128199845/XL" />
+                        <Link to="/bookclick">
+                            <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/book">
-                            <img className={styles.bookImg} src="https://image.yes24.com/goods/128199845/XL" />
+                        <Link to="/bookclick">
+                            <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/book">
-                            <img className={styles.bookImg} src="https://image.yes24.com/goods/128199845/XL" />
+                        <Link to="/bookclick">
+                            <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/book">
-                            <img className={styles.bookImg} src="https://image.yes24.com/goods/128199845/XL" />
+                        <Link to="/bookclick">
+                            <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/book">
-                            <img className={styles.bookImg} src="https://image.yes24.com/goods/128199845/XL" />
+                        <Link to="/bookclick">
+                            <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
                     </div>
                 </div>
