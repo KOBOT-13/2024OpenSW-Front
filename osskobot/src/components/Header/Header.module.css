@@ -18,15 +18,17 @@
         align-items: center;
         justify-content: space-between;
         .login{
-            text-decoration: none;
             color: black;
-            margin-right: 2.5rem;
+            margin-right: 1rem;
+            background-color: transparent;
+            border-color: transparent;
             font-size: 15px;
         }
         .join{
-            text-decoration: none;
             color: black;
-            margin-right: 1.5rem;
+            margin-right: 1rem;
+            background-color: transparent;
+            border-color: transparent;
             font-size: 15px;
         }
     }

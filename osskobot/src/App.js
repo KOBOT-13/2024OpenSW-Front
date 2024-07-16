@@ -5,6 +5,7 @@ import Login from './screens/Login';
 import Join from './screens/Join';
 import Mypage from './screens/Mypage';
 import Bookclick from './screens/BookClick';
+import Logout from './screens/Logout';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/logout" element={<Logout/>}/>
         <Route path="/join" element={<Join/>}/>
         <Route path="/mypage" element={<Mypage/>}/>
         <Route path="/bookclick" element={<Bookclick/>}/>
