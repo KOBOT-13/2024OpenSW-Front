@@ -1,38 +1,54 @@
-.mainContainer{
+.mainContainer {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 400px;
-    .h3Div{
-        margin-bottom: 2%;
-        font-size: 25px;
-    }
-    .accountDiv{
-        margin: 2%;
-        .account{
-            margin: 0;
+    .joinDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        .joinFontDiv {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            border: 2px solid black;
+            border-bottom: 2px solid gainsboro;
+            border-radius: 5px 5px 0 0;
+            width: 100%;
+            font-size: 30px;
+            height: 80px;
         }
-        .accountInput{
-            
+
+        .joinInfo1 {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            .idInput,
+            .passwordInput {
+                padding: 12px;
+                margin-top: 30px;
+                border-color: gainsboro;
+                border-radius: 5px;
+            }
         }
-    }
-    .nicknameDiv{
-        margin: 2%;
-        .nickname{
-            margin: 0;
+
+        .validSpan{
+            margin-left: 5px;
+            font-size: 8px;
+            color:lightcoral;
         }
-        .nicknameInput{
-            
-        }
-    }
-    .dateDiv{
-        margin: 2%;
-        margin-bottom: 7%;
-        .date{
-            margin: 0;
-        }
-        .dateInput{
-            
+        
+        .joinBtn {
+            width: 300px;
+            height: 50px;
+            font-size: 15px;
+            background-color: pink;
+            border: 1px solid black;
+            border-radius: 3px;
+            margin-top: 30px;
         }
     }
 }
