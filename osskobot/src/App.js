@@ -5,14 +5,24 @@ import Login from './screens/Login';
 import Join from './screens/Join';
 import Mypage from './screens/Mypage';
 import Bookclick from './screens/BookClick';
+import Logout from './screens/Logout';
+import { useEffect, useState } from "react";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(!isLogin);
+  }, [reload]);
+
   return (
     <Router>
-      <Header/>
+      <Header isLogin={isLogin} setIsLogin={setIsLogin}/>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/login" element={<Login reload={reload} setReload={setReload} />}/>
+        <Route path="/logout" element={<Logout/>}/>
         <Route path="/join" element={<Join/>}/>
         <Route path="/mypage" element={<Mypage/>}/>
         <Route path="/bookclick" element={<Bookclick/>}/>
