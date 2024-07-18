@@ -18,17 +18,15 @@
         align-items: center;
         justify-content: space-between;
         .login{
+            text-decoration: none;
             color: black;
-            margin-right: 1rem;
-            background-color: transparent;
-            border-color: transparent;
+            margin-right: 32px;
             font-size: 15px;
         }
         .join{
+            text-decoration: none;
             color: black;
-            margin-right: 1rem;
-            background-color: transparent;
-            border-color: transparent;
+            margin-right: 10px;
             font-size: 15px;
         }
     }
@@ -38,7 +36,7 @@
         justify-content: space-between;
         .logout{
             color: black;
-            margin-right: 1rem;
+            margin-right: 10px;
             background-color: transparent;
             border-color: transparent;
             font-size: 15px;
@@ -46,11 +44,11 @@
         .mypage{
             text-decoration: none;
             color: black;
-            margin-right: 1rem;
+            margin-right: 10px;
             font-size: 15px;
-            .bookImg{
+            /* .bookImg{
                 width: calc(33.33% - 20px);
-            }
+            } */
         }
     }
 }
