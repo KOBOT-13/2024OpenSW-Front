@@ -1,0 +1,38 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400px;
+    .h3Div{
+        margin-bottom: 2%;
+        font-size: 25px;
+    }
+    .accountDiv{
+        margin: 2%;
+        .account{
+            margin: 0;
+        }
+        .accountInput{
+            
+        }
+    }
+    .nicknameDiv{
+        margin: 2%;
+        .nickname{
+            margin: 0;
+        }
+        .nicknameInput{
+            
+        }
+    }
+    .dateDiv{
+        margin: 2%;
+        margin-bottom: 7%;
+        .date{
+            margin: 0;
+        }
+        .dateInput{
+            
+        }
+    }
+}
