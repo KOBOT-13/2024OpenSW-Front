@@ -3,6 +3,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    z-index: -1;
     .nameDateDiv{
         display: flex;
         .nickname{

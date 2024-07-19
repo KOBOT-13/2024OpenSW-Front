@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './BookClick.module.css';
-import CommentBoard from '../components/Header/CommentBoard/CommentBoard';
+import CommentBoard from '../components/CommentBoard/CommentBoard';
 
 function BookClick() {
     const [index, setIndex] = useState(1)
@@ -28,7 +28,7 @@ function BookClick() {
     const click = (id) => {
         setIndex(id);
     };
-    
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.bookDetail}>
