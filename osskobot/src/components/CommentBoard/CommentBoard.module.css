@@ -1,0 +1,89 @@
+.commentBoardDiv{
+    background-color:wheat;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    .nameDateDiv{
+        display: flex;
+        .nickname{
+            padding-left: 8px;
+            padding-top: 8px;
+            margin: 0px;
+            font-size: 15px;
+        }
+        .date{
+            padding-left: 8px;
+            padding-top: 12px;
+            margin: 0px;
+            font-size: 10px;
+        }
+        .buttonsDiv{
+            margin-left: auto;
+            margin-right: 10px;
+            margin-top: 8px;
+            .edit{
+                background: none;
+                border:none;
+                cursor: pointer;
+            }
+            .delete{
+                margin-left: 2px;
+                background: none;
+                border:none;
+                cursor: pointer;
+                color: darkred;
+            }
+        }
+    }
+    .comment{
+        margin:0px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .editTextAreaDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 8px;
+        margin-right: 8px;
+        .editTextArea{
+            width: 100%;
+            padding: 0px;
+        }
+        .editCancleDiv{
+            margin-left: auto;
+            margin-right: 10px;
+            margin-top: 8px;
+            .cancleBtn, .editBtn{
+                margin-left: 2px;
+                background: none;
+                border:none;
+                cursor: pointer;
+            }
+        }
+    }
+    .likesDiv{
+        display: flex;
+        margin-left: 8px;
+        margin-top: 8px;
+        .likesIcon{
+            padding: 0;
+            background: none;
+            border: none;
+            margin-right: 5px;
+            cursor: pointer;
+            color: blue;
+        }
+        .likesCancleIcon{
+            padding: 0;
+            background: none;
+            border: none;
+            margin-right: 5px;
+            cursor: pointer;
+            color: black;
+        }
+        .likes{
+            margin: 0 5px 0 0;
+        }
+    }
+}

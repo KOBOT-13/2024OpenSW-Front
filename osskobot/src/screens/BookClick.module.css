@@ -71,8 +71,29 @@
         }
         .multiPage{
             width: 80%;
-            height: auto;
-            background-color: gray;
+            background-color:antiquewhite;
+            display: flex;
+            justify-content: center;
+            .commnetBoard{
+                width: 100%;
+                .commentForm{
+                    margin: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    .commentInput{
+                        height: 100px;
+                        border: 1px solid black;
+                    }
+                    .commentBtn{
+                        margin-top: 10px;
+                        align-self: flex-end;
+                        width: 20%;
+                    }
+                }
+                .commentsDiv{
+                    margin: 20px;
+                }
+            }
         }
     }
 }
