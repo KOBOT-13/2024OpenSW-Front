@@ -24,7 +24,7 @@ function CommentBoard({ nickname, comment, likes, date }) {
     }
     const onClickChangeComment = () => {
         // commnet를 newcomment로 변경하는 api 진행
-        console.log(newComment);
+        console.log("API 실행 " , newComment, "로 댓글 변경");
         setIsEdit(false);
     }
     const onClickCancle = () => {
@@ -34,6 +34,7 @@ function CommentBoard({ nickname, comment, likes, date }) {
     useEffect(() => {
         if (isDel) {
             // 댓글 삭제하는 api 실행
+            console.log("댓글 삭제하는 API 실행 ");
         }
     }, [isDel]);
 
