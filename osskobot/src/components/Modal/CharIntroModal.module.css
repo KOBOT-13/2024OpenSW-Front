@@ -39,3 +39,46 @@
         cursor: pointer;
     }
 }
+
+.talkModal{
+    position: absolute;
+    inset: 70% 10% 1% 10%;
+    background: gainsboro;
+    overflow: auto;
+    border-radius: 4px;
+    border: 1px solid black;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .imgDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 30px;
+        .modalImg{
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+        }
+        .name{
+            margin-bottom: 0;
+        }
+    }
+    .contentDiv{
+        margin-left: 2.5%;
+        margin-right: 5%;
+        width: auto;
+        .content{
+            font-size: 1.5rem;
+        }
+    }
+    .talkDiv{
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        .talkBtn{
+            font-size: larger;
+        }
+    }
+}

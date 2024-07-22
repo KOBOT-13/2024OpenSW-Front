@@ -15,8 +15,8 @@ function CharProfile({img, name}){
             <button className={styles.profileBtn} onClick={onClickBtn} >
                 <img className={styles.profileImg} src={profile}/>
             </button>
-            <p>{Name}</p>
-            <Modal isOpen={isClk} onRequestClose={setIsClk} name={"뽀로로"} description={"눈 덮인 숲속마을 꼬마펭귄 나가신다. 언제나 즐거워 개구쟁이 뽀로로"} src={profile} />
+            <p className={styles.name}>{Name}</p>
+            <Modal isOpen={isClk} onRequestClose={setIsClk} name={"뽀로로"} description={"눈 덮인 숲속마을 꼬마펭귄 나가신다. 언제나 즐거워 개구쟁이 뽀로로"} src={profile} mode={2} content={`${Name} 안녕? 나는 뽀로로야 나와 함께 대화해볼래?`}/>
         </div>
     )
 };
