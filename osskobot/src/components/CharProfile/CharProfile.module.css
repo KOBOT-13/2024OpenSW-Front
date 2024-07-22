@@ -1,0 +1,19 @@
+.profileDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    .profileBtn{
+        padding: 0;
+        border: 0;
+        background: none;
+        .profileImg{
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+        }
+    }
+}
