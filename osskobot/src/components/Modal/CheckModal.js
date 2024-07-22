@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import styles from './CumtomModal.module.css';
+import styles from './CheckModal.module.css';
 
 function CustomModal({ isOpen, onRequestClose, setIsDel }) {
     const onClickYes = () => {

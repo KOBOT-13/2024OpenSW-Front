@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './CommentBoard.module.css';
 import { AiFillLike } from "react-icons/ai";
-import CustomModal from '../Modal/CumtomModal';
+import CustomModal from '../Modal/CheckModal';
 
 
 function CommentBoard({ nickname, comment, likes, date }) {
