@@ -98,13 +98,13 @@ function BookClick() {
                     {index === 1 ? <p style={{ margin: 10 }}>이 책은 영국에서 시작되어 하루에 3명 씩 행운을 가져다 주었습니다.</p> :
                         index === 2 ? 
                         <div className={styles.charProfilesDiv}>
-                            <CharProfile/>
-                            <CharProfile/>
-                            <CharProfile/>
-                            <CharProfile/>
-                            <CharProfile/>
-                            <CharProfile/>
-                            <CharProfile/>
+                            <CharProfile mode={1}/>
+                            <CharProfile mode={1}/>
+                            <CharProfile mode={1}/>
+                            <CharProfile mode={1}/>
+                            <CharProfile mode={1}/>
+                            <CharProfile mode={1}/>
+                            <CharProfile mode={1}/>
                         </div> :
                             <div className={styles.commnetBoard}>
                                 <form className={styles.commentForm} onSubmit={onSubmitClk}>
