@@ -11,7 +11,7 @@ function CommentBoard({ nickname, comment, likes, date }) {
     const [newComment, setNewComment] = useState(comment);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const click = () => {
-        setIsLikes((current) => setIsLikes(!current));
+        setIsLikes((current) => !current);
     };
     const onClickDelete = () => {
         setModalIsOpen(true);
