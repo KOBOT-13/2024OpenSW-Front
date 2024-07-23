@@ -39,19 +39,19 @@ function Home() {
                 </div>
                 <div className={styles.bookSlide}>
                     <div className={styles.book}>
-                        <Link to="/bookclick">
+                        <Link to="/bookclick/1">
                             <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/bookclick">
+                        <Link to="/bookclick/1">
                             <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/bookclick">
+                        <Link to="/bookclick/1">
                             <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/bookclick">
+                        <Link to="/bookclick/1">
                             <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
-                        <Link to="/bookclick">
+                        <Link to="/bookclick/1">
                             <img className={styles.bookImg} alt='책' src="https://image.yes24.com/goods/128199845/XL" />
                         </Link>
                     </div>

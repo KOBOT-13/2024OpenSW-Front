@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
 
 function BookClick() {
+    const location = useLocation();
+
     const [index, setIndex] = useState(1)
 
     const [commentMsg, setCommentMsg] = useState('');
@@ -53,7 +56,7 @@ function BookClick() {
             <div className={styles.buttonDiv}>
                 <ul className={styles.buttonUl}>
                     <li className={styles.buttonLi}>
-                        <button className={styles.button}>대화하기</button>
+                        <Link to={`${location.pathname}/${1}`}><button className={styles.button}>대화하기</button></Link>
                     </li>
                     <li className={styles.buttonLi}>
                         <button className={styles.button}>독서퀴즈</button>

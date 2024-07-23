@@ -6,6 +6,8 @@ import Join from './screens/Join';
 import Mypage from './screens/Mypage';
 import Bookclick from './screens/BookClick';
 import Logout from './screens/Logout';
+import ChatCharChoose from "./screens/ChatCharChoose";
+import Chat from "./screens/Chat";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -25,7 +27,9 @@ function App() {
         <Route path="/logout" element={<Logout/>}/>
         <Route path="/join" element={<Join/>}/>
         <Route path="/mypage" element={<Mypage/>}/>
-        <Route path="/bookclick" element={<Bookclick/>}/>
+        <Route path="/bookclick/:id" element={<Bookclick/>}/>
+        <Route path="/bookclick/:id/:id" element={<ChatCharChoose/>}/>
+        <Route path="/bookclick/:id/:id/chat" element={<Chat/>}/>
         {/* 각각 스크린 구현 후 라우팅 시켜주면 됨
           /bookclick/talk : 대화하기 스크린
           /bookclick/bookquiz : 독서퀴즈 스크린
