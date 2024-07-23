@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
+import CharProfile from '../components/CharProfile/CharProfile';
 
 function BookClick() {
     const [index, setIndex] = useState(1)
@@ -92,7 +93,16 @@ function BookClick() {
                 </div>
                 <div className={styles.multiPage}>
                     {index === 1 ? <p style={{ margin: 10 }}>이 책은 영국에서 시작되어 하루에 3명 씩 행운을 가져다 주었습니다.</p> :
-                        index === 2 ? <h1>Test2</h1> :
+                        index === 2 ? 
+                        <div className={styles.charProfilesDiv}>
+                            <CharProfile/>
+                            <CharProfile/>
+                            <CharProfile/>
+                            <CharProfile/>
+                            <CharProfile/>
+                            <CharProfile/>
+                            <CharProfile/>
+                        </div> :
                             <div className={styles.commnetBoard}>
                                 <form className={styles.commentForm} onSubmit={onSubmitClk}>
                                     <textarea className={styles.commentInput} placeholder='댓글을 입력해주세요.' onChange={onChangeComment} value={commentMsg} ></textarea>

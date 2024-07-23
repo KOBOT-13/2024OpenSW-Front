@@ -74,6 +74,13 @@
             background-color:antiquewhite;
             display: flex;
             justify-content: center;
+            .charProfilesDiv{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                margin-left: auto;
+                margin-right: auto;
+            }
             .commnetBoard{
                 width: 100%;
                 .commentForm{
