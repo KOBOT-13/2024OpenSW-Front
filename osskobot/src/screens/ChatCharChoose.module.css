@@ -1,0 +1,6 @@
+.charProfileDiv{
+    margin: 0 15% 0 15%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}

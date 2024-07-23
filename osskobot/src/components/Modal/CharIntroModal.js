@@ -1,10 +1,11 @@
 import Modal from "react-modal";
 import styles from './CharIntroModal.module.css';
 import { IoExit } from "react-icons/io5";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function CharIntroModal({ isOpen, onRequestClose, name, description, src, mode, content }) {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const onClickExitBtn = () => {
         onRequestClose(false);
@@ -12,7 +13,7 @@ function CharIntroModal({ isOpen, onRequestClose, name, description, src, mode, 
 
     const onClickTalkBtn = () => {
         onRequestClose(false);
-        navigate("/");
+        navigate(`${location.pathname}/chat`);
     }
 
     if (mode === 1) {
