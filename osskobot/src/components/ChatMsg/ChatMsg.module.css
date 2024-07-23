@@ -1,0 +1,38 @@
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1%
+}
+
+.messageContainerOwnMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 1%
+}
+
+.bubbleDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 60%;
+    padding: 9px;
+    border-radius: 10px;
+    background-color: #f1f0f0;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.msgInfoDiv{
+    display: flex;
+    .msgTime{
+        font-size: 10px;
+        color: #999;
+    }
+}
+
+.msg{
+    font-size: 14px;
+    color: #333;
+}
