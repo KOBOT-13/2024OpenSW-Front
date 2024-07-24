@@ -14,9 +14,17 @@
         width: 100%;
         .applyBtn{
             position: absolute;
-            left: 50%;
+            left: 30%;
             bottom: 3%;
-            transform: translate(-50%, -50%);
+            transform: translate(30%, -50%);
+            font-size: large;
+        }
+        .cancleBtn{
+            position: absolute;
+            right: 30%;
+            bottom: 3%;
+            transform: translate(-30%, -50%);
+            font-size: large;
         }
     }
 }
@@ -26,7 +34,8 @@
 
     .label {
         font-size: small;
-        color: gainsboro;
+        color: rgba(0,0,0,0.7);
+        font-weight: bold;
         margin-bottom: 0;
     }
     .label.active {
@@ -36,12 +45,17 @@
     .content:focus{
         outline:none;
     }
+    .content::placeholder{
+        color: rgba(0,0,0,0.3)
+
+    }
     .content {
         width: 100%;
         box-sizing: border-box;
         border: none;
         border-bottom: 1px solid black;
         cursor: none;
+        
     }
     .content.active {
         border-bottom: 1px solid #adc088;
@@ -52,7 +66,8 @@
     margin: 5%;
     .label {
         font-size: small;
-        color: gainsboro;
+        color: rgba(0,0,0,0.7);
+        font-weight: bold;
         margin-bottom: 0;
         margin-right: 3%;
     }
@@ -77,6 +92,5 @@
 
     .btn{
         margin-left: 3%;
-
     }
 }

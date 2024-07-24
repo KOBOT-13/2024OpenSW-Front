@@ -17,6 +17,7 @@ function Mypage() {
     };
 
     const onClickProfile = () =>{
+        console.log("실행됨");
         setIsOpen(true);
     }
     return (
@@ -27,8 +28,8 @@ function Mypage() {
                     <p><u>{nickname}</u>님 안녕하세요.</p>
                     <p>생년월일 : {date}</p>
                 </div>
-                <ProfileModifyModal isOpen={isOpen} onRequestClose={setIsOpen}/>
             </div>
+            <ProfileModifyModal isOpen={isOpen} onRequestClose={setIsOpen}/>
             <div className={styles.myReadActDiv}>
                 <h3 style={{marginBottom:"0"}}>나의 독후활동</h3>
                 <div className={styles.btnsDiv}>
