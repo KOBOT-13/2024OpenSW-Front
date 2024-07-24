@@ -39,7 +39,7 @@ function LabelContent({ label, type, placeholder, value, onChange }) {
     )
 }
 
-function LabelPassword({ label, btnName, placeholder }) {
+function LabelPassword({ label, btnName, type }) {
     const [activeBorder, setActiveBorder] = useState({
         labelBorder: false,
     });
@@ -58,15 +58,16 @@ function LabelPassword({ label, btnName, placeholder }) {
     };
     return (
         <div className={styles.labelPasswordDiv}>
-            <label className={`${styles['label']} ${labelBorder ? styles['active'] : ''}`}>
-                {label}
-            </label>
+            <div className={styles.labelDiv}>
+                <label className={`${styles['label']} ${labelBorder ? styles['active'] : ''}`}>
+                    {label}
+                </label>
+            </div>
             <input
-                type={"number"}
+                type={type}
                 className={`${styles['password']} ${labelBorder ? styles['active'] : ''}`}
                 onFocus={() => handleFocusBorder('labelBorder')}
                 onBlur={() => handleBlurBorder('labelBorder')}
-                placeholder={placeholder}
             />
             <button className={styles.btn}>{btnName}</button>
         </div>
@@ -75,9 +76,9 @@ function LabelPassword({ label, btnName, placeholder }) {
 
 function ProfileModify({ isOpen, onRequestClose }) {
     // api 사용해서 newNickName, newDate와 각각의 placeholder에 기존 값 넣어두기
-    const [newNickName, setNewNickName]= useState("이재영");
-    const [newDate, setNewDate]= useState("2002-12-04");
-    const [newPassword, setNewPassword]= useState("");
+    const [newNickName, setNewNickName] = useState("이재영");
+    const [newDate, setNewDate] = useState("2002-12-04");
+    const [newPassword, setNewPassword] = useState("");
 
     const onClickApply = () => {
         console.log(
@@ -96,8 +97,8 @@ function ProfileModify({ isOpen, onRequestClose }) {
                 <LabelContent label={"닉네임"} type={"text"} placeholder={"이재영"} value={newNickName} onChange={setNewNickName} />
                 <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
                 <p style={{ marginLeft: "3%", marginBottom: "0px" }}>비밀번호 변경</p>
-                <LabelPassword label={"전화번호"} btnName={"인증번호 전송"} />
-                <LabelPassword label={"인증번호"} btnName={"확인"} />
+                <LabelPassword label={"이메일"} btnName={"이메일 인증"} type={"text"} />
+                <LabelPassword label={"인증번호"} btnName={"확인"} type={"number"} />
                 <button className={styles.applyBtn} onClick={onClickApply}>적용</button>
                 <button className={styles.cancleBtn} onClick={() => onRequestClose(false)}>취소</button>
             </div>
