@@ -1,0 +1,22 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .profileDiv{
+        width: 70%;
+        margin: 10px;
+        border: 2px solid black;
+        display: flex;
+        .profileImg{
+            border-radius: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 95px;
+        }
+        .userInfoDiv{
+            font-size: large;
+        }
+    }
+}
