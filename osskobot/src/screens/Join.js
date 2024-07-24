@@ -11,12 +11,15 @@ function Join() {
     const [validIdMsg, setValidIdMsg] = useState("");
     const [validPasswordMsg, setValidPasswordMsg] = useState("");
     const [validPassword2Msg, setValidPassword2Msg] = useState("");
+    const [validEmailMsg, setValidEmail2Msg] = useState("");
 
     const [isId, setIsId] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
     const [isPassword2, setIsPassword2] = useState(false);
+    const [isEmail, setIsEmail] = useState(false);
 
     const [userInfo, setUserInfo] = useState({
+        email: '',
         id: '',
         password: '',
         password2: '',
@@ -31,6 +34,24 @@ function Join() {
             [name]: value,
         }));
     };
+
+    const onChangeEmail = ((e) => {
+        handleInputChange(e);
+        const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+        const emailCurrent = e.target.value;
+
+        if(e.target.value.length === 0){
+            setValidEmail2Msg("필수 입력항목입니다.");
+        }
+        else if(!emailRegEx.test(emailCurrent)){
+            setValidEmail2Msg("이메일 형식을 지켜주세요.");
+        }
+        else{
+            setValidEmail2Msg("O");
+            setIsEmail(true);
+        }
+
+    });
 
     const onChangeId = ((e) => {
         handleInputChange(e);
@@ -52,15 +73,15 @@ function Join() {
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,32}$/;
         const passwordCurrent = e.target.value;
         handleInputChange(e);
-        
-        if(e.target.value.length === 0){
+
+        if (e.target.value.length === 0) {
             setValidPasswordMsg('필수 입력항목입니다.')
             setIsPassword(false)
         }
         else if (!passwordRegex.test(passwordCurrent)) {
             setValidPasswordMsg('숫자+영문자+특수문자 조합으로 8자리 이상 32자 이하로 입력해주세요!')
             setIsPassword(false)
-        } 
+        }
         else {
             setValidPasswordMsg('O')
             setIsPassword(true)
@@ -70,21 +91,21 @@ function Join() {
 
     const onChangePassword2 = ((e) => {
         handleInputChange(e);
-        if(userInfo.password !== e.target.value){
+        if (userInfo.password !== e.target.value) {
             setValidPassword2Msg('비밀번호가 일치하지 않습니다.');
             setIsPassword2(false);
-        } 
-        else{
+        }
+        else {
             setValidPassword2Msg('O');
             setIsPassword2(true);
         }
     });
-    
+
     const join = () => {
-        if(isId && isPassword && isPassword2){
+        if (isId && isPassword && isPassword2) {
             console.log("회원가입 성공");
         }
-        else{
+        else {
             console.log("회원가입 실패");
         }
     }
@@ -96,6 +117,8 @@ function Join() {
                     회원가입
                 </div>
                 <div className={styles.joinInfo1}>
+                    <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
+                    <span className={styles.validSpan}>{validEmailMsg}</span>
                     <input type='text' className={styles.idInput} placeholder='아이디' name='id' onChange={onChangeId} />
                     <span className={styles.validSpan}>{validIdMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />

@@ -26,6 +26,7 @@
             display: flex;
             flex-direction: column;
             width: 50%;
+            .emailInput,
             .idInput,
             .passwordInput {
                 padding: 12px;
