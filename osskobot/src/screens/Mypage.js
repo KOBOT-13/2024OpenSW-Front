@@ -11,6 +11,7 @@ function Mypage() {
     const btns = ['내가 읽은 책' ,'이전 대화', '독후감', '퀴즈기록', '내가 쓴 글'];
     const nickname = "이재영";
     const date = format(new Date("2002-12-04"), 'PPP', { locale: ko });
+    const email = "rktlskan021@naver.com";
 
     const handleButtonClick = (index) => {
         setActiveIndex(index);
@@ -25,8 +26,9 @@ function Mypage() {
             <div className={styles.profileDiv} onClick={onClickProfile}>
                 <img src={image} className={styles.profileImg} />
                 <div className={styles.userInfoDiv}>
-                    <p><u>{nickname}</u>님 안녕하세요.</p>
-                    <p>생년월일 : {date}</p>
+                    <p className={styles.profileP}><u>{nickname}</u>님 안녕하세요.</p>
+                    <p className={styles.profileP}>생년월일 : {date}</p>
+                    <p className={styles.profileP}>E-mail : {email}</p>
                 </div>
             </div>
             <ProfileModifyModal isOpen={isOpen} onRequestClose={setIsOpen}/>
