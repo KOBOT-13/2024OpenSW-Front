@@ -1,8 +1,12 @@
 import styles from './Home.module.css';
 import { Link } from 'react-router-dom';
 import banner from '../assets/banner.jpg'
+import BookRequestModal from '../components/Modal/BookRequestModal';
+import { useState } from 'react';
 
 function Home() {
+    const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(true);
+
     return (
         <div className={styles.mainDiv}>
             <div className={styles.banner}>
@@ -16,10 +20,8 @@ function Home() {
                             <strong>서비스 소개</strong>
                         </button>
                     </Link>
-                    <button className={styles.applyBtn}>
-                        <Link className={styles.applyLink} to="/">
-                            <strong>도서 신청하기</strong>
-                        </Link>
+                    <button className={styles.applyBtn} onClick={() => setIsBookRequestModalOpen(true)}>
+                        <strong>도서 신청하기</strong>
                     </button>
                 </div>
             </div>
@@ -58,6 +60,7 @@ function Home() {
                     </div>
                 </div>
             </div>
+            <BookRequestModal isOpen={isBookRequestModalOpen} onRequestClose={setIsBookRequestModalOpen} />
         </div>
     )
 }
