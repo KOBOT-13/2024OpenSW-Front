@@ -62,7 +62,7 @@ function BookClick() {
                         <button className={styles.button}>독서퀴즈</button>
                     </li>
                     <li className={styles.buttonLi}>
-                        <button className={styles.button}>지식 키우기</button>
+                        <Link to={`${location.pathname}/bookreport`}><button className={styles.button}>독후감 쓰기</button></Link>
                     </li>
                 </ul>
             </div>
