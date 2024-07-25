@@ -1,7 +1,15 @@
 import AiLogo from '../assets/AiLogo';
 import styles from './ServiceInfo.module.css';
-
+import Profile from '../components/Profile/Profile';
 function ServiceInfo() {
+    const developerInfo = [
+        {url : "https://github.com/rktlskan021", img : "https://avatars.githubusercontent.com/u/68416831?v=4", id : "@rktlskan021"},
+        {url : "https://github.com/forestsol", img : "https://avatars.githubusercontent.com/u/51287968?v=4", id : "@forestsol"},
+        {url : "https://github.com/ima9ine4", img : "https://avatars.githubusercontent.com/u/105336619?v=4", id : "@ima9ine4"},
+        {url : "https://github.com/IamWonILuvWon", img : "https://avatars.githubusercontent.com/u/113083948?v=4", id : "@IamWonILuvWon"},
+        {url : "https://github.com/coladribble", img : "https://avatars.githubusercontent.com/u/134242170?v=4", id : "@coladribble"},
+    ]
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.infoDiv}>
@@ -10,7 +18,11 @@ function ServiceInfo() {
             </div>
             <div className={styles.developerDiv}>
                 <h1 className={styles.title}>Developer</h1>
-
+                <div className={styles.profileDiv}>
+                    {developerInfo.map((item) => {
+                        return <Profile url={item.url} img={item.img} id={item.id} />
+                    })}
+                </div>
             </div>
         </div>
     )
