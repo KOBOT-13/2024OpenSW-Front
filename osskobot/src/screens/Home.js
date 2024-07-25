@@ -10,11 +10,12 @@ function Home() {
                     <img className={styles.bannerImg} alt='이미지' src={banner} />
                 </div>
                 <div className={styles.buttonDiv}>
-                    <button className={styles.serviceBtn}>
-                        <Link className={styles.serviceLink} to="/">
+                    <Link className={styles.serviceLink} to="/serviceinfo">
+                        <button className={styles.serviceBtn}>
+
                             <strong>서비스 소개</strong>
-                        </Link>
-                    </button>
+                        </button>
+                    </Link>
                     <button className={styles.applyBtn}>
                         <Link className={styles.applyLink} to="/">
                             <strong>도서 신청하기</strong>
