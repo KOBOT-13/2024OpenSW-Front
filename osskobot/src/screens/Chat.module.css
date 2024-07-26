@@ -25,10 +25,16 @@
         border: 2px solid black;
         display: flex;
         .chatInput{
-            width: 93%;
+            width: 86%;
             font-size: 2rem;
             padding: 0;
             border: none;
+        }
+        .STTBtn{
+            border: 0;
+            border-left: 1px solid black;
+            width: 7%;
+            background-color: white;
         }
         .chatBtn{
             border: 0;
