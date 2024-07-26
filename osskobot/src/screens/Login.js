@@ -4,9 +4,8 @@ import styles from './Login.module.css';
 import axios from 'axios';
 import cookies from 'js-cookie';
 
-function Login(props) {
+function Login() {
     const navigate = useNavigate();
-    const {reload, setReload} = props;
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -33,8 +32,8 @@ function Login(props) {
             }
         )
             .then((response) => {
-                console.log(response.data.access);
-                setReload(!reload);
+                const token = response.data.access
+                cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
             })
             .catch((error) => {
                 alert("이메일 또는 비밀번호가 옳바르지 않습니다.");
