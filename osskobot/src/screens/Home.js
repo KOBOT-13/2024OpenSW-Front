@@ -5,7 +5,7 @@ import BookRequestModal from '../components/Modal/BookRequestModal';
 import { useState } from 'react';
 
 function Home() {
-    const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(true);
+    const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
 
     return (
         <div className={styles.mainDiv}>
