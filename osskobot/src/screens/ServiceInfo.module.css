@@ -10,14 +10,11 @@
             font-size: large;
         }
     }
-
+    
     .developerDiv{
         display: flex;
         flex-direction: column;
         align-items: center;
-        .title{
-            
-        }
         .profileDiv{
             display: flex;
 
