@@ -48,7 +48,7 @@ function CommentBoard({ nickname, comment, likes, date }) {
                     <div className={styles.buttonsDiv}>
                         <button onClick={onClickEdit} className={styles.edit}>수정</button>
                         <button onClick={onClickDelete} className={styles.delete}>삭제</button>
-                        <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} setIsDel={setIsDel} />
+                        <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} setIsDel={setIsDel} msg={"정말로 삭제하시겠습니까?"} />
                     </div>}
             </div>
             {isEdit ?

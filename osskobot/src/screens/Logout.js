@@ -1,38 +1,44 @@
 import {useNavigate} from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import cookie from 'react-cookies';
+import cookies from 'js-cookie';
+import CustomModal from '../components/Modal/CheckModal';
 
 function Logout() {
     const navigate = useNavigate();
+
+    const [modalIsOpen, setModalIsOpen] = useState(true);
+    const [isLogout, setIsLogout] = useState(undefined);
+
     useEffect(() => {
-        async function fetchData(){
-            const token = cookie.load('token');
-            if(!token){
-                navigate('/');
-                alert("로그아웃 실패");
-                return;
-            }
-            const headers = {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Authorization": `Bearer ${cookie.load('token')}`
-            }
-            try{
-                const res = await axios.post("https://kapi.kakao.com/v1/user/logout", null, { headers: headers });
-                if(res && res.data){
-                    cookie.remove("token", {path : '/'});
+        if(isLogout){
+            const logoutAPI = async() => {
+                axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/logout/`, 
+                    {},
+                    {
+                        headers:{
+                            'Authorization' : `Bearer ${cookies.get('token')}`
+                        }
+                    }
+                ).then((response) => {
+                    console.log(response);
                     navigate('/');
-                }
-            } catch(err){
-                console.log(err);
+                    alert("로그아웃 되었습니다.");
+                }).catch((error) => {
+                    console.log(error);
+                })
             }
+            logoutAPI();
         }
-        fetchData();
-    }, [navigate]);
+        else if(isLogout === false){
+            console.log(isLogout);
+            navigate('/');
+        }
+    }, [isLogout]);
     
     return (
         <div>
-            <h1>로그아웃 중입니다.</h1>
+            <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} setIsDel={setIsLogout} msg={"정말로 로그아웃 하시겠습니까?"} />
         </div>
     )
 }

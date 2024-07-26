@@ -3,13 +3,13 @@ import styles from './Header.module.css';
 
 function Header(props) {
     const {isLogin, setIsLogin} = props;
-    
+
     return (
         <header className={styles.Header}>
             <Link className={styles.appname} to="/">웹이름</Link>
             {isLogin ?
                 <div className={styles.logoutmypagediv}>
-                    <button className={styles.logout}><strong>로그아웃</strong></button>
+                    <Link className={styles.logout} to="/logout"><strong>로그아웃</strong></Link>
                     <Link className={styles.mypage} to="/mypage">
                         <strong>마이페이지</strong>
                     </Link>

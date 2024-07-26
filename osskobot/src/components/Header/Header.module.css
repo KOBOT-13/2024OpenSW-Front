@@ -34,10 +34,9 @@
         align-items: center;
         justify-content: space-between;
         .logout{
+            text-decoration: none;
             color: black;
             margin-right: 10px;
-            background-color: transparent;
-            border-color: transparent;
             font-size: 15px;
         }
         .mypage{
@@ -45,9 +44,6 @@
             color: black;
             margin-right: 10px;
             font-size: 15px;
-            /* .bookImg{
-                width: calc(33.33% - 20px);
-            } */
         }
     }
 }
