@@ -1,6 +1,8 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './Login.module.css';
+import axios from 'axios';
+import cookies from 'js-cookie';
 
 function Login(props) {
     const navigate = useNavigate();
@@ -19,8 +21,24 @@ function Login(props) {
     };
 
     const login = () => {
-        // 로그인과 비밀번호를 통해 token을 받아오는 로직 필요
-        setReload(!reload);
+        axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/login/`, 
+            {
+                email: userInfo.email,
+                password: userInfo.password
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            }
+        )
+            .then((response) => {
+                console.log(response.data.access);
+                setReload(!reload);
+            })
+            .catch((error) => {
+                alert("이메일 또는 비밀번호가 옳바르지 않습니다.");
+            })
     }
     return (
         <div className={styles.mainContainer}>
