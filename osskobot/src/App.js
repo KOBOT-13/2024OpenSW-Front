@@ -10,6 +10,7 @@ import ChatCharChoose from "./screens/ChatCharChoose";
 import Chat from "./screens/Chat";
 import BookReport from './screens/BookReport';
 import ServiceInfo from "./screens/ServiceInfo";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import cookies from 'js-cookie';
@@ -52,12 +53,22 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/join" element={<Join />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage" element={<ProtectedRoute>
+          <Mypage/>
+        </ProtectedRoute>} />
         <Route path="/serviceinfo" element={<ServiceInfo />} />
-        <Route path="/bookclick/:id" element={<Bookclick />} />
-        <Route path="/bookclick/:id/:id" element={<ChatCharChoose />} />
-        <Route path="/bookclick/:id/:id/chat" element={<Chat />} />
-        <Route path="/bookclick/:id/bookreport" element={<BookReport />} />
+        <Route path="/bookclick/:id" element={<ProtectedRoute>
+          <Bookclick />
+        </ProtectedRoute>} />
+        <Route path="/bookclick/:id/:id" element={<ProtectedRoute>
+          <ChatCharChoose />
+        </ProtectedRoute>} />
+        <Route path="/bookclick/:id/:id/chat" element={<ProtectedRoute>
+          <Chat />
+        </ProtectedRoute>} />
+        <Route path="/bookclick/:id/bookreport" element={<ProtectedRoute>
+          <BookReport />
+        </ProtectedRoute>} />
         {/* 각각 스크린 구현 후 라우팅 시켜주면 됨
           /bookclick/bookquiz : 독서퀴즈 스크린
         */}
