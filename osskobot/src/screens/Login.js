@@ -6,7 +6,7 @@ function Login(props) {
     const navigate = useNavigate();
     const {reload, setReload} = props;
     const [userInfo, setUserInfo] = useState({
-        id: '',
+        email: '',
         password: '',
     });
 
@@ -29,12 +29,12 @@ function Login(props) {
                     로그인
                 </div>
                 <div className={styles.loginInfo}>
-                    <input type='text' className={styles.idInput} placeholder='아이디' name='id' onChange={handleInputChange} />
+                    <input type='text' className={styles.idInput} placeholder='이메일' name='email' onChange={handleInputChange} />
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={handleInputChange} />
                 </div>
                 <button className={styles.loginBtn} onClick={login}><strong>로그인</strong></button>
                 <div className={styles.linkDiv}>
-                    <Link className={styles.findLink} to='/find'>아이디/비밀번호 찾기</Link>
+                    <Link className={styles.findLink} to='/find'>비밀번호 찾기</Link>
                     <Link className={styles.joinLink} to='/join'>회원가입</Link>
                 </div>
             </div>
