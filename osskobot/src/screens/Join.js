@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import qs from 'qs';
-import cookie from 'react-cookies';
 import styles from './Join.module.css';
 
 function Join() {
     const navigate = useNavigate();
 
+    const [errorMsg, setErrorMsg] = useState("");
     const [validIdMsg, setValidIdMsg] = useState("");
     const [validPasswordMsg, setValidPasswordMsg] = useState("");
     const [validPassword2Msg, setValidPassword2Msg] = useState("");
@@ -40,13 +39,13 @@ function Join() {
         const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
         const emailCurrent = e.target.value;
 
-        if(e.target.value.length === 0){
+        if (e.target.value.length === 0) {
             setValidEmail2Msg("필수 입력항목입니다.");
         }
-        else if(!emailRegEx.test(emailCurrent)){
+        else if (!emailRegEx.test(emailCurrent)) {
             setValidEmail2Msg("이메일 형식을 지켜주세요.");
         }
-        else{
+        else {
             setValidEmail2Msg("O");
             setIsEmail(true);
         }
@@ -102,11 +101,33 @@ function Join() {
     });
 
     const join = () => {
-        if (isId && isPassword && isPassword2) {
-            console.log("회원가입 성공");
+        if (isId && isPassword && isPassword2 && isEmail) {
+            axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/registration/`,
+                {
+                    username: userInfo.id,
+                    email: userInfo.email,
+                    password1: userInfo.password,
+                    password2: userInfo.password2
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+            )
+                .then((response) => {
+                    navigate("/login");
+                    alert("회원가입이 완료되었습니다.");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    const usernameErr = error.response.data['username'];
+                    const emailErr = error.response.data['email'];
+                    setErrorMsg(`${usernameErr!==undefined ? usernameErr : ""}\n${emailErr!==undefined ? emailErr : ""}`);
+                })
         }
         else {
-            console.log("회원가입 실패");
+            alert("정보를 다시 확인해주세요.");
         }
     }
 
@@ -128,7 +149,10 @@ function Join() {
                     <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={handleInputChange} />
                     <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={handleInputChange} />
                 </div>
-                <button className={styles.joinBtn} onClick={join}><strong>회원가입</strong></button>
+                <div>
+                    <pre className={styles.errorMsg}>{errorMsg}</pre>
+                    <button className={styles.joinBtn} onClick={join}><strong>회원가입</strong></button>
+                </div>
             </div>
         </div>
     )

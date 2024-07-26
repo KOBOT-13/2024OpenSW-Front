@@ -1,12 +1,13 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './Login.module.css';
+import axios from 'axios';
+import cookies from 'js-cookie';
 
-function Login(props) {
+function Login() {
     const navigate = useNavigate();
-    const {reload, setReload} = props;
     const [userInfo, setUserInfo] = useState({
-        id: '',
+        email: '',
         password: '',
     });
 
@@ -19,8 +20,24 @@ function Login(props) {
     };
 
     const login = () => {
-        // 로그인과 비밀번호를 통해 token을 받아오는 로직 필요
-        setReload(!reload);
+        axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/login/`, 
+            {
+                email: userInfo.email,
+                password: userInfo.password
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            }
+        )
+            .then((response) => {
+                const token = response.data.access
+                cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
+            })
+            .catch((error) => {
+                alert("이메일 또는 비밀번호가 옳바르지 않습니다.");
+            })
     }
     return (
         <div className={styles.mainContainer}>
@@ -29,12 +46,12 @@ function Login(props) {
                     로그인
                 </div>
                 <div className={styles.loginInfo}>
-                    <input type='text' className={styles.idInput} placeholder='아이디' name='id' onChange={handleInputChange} />
+                    <input type='text' className={styles.idInput} placeholder='이메일' name='email' onChange={handleInputChange} />
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={handleInputChange} />
                 </div>
                 <button className={styles.loginBtn} onClick={login}><strong>로그인</strong></button>
                 <div className={styles.linkDiv}>
-                    <Link className={styles.findLink} to='/find'>아이디/비밀번호 찾기</Link>
+                    <Link className={styles.findLink} to='/find'>비밀번호 찾기</Link>
                     <Link className={styles.joinLink} to='/join'>회원가입</Link>
                 </div>
             </div>
