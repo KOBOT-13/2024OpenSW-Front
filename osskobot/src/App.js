@@ -30,6 +30,7 @@ function App() {
               setIsLogin(true);
             } else {
               setIsLogin(false);
+              alert("세션이 만료되었습니다. 다시 로그인 해주세요.");
             }
           })
           .catch((error) => {
@@ -39,7 +40,7 @@ function App() {
         setIsLogin(false);
       }
     }
-
+    console.log(cookies.get('token'));
     checkLoginStatus();
   }, []);
 
