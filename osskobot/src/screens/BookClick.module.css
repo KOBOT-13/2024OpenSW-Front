@@ -13,6 +13,7 @@
             .bookImg{
                 width: 100%;
                 object-fit: contain;
+                border: 1px solid black;
             }
         }
         .bookInfo{
