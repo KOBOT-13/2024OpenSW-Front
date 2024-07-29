@@ -152,3 +152,5 @@ $RECYCLE.BIN/
 .env
 
 # End of https://www.toptal.com/developers/gitignore/api/react,visualstudiocode,macos,linux,windows,git
+
+node-v20.15.0-linux-x64.tar.xz
