@@ -10,16 +10,19 @@ import ChatCharChoose from "./screens/ChatCharChoose";
 import Chat from "./screens/Chat";
 import BookReport from './screens/BookReport';
 import ServiceInfo from "./screens/ServiceInfo";
+
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import cookies from 'js-cookie';
+import Quiz from "./screens/Quiz";
+import { useEffect, useState } from "react";
+import Loading from './screens/Loading'
 
 function App() {
   const [isLogin, setIsLogin] = useState(undefined);
   const [reload, setReload] = useState(false);
   const token = cookies.get('token');
-  
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -73,6 +76,8 @@ function App() {
         <Route path="/bookclick/:id/bookreport" element={<ProtectedRoute>
           <BookReport />
         </ProtectedRoute>} />
+        <Route path="/bookclick/:id/quiz" element={<Quiz />} />                                     
+
         {/* 각각 스크린 구현 후 라우팅 시켜주면 됨
           /bookclick/bookquiz : 독서퀴즈 스크린
         */}
