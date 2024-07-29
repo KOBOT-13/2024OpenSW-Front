@@ -7,19 +7,16 @@ function Join() {
     const navigate = useNavigate();
 
     const [errorMsg, setErrorMsg] = useState("");
-    const [validIdMsg, setValidIdMsg] = useState("");
     const [validPasswordMsg, setValidPasswordMsg] = useState("");
     const [validPassword2Msg, setValidPassword2Msg] = useState("");
     const [validEmailMsg, setValidEmail2Msg] = useState("");
 
-    const [isId, setIsId] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
     const [isPassword2, setIsPassword2] = useState(false);
     const [isEmail, setIsEmail] = useState(false);
 
     const [userInfo, setUserInfo] = useState({
         email: '',
-        id: '',
         password: '',
         password2: '',
         nickname: '',
@@ -50,22 +47,6 @@ function Join() {
             setIsEmail(true);
         }
 
-    });
-
-    const onChangeId = ((e) => {
-        handleInputChange(e);
-        if (e.target.value.length === 0) {
-            setValidIdMsg("필수 입력항목입니다.");
-            setIsId(false);
-        }
-        else if (e.target.value.length < 3 || e.target.value.length > 16) {
-            setValidIdMsg("아이디는 3글자 이상 16글자 이하로 해주세요.");
-            setIsId(false);
-        }
-        else {
-            setValidIdMsg("O");
-            setIsId(true);
-        }
     });
 
     const onChangePassword = ((e) => {
@@ -140,8 +121,6 @@ function Join() {
                 <div className={styles.joinInfo1}>
                     <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
                     <span className={styles.validSpan}>{validEmailMsg}</span>
-                    <input type='text' className={styles.idInput} placeholder='아이디' name='id' onChange={onChangeId} />
-                    <span className={styles.validSpan}>{validIdMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />
                     <span className={styles.validSpan}>{validPasswordMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호 확인' name='password2' onChange={onChangePassword2} />
