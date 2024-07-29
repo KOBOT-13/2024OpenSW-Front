@@ -21,10 +21,10 @@ function CharProfile({img, character, mode}){
     return (
         <div className={styles.profileDiv}>
             <button className={styles.profileBtn} onClick={onClickBtn} >
-                <img className={styles.profileImg} src={profile}/>
+                <img className={styles.profileImg} src={profile} alt={character.name}/>
             </button>
-            <p className={styles.name}>{character}</p>
-            <Modal isOpen={isClk} onRequestClose={setIsClk} name={character.name} description={character.description} src={profile} mode={mode} content={`${character} ${character.description}`}/>
+            <p className={styles.name}>{character.name}</p>
+            <Modal isOpen={isClk} onRequestClose={setIsClk} name={character.name} description={character.description} src={profile} mode={mode} content={`${character.description}`}/>
         </div>
     )
 };

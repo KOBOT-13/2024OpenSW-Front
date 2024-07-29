@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './Chat.module.css'; // 이미 정의된 스타일 파일
 import { IoSend } from "react-icons/io5";
 import { IoMdMic } from "react-icons/io";
@@ -15,6 +15,7 @@ function Chat() {
     const [msg, setMsg] = useState("");
     const [characters, setCharacters] = useState([]);
     const [STTNone, setSTTNone] = useState(false);
+    const messagesEndRef = useRef(null);
     const { transcript, listening, resetTranscript } = STT();
 
     const get_characters_url = process.env.REACT_APP_API_GET_CHARACTERS_URL;
@@ -92,6 +93,12 @@ function Chat() {
         }
     };
 
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.imgChatDiv}>
@@ -125,7 +132,7 @@ function Chat() {
                     onChange={handleChatInput}
                     value={msg}
                     type="text"
-                    placeholder="Type a message"/>
+                    placeholder=""/>
                 <button className={styles.chatBtn} onClick={onClickChatBtn}><IoSend size={20} /></button>
                 <button className={styles.STTBtn} onClick={onClickSTTBtn}><IoMdMic size={20} color={listening ? "red" : "black"} /></button>
             </div>
