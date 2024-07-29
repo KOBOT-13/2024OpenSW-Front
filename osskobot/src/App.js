@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './components/Header/Header';
 import Home from './screens/Home';
 import Login from './screens/Login';
@@ -12,30 +12,30 @@ import BookReport from './screens/BookReport';
 import ServiceInfo from "./screens/ServiceInfo";
 import Quiz from "./screens/Quiz";
 import { useEffect, useState } from "react";
+import Loading from './screens/Loading'
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
   const [reload, setReload] = useState(false);
-
   useEffect(() => {
     setIsLogin(!isLogin);
   }, [reload]);
 
   return (
     <Router>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin}/>
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<Login reload={reload} setReload={setReload} />}/>
-        <Route path="/logout" element={<Logout/>}/>
-        <Route path="/join" element={<Join/>}/>
-        <Route path="/mypage" element={<Mypage/>}/>
-        <Route path="/serviceinfo" element={<ServiceInfo/>}/>
-        <Route path="/bookclick/:id" element={<Bookclick/>}/>
-        <Route path="/bookclick/:id/:id" element={<ChatCharChoose/>}/>
-        <Route path="/bookclick/:id/:id/chat" element={<Chat/>}/>
-        <Route path="/bookclick/:id/bookreport" element={<BookReport/>}/>
-        <Route path="/bookclick/:id/quiz" element={<Quiz/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login reload={reload} setReload={setReload} />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/serviceinfo" element={<ServiceInfo />} />
+        <Route path="/bookclick/:id" element={<Bookclick />} />
+        <Route path="/bookclick/:id/:id" element={<ChatCharChoose />} />
+        <Route path="/bookclick/:id/:id/chat" element={<Chat />} />
+        <Route path="/bookclick/:id/bookreport" element={<BookReport />} />
+        <Route path="/bookclick/:id/quiz" element={<Quiz />} />
         {/* 각각 스크린 구현 후 라우팅 시켜주면 됨
           /bookclick/bookquiz : 독서퀴즈 스크린
         */}
