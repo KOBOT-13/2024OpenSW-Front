@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 
 const ProtectedRoute = ({ children }) => {
     const [isLogin, setIsLogin] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -17,16 +18,20 @@ const ProtectedRoute = ({ children }) => {
                     setIsLogin(true);
                 } else {
                     setIsLogin(false);
-                    alert('로그인을 해주세요.');
                 }
             } catch (error) {
                 setIsLogin(false);
-                alert('로그인을 해주세요.');
+            } finally {
+                setLoading(false);
             }
         };
 
         checkLoginStatus();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return isLogin ? children : <Navigate to="/login" />;
 };

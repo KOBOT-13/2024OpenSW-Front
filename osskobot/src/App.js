@@ -16,8 +16,10 @@ import axios from "axios";
 import cookies from 'js-cookie';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(undefined);
+  const [reload, setReload] = useState(false);
+  const token = cookies.get('token');
+  
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -41,20 +43,22 @@ function App() {
         setIsLogin(false);
       }
     }
-    console.log(cookies.get('token'));
-    checkLoginStatus();
-  }, []);
+    if(token !== undefined){
+      console.log(token);
+      checkLoginStatus();
+    }
+  }, [reload, token]);
 
   return (
     <Router>
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setReload={setReload} />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/join" element={<Join />} />
         <Route path="/mypage" element={<ProtectedRoute>
-          <Mypage/>
+          <Mypage />
         </ProtectedRoute>} />
         <Route path="/serviceinfo" element={<ServiceInfo />} />
         <Route path="/bookclick/:id" element={<ProtectedRoute>
