@@ -14,10 +14,13 @@ function Home() {
             axios.get(`${process.env.REACT_APP_API_ADDRESS}books/AllBooks/`)
                 .then((response) => {
                     setBooks(response.data)
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
         }
         getBooks();
-    }, [])
+    }, [])  
 
     return (
         <div className={styles.mainDiv}>

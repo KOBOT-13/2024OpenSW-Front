@@ -10,13 +10,11 @@ import ChatCharChoose from "./screens/ChatCharChoose";
 import Chat from "./screens/Chat";
 import BookReport from './screens/BookReport';
 import ServiceInfo from "./screens/ServiceInfo";
-
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import cookies from 'js-cookie';
 import Quiz from "./screens/Quiz";
-import { useEffect, useState } from "react";
 import Loading from './screens/Loading'
 
 function App() {
