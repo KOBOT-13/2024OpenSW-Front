@@ -9,6 +9,7 @@ import STT from '../components/ChatMsg/STT';
 import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
+import axios from 'axios';
 
 function Chat() {
     const [messages, setMessages] = useState([]);
@@ -24,12 +25,11 @@ function Chat() {
     useEffect(() => {
         const fetchCharacters = async () => {
             try {
-                const response = await fetch(get_characters_url);
+                const response = await axios.get(get_characters_url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data = await response.json();
-                setCharacters(data);
+                setCharacters(response.data);    
             } catch (error) {
                 console.error('Error fetching characters:', error);
             }

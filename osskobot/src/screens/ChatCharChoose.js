@@ -1,3 +1,4 @@
+import axios from "axios";
 import CharProfile from "../components/CharProfile/CharProfile";
 import styles from './ChatCharChoose.module.css';
 import React, { useState, useEffect } from 'react';
@@ -9,9 +10,8 @@ function CharCharChoose() {
 
     useEffect(() => {
         const fetchCharacters = async () => {
-            const characters_response = await fetch(get_characters_url);
-            const data = await characters_response.json();
-            setCharacters(data)
+            const characters_response = await axios.get(get_characters_url);
+            setCharacters(characters_response.data)
         };
         fetchCharacters();
     }, [get_characters_url]);
