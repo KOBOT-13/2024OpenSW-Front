@@ -1,0 +1,65 @@
+.bookRequestModal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .titleDiv{
+        display: flex;
+        width: 80%;
+        justify-content: space-between;
+        .titleBtn{
+            background: none;
+            border : none;
+            padding: 0;
+        }
+    }
+    .contentDiv{
+        width: 100%;
+    }
+    .applyBtn{
+        margin-top: 5%;
+    }
+}
+
+.labelContentDiv {
+    margin: 5%;
+    margin-bottom: 8%;
+
+    .label {
+        font-size: small;
+        color: rgba(0,0,0,0.7);
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+    .label.active {
+        color: #adc088;
+    }
+
+    .content:focus{
+        outline:none;
+    }
+    .content::placeholder{
+        color: rgba(0,0,0,0.3)
+
+    }
+    .content {
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 1px solid black;
+        cursor: none;
+        
+    }
+    .content.active {
+        border-bottom: 1px solid #adc088;
+    }
+}

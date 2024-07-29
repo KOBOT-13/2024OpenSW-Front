@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
-import { useEffect, useState } from 'react';
-import cookie from 'react-cookies';
 
 function Header(props) {
     const {isLogin, setIsLogin} = props;
