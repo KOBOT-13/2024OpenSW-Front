@@ -10,47 +10,77 @@ import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
 import axios from 'axios';
+import cookies from 'js-cookie';
 
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [msg, setMsg] = useState("");
-    const [characters, setCharacters] = useState([]);
+    const [character, setCharacter] = useState([]);
     const [STTNone, setSTTNone] = useState(false);
     const messagesEndRef = useRef(null);
     const { transcript, listening, resetTranscript } = STT();
+    const audioRef = useRef(null);
 
     const get_characters_url = process.env.REACT_APP_API_GET_CHARACTERS_URL;
+    const post_mtt_url = process.env.REACT_APP_API_POST_MTT
 
     // API로부터 캐릭터 데이터 가져오기
     useEffect(() => {
-        const fetchCharacters = async () => {
+        const getCharacters = async () => {
             try {
                 const response = await axios.get(get_characters_url);
-                if (!response.ok) {
+                if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                setCharacters(response.data);    
+                setCharacter(response.data); 
             } catch (error) {
-                console.error('Error fetching characters:', error);
+                console.error('Error get characters:', error);
             }
         };
-
-        fetchCharacters();
+        getCharacters();
     }, [get_characters_url]);
+
+
+    const MTT = (message) => {
+        axios.post(post_mtt_url,
+            {
+                conversation_id: 1,
+                character_id: 1,
+                message: message,
+                speaker: "vara",
+                volume: 0,
+                speed: 0,
+                pitch: 0,
+                emotion: 0,
+                emotion_strength: 0,
+                format: "mp3",
+                alpha: 0,
+                end_pitch: 0,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('token')}`
+                }
+            }
+        )
+            .then((response) => {
+                const bot_response = response.data.message
+                const tts_url = response.data.file_url
+                const newMsg = {
+                    message: bot_response,
+                    time: format(new Date(), 'hh:mm aa'),
+                    tts: `${process.env.REACT_APP_ADDRESS}${tts_url}`,
+                    isOwnMessage: false
+                };
+                console.log(newMsg.tts)
+                setMessages((prevMessages) => [...prevMessages, newMsg]);
+            });
+        };   
+    
 
     const handleChatInput = (e) => {
         setMsg(e.target.value);
-    }
-
-    const chatBotChatting = () => {
-        const newMsg = {
-            id: messages.length + 1,
-            message: "챗봇의 채팅입니다.",
-            time: format(new Date(), 'hh:mm aa'),
-            isOwnMessage: true
-        };
-
-        setMessages((prevMessages) => [...prevMessages, newMsg]);
     }
 
     const onClickChatBtn = () => {
@@ -58,15 +88,13 @@ function Chat() {
             return;
         }
         const newMsg = {
-            id: messages.length + 1,
             message: msg,
             time: format(new Date(), 'hh:mm aa'),
-            isOwnMessage: false
-        };
-
+            isOwnMessage: true
+        }
         setMessages((prevMessages) => [...prevMessages, newMsg]);
+        MTT(msg)
         setMsg("");
-        chatBotChatting();
     }
 
     const onClickSTTBtn = () => {
@@ -74,13 +102,12 @@ function Chat() {
             SpeechRecognition.stopListening();
             if (transcript) {
                 const newMsg = {
-                    id: messages.length + 1,
                     message: transcript,
                     time: format(new Date(), 'hh:mm aa'),
-                    isOwnMessage: false
+                    isOwnMessage: true
                 };
                 setMessages((prevMessages) => [...prevMessages, newMsg]);
-                chatBotChatting();
+                MTT(transcript)
                 setSTTNone(false);
             } else {
                 setSTTNone(true);
@@ -99,6 +126,13 @@ function Chat() {
         }
     }, [messages]);
 
+    const playAudio = (url) => {
+        if (audioRef.current) {
+            audioRef.current.src = url;
+            audioRef.current.play();
+        }
+    };
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.imgChatDiv}>
@@ -106,10 +140,10 @@ function Chat() {
                 <div className={styles.chatDiv}>
                     {messages.map(msg => (
                         <ChatMsg
-                            key={msg.id}
                             message={msg.message}
                             time={msg.time}
                             isOwnMessage={msg.isOwnMessage}
+                            playAudio={() => playAudio(msg.tts)}
                         />
                     ))}
                     <div ref={messagesEndRef} />
@@ -136,6 +170,7 @@ function Chat() {
                 <button className={styles.chatBtn} onClick={onClickChatBtn}><IoSend size={20} /></button>
                 <button className={styles.STTBtn} onClick={onClickSTTBtn}><IoMdMic size={20} color={listening ? "red" : "black"} /></button>
             </div>
+            <audio ref={audioRef} />
         </div>
     );
 }

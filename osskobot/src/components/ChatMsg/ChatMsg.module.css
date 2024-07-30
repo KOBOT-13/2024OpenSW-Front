@@ -13,7 +13,7 @@
 }
 
 .bubbleDiv{
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     align-items: center;
     max-width: 60%;
@@ -35,4 +35,15 @@
 .msg{
     font-size: 14px;
     color: #333;
+}
+
+.playBtn {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.playBtn:hover {
+    color: #0056b3;
 }
