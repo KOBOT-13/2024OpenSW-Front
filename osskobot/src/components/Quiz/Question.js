@@ -7,7 +7,7 @@ const Question = ({ data, onAnswer, showAnswer, isCorrect, handleNextQuestion })
     if (isCorrect) {
       const timer = setTimeout(() => {
         handleNextQuestion();
-      }, 1000); // 1초 후 다음 질문으로 이동
+      }, 2000); 
       return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
     }
   }, [isCorrect, handleNextQuestion]);
