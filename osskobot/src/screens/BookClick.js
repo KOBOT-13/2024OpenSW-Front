@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
+import cookies from 'js-cookie';
+import { format } from 'date-fns'
 
 function BookClick() {
     const location = useLocation();
     const params = useParams();
-
+    const commentEndRef = useRef(null);
     const [book, setBook] = useState(
         {
             title: "",
@@ -19,36 +21,62 @@ function BookClick() {
             synopsis: ""
         }
     );
+    const [mode, setMode] = useState(false);
     const [index, setIndex] = useState(1)
     const [commentMsg, setCommentMsg] = useState('');
     const [commentInfos, setCommentInfos] = useState([]);
+
+    const scrollToBottom = () => {
+        commentEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     useEffect(() => {
         const getBookDetail = async() => {
             await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/book/${params.id}/`)
             .then((response) => {
-                console.log(response.data);
                 setBook(response.data);
+            }).catch((error) => {
+                console.log(error);
             });
         }
         getBookDetail();
     }, [])
 
+    useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('token')}`;
+        const getComments = async() => {
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/comments/`)
+            .then((response) => {
+                setCommentInfos(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        getComments();
+        setTimeout(scrollToBottom, 100);
+    }, [mode])
+
     const onChangeComment = (e) => {
         setCommentMsg(e.target.value);
     }
-    const onSubmitClk = (e) => {
+    const onSubmitClk = async(e) => {
         e.preventDefault();
         if(commentMsg !== ''){
-            const date = new Date();
             setCommentMsg('');
-            const newCommentInfo = {
-                nickname: '이재영',
-                comment: commentMsg,
-                date: date.toLocaleString(),
-                likes: 0
-            };
-            setCommentInfos([...commentInfos, newCommentInfo]);
+            axios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/`,
+                {
+                    'book': params.id,
+                    'content': commentMsg
+                },
+                {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${cookies.get('token')}`
+                    },
+                }
+            ).then(() => {
+                setMode((current) => {return !current});
+            })
         }
     };
 
@@ -134,14 +162,15 @@ function BookClick() {
                                     <textarea className={styles.commentInput} placeholder='댓글을 입력해주세요.' onChange={onChangeComment} value={commentMsg} ></textarea>
                                     <input type="submit" value="댓글달기" className={styles.commentBtn} />
                                 </form>
-                                <div className={styles.commentsDiv}>
+                                <div className={styles.commentsDiv} ref={commentEndRef}>
                                     {
                                         commentInfos.map((comment, idx) => {
                                             return <li style={{listStyleType:"none", marginBottom:"3px"}} key={idx}>
-                                                <CommentBoard nickname={comment.nickname} comment={comment.comment} date={comment.date} likes={comment.likes} />
+                                                <CommentBoard nickname={comment.user} comment={comment.content} date={format(comment.created_at, 'yyyy-MM-dd')} likes={comment.likes_count} />
                                             </li>
                                         })
                                     }
+                                    <div ref={commentEndRef} />
                                 </div>
                             </div>
                     }
