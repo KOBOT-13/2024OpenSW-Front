@@ -23,31 +23,27 @@ function App() {
   const token = cookies.get('token');
   useEffect(() => {
     const checkLoginStatus = async () => {
-      try {
-        await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`,
-          {
-            token: cookies.get('token')
-          }
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              setIsLogin(true);
-            } else {
-              setIsLogin(false);
-              alert("세션이 만료되었습니다. 다시 로그인 해주세요.");
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            cookies.remove('token')
+      await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`,
+        {
+          token: cookies.get('token')
+        }
+      )
+        .then((response) => {
+          if (response.status === 200) {
+            setIsLogin(true);
+          } else {
             setIsLogin(false);
             alert("세션이 만료되었습니다. 다시 로그인 해주세요.");
-          })
-      } catch (error) {
-        setIsLogin(false);
-      }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          cookies.remove('token')
+          setIsLogin(false);
+          alert("세션이 만료되었습니다. 다시 로그인 해주세요.");
+        })
     }
-    if(token !== undefined){
+    if (token !== undefined) {
       console.log(token);
       checkLoginStatus();
     }
@@ -77,7 +73,7 @@ function App() {
         <Route path="/bookclick/:id/bookreport" element={<ProtectedRoute>
           <BookReport />
         </ProtectedRoute>} />
-        <Route path="/bookclick/:id/quiz" element={<Quiz />} />                                     
+        <Route path="/bookclick/:id/quiz" element={<Quiz />} />
 
         {/* 각각 스크린 구현 후 라우팅 시켜주면 됨
           /bookclick/bookquiz : 독서퀴즈 스크린

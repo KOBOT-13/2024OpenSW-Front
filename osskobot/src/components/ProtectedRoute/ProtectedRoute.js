@@ -9,21 +9,15 @@ const ProtectedRoute = ({ children }) => {
 
     useEffect(() => {
         const checkLoginStatus = async () => {
-            try {
-                const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`, {
-                    token: Cookies.get('token')
-                });
-
-                if (response.status === 200) {
-                    setIsLogin(true);
-                } else {
-                    setIsLogin(false);
-                }
-            } catch (error) {
-                setIsLogin(false);
-            } finally {
+            await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`, {
+                token: Cookies.get('token')
+            }).then((response) => {
+                setIsLogin(true);
                 setLoading(false);
-            }
+            }).catch((error) => {
+                setIsLogin(false);
+                alert("로그인을 해주세요.");
+            });
         };
 
         checkLoginStatus();
