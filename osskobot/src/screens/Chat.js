@@ -76,6 +76,7 @@ function Chat() {
                 };
                 console.log(newMsg.tts)
                 setMessages((prevMessages) => [...prevMessages, newMsg]);
+                playAudio(`${process.env.REACT_APP_ADDRESS}${tts_url}`)
             });
         };   
     
