@@ -6,7 +6,7 @@ import axios from 'axios';
 import cookies from 'js-cookie';
 
 
-function CommentBoard({ id, nickname, comment, likes, date, onLikes }) {
+function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine }) {
     const [isLikes, setIsLikes] = useState(onLikes);
     const [isDel, setIsDel] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -65,12 +65,13 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes }) {
                 <p className={styles.nickname}><strong>{nickname}</strong></p>
                 <p className={styles.date}>{date}</p>
 
-                {isEdit ? null :
+                {isMine ? isEdit ? null :
                     <div className={styles.buttonsDiv}>
                         <button onClick={onClickEdit} className={styles.edit}>수정</button>
                         <button onClick={onClickDelete} className={styles.delete}>삭제</button>
                         <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} setIsDel={setIsDel} />
-                    </div>}
+                    </div> : null
+                }
             </div>
             {isEdit ?
                 <div className={styles.editTextAreaDiv}>

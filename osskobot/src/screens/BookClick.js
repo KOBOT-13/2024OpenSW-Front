@@ -165,9 +165,11 @@ function BookClick() {
                                 <div className={styles.commentsDiv} ref={commentEndRef}>
                                     {
                                         commentInfos.map((comment, idx) => {
+                                            console.log(comment.user === cookies.get('username'));
                                             return <li style={{listStyleType:"none", marginBottom:"3px"}} key={idx}>
                                                 <CommentBoard id={comment.id} nickname={comment.user} comment={comment.content} date={format(comment.created_at, 'yyyy-MM-dd')} likes={comment.likes_count} 
                                                     onLikes={comment.likes.includes(parseInt(cookies.get('pk')))}
+                                                    isMine={comment.user === cookies.get('username')}
                                                 />
                                             </li>
                                         })
