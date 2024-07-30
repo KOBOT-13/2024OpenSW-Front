@@ -166,7 +166,9 @@ function BookClick() {
                                     {
                                         commentInfos.map((comment, idx) => {
                                             return <li style={{listStyleType:"none", marginBottom:"3px"}} key={idx}>
-                                                <CommentBoard nickname={comment.user} comment={comment.content} date={format(comment.created_at, 'yyyy-MM-dd')} likes={comment.likes_count} />
+                                                <CommentBoard id={comment.id} nickname={comment.user} comment={comment.content} date={format(comment.created_at, 'yyyy-MM-dd')} likes={comment.likes_count} 
+                                                    onLikes={false}
+                                                />
                                             </li>
                                         })
                                     }

@@ -2,16 +2,37 @@ import { useEffect, useState } from 'react';
 import styles from './CommentBoard.module.css';
 import { AiFillLike } from "react-icons/ai";
 import CustomModal from '../Modal/CheckModal';
+import axios from 'axios';
+import cookies from 'js-cookie';
 
 
-function CommentBoard({ nickname, comment, likes, date }) {
-    const [isLikes, setIsLikes] = useState(false);
+function CommentBoard({ id, nickname, comment, likes, date, onLikes }) {
+    const [isLikes, setIsLikes] = useState(onLikes);
     const [isDel, setIsDel] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [newComment, setNewComment] = useState(comment);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [_likes, setLikes] = useState(likes);
+
     const click = () => {
         setIsLikes((current) => !current);
+        axios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/like/`, 
+            {},
+            {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('token')}`
+                },
+                withCredentials: true,
+            }
+        ).then((response) => {
+            axios.get(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/liked_users/`)
+            .then((response) => {
+                setLikes(response.data.liked_users.length);
+            }).catch((error) => console.log(error));
+        }).catch((error) => {
+            console.log(error);
+        });
     };
     const onClickDelete = () => {
         setModalIsOpen(true);
@@ -60,10 +81,10 @@ function CommentBoard({ nickname, comment, likes, date }) {
                     </div>
                 </div>
                 :
-                <p className={styles.comment}>{comment}</p>}
+                <p className={styles.comment}>{newComment}</p>}
             <div className={styles.likesDiv}>
                 <button onClick={click} className={isLikes ? styles.likesIcon : styles.likesCancleIcon}><AiFillLike /></button>
-                <p className={styles.likes}>{likes}</p>
+                <p className={styles.likes}>{_likes}</p>
             </div>
         </div>
     )
