@@ -33,6 +33,7 @@ function Login({ setReload }) {
         ).then((response) => {
             const token = response.data.access
             cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
+            cookies.set('pk', response.data.user['pk'], {expires: 1, sameSite: 'Lax'});
             setReload((current) => { return !current });
             axios.get(`${process.env.REACT_APP_API_ADDRESS}users/profile/`,
                 {
@@ -42,7 +43,7 @@ function Login({ setReload }) {
                     },
                     withCredentials: true,
                 }).then((response) => {
-                    cookies.set('username', response.data.username)
+                    cookies.set('username', response.data.username, {expires: 1, sameSite: 'Lax'})
                 }).catch((error) => {
                     console.log(error);
                 })
