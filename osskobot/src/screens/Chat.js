@@ -15,7 +15,7 @@ import cookies from 'js-cookie';
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [msg, setMsg] = useState("");
-    const [character, setCharacter] = useState([]);
+    const [character, setCharacter] = useState(null);
     const [STTNone, setSTTNone] = useState(false);
     const messagesEndRef = useRef(null);
     const { transcript, listening, resetTranscript } = STT();
@@ -32,7 +32,7 @@ function Chat() {
                 if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                setCharacter(response.data); 
+                setCharacter(response.data[0]); // 여길 동적으로 바꿔줘야 함
             } catch (error) {
                 console.error('Error get characters:', error);
             }
@@ -42,20 +42,21 @@ function Chat() {
 
 
     const MTT = (message) => {
+        console.error('Character data is missing');
         axios.post(post_mtt_url,
             {
-                conversation_id: 1,
-                character_id: 1,
+                conversation_id: character.book,
+                character_id: character.id,
                 message: message,
-                speaker: "vara",
-                volume: 0,
-                speed: 0,
-                pitch: 0,
-                emotion: 0,
-                emotion_strength: 0,
-                format: "mp3",
-                alpha: 0,
-                end_pitch: 0,
+                speaker: character.speaker,
+                volume: character.volume,
+                speed: character.speed,
+                pitch: character.pitch,
+                emotion: character.emotion,
+                emotion_strength: character.emotion_strength,
+                format: character.format,
+                alpha: character.alpha,
+                end_pitch: character.end_pitch,
             },
             {
                 headers: {
