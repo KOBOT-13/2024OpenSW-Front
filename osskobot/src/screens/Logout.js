@@ -4,7 +4,7 @@ import axios from 'axios';
 import cookies from 'js-cookie';
 import CustomModal from '../components/Modal/CheckModal';
 
-function Logout() {
+function Logout({setReload}) {
     const navigate = useNavigate();
 
     const [modalIsOpen, setModalIsOpen] = useState(true);
@@ -14,20 +14,22 @@ function Logout() {
         if(isLogout){
             const logoutAPI = async() => {
                 axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/logout/`, 
-                    {},
+                    {
+                        refresh: cookies.get('refresh_token')
+                    },
                     {
                         headers:{
                             'Authorization' : `Bearer ${cookies.get('token')}`
                         }
                     }
                 ).then((response) => {
-                    console.log(response);
                     cookies.remove('token');
                     cookies.remove('refresh_token');
                     cookies.remove('username');
                     cookies.remove('pk');
                     navigate('/');
                     alert("로그아웃 되었습니다.");
+                    setReload((current) => { return !current });
                 }).catch((error) => {
                     console.log(error);
                 })

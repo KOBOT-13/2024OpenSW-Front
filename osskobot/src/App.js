@@ -25,7 +25,7 @@ function App() {
     const checkLoginStatus = async () => {
       await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`,
         {
-          token: cookies.get('token')
+          token: token
         }
       )
         .then((response) => {
@@ -47,6 +47,9 @@ function App() {
       console.log(token);
       checkLoginStatus();
     }
+    else {
+      setIsLogin(false);
+    }
 
     // 서버에서 렌더링된 HTML 문서에서 CSRF 토큰을 가져오는 로직
     const csrfTokenMeta = document.querySelector("meta[name='_csrf']");
@@ -64,7 +67,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setReload={setReload} />} />
-        <Route path="/logout" element={<Logout />} />
+        <Route path="/logout" element={<Logout setReload={setReload} />} />
         <Route path="/join" element={<Join />} />
         <Route path="/mypage" element={<ProtectedRoute>
           <Mypage />

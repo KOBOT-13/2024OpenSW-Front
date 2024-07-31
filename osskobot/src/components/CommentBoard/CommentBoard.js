@@ -89,7 +89,7 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, rel
                         <button onClick={onClickEdit} className={styles.edit}>수정</button>
                         <button onClick={onClickDelete} className={styles.delete}>삭제</button>
                         <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} setIsDel={setIsDel} msg={"정말로 삭제하시겠습니까?"} />
-                    </div>}
+                    </div>:null}
 
             </div>
             {isEdit ?
