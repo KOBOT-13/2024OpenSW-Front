@@ -33,7 +33,9 @@ function Login() {
         )
             .then((response) => {
                 const token = response.data.access
+                const refresh_token = response.data.access
                 cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
+                cookies.set('refresh_token', refresh_token, { expires: 1, sameSite: 'Lax' });
             })
             .catch((error) => {
                 alert("이메일 또는 비밀번호가 옳바르지 않습니다.");

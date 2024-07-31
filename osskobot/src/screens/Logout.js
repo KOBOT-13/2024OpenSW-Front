@@ -22,6 +22,10 @@ function Logout() {
                     }
                 ).then((response) => {
                     console.log(response);
+                    cookies.remove('token');
+                    cookies.remove('refresh_token');
+                    cookies.remove('username');
+                    cookies.remove('pk');
                     navigate('/');
                     alert("로그아웃 되었습니다.");
                 }).catch((error) => {
