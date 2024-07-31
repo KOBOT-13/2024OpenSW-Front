@@ -47,31 +47,50 @@ function Chat() {
 
 
     useEffect(() => {
-        axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/conversation/`,
-            {
-                book: id,
-                character: characterid,
-            },
-            {
-                headers: {
-                    "Content-Type": 'application/json',
-                    'Authorization': `Bearer ${cookies.get('token')}`
+        const createConversation = async () => {
+            const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/conversation/`,
+                {
+                    book: id,
+                    character: characterid,
+                },
+                {
+                    headers: {
+                        "Content-Type": 'application/json',
+                        'Authorization': `Bearer ${cookies.get('token')}`
+                    }
                 }
-            }
-        )
-        .then((response) => {
-            const conid = response.data.id
-            console.log(conid)
+            );
+            const conid = response.data.id;
+            console.log(conid);
             setConversationid(conid);
-        })
+        };
+        createConversation();
     }, []);
 
+    useEffect(() => {
+        const getMsg = async () => {
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}dialogs/${characterid}/messages/`);
+            const data = response.data;
+            const last30Messages = data.slice(-30);
+            const lastMessages = last30Messages.map(msg => ({
+                message: msg.message,
+                time: format(new Date(msg.timestamp), 'hh:mm aa'),
+                tts: msg.tts_file,
+                isOwnMessage: msg.sender_type === 'user'
+            }));
+            setMessages(lastMessages);
+        };
+        if(conversationid !== null){
+            getMsg();
+        }
+            
+    }, [conversationid]);
 
     const MTT = (message) => {
         if (!character) {
             console.error('Character data is missing');
             return; // 캐릭터 데이터가 없으면 함수 종료
-        }    
+        }       
         axios.post(post_mtt_url,
             {
                 conversation_id: conversationid,
@@ -157,6 +176,10 @@ function Chat() {
             setSTTNone(false);
         }
     };
+
+    // const onClickEndBtn = () => {
+
+    // }
 
     useEffect(() => {
         if (messagesEndRef.current) {
