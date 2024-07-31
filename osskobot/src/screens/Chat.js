@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './Chat.module.css'; // 이미 정의된 스타일 파일
-import { IoSend } from "react-icons/io5";
+import { IoBowlingBallOutline, IoSend } from "react-icons/io5";
 import { IoMdMic } from "react-icons/io";
 import { IoIosWarning } from "react-icons/io";
 import image from '../assets/profile.png';
@@ -11,15 +11,18 @@ import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
 import axios from 'axios';
 import cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
 
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [msg, setMsg] = useState("");
     const [character, setCharacter] = useState(null);
     const [STTNone, setSTTNone] = useState(false);
+    const [conversationid, setConversationid] = useState(null);
     const messagesEndRef = useRef(null);
     const { transcript, listening, resetTranscript } = STT();
     const audioRef = useRef(null);
+    const { id, characterid } = useParams();
 
     const get_characters_url = process.env.REACT_APP_API_GET_CHARACTERS_URL;
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
@@ -28,24 +31,50 @@ function Chat() {
     useEffect(() => {
         const getCharacters = async () => {
             try {
-                const response = await axios.get(get_characters_url);
+                const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/${id}/characters/`);
                 if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                setCharacter(response.data[0]); // 여길 동적으로 바꿔줘야 함
+                const characters = response.data;
+                const foundCharacter = characters.find(char => char.id === Number(characterid));
+                setCharacter(foundCharacter);
             } catch (error) {
                 console.error('Error get characters:', error);
             }
         };
         getCharacters();
-    }, [get_characters_url]);
+    }, []);
+
+
+    useEffect(() => {
+        axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/conversation/`,
+            {
+                book: id,
+                character: characterid,
+            },
+            {
+                headers: {
+                    "Content-Type": 'application/json',
+                    'Authorization': `Bearer ${cookies.get('token')}`
+                }
+            }
+        )
+        .then((response) => {
+            const conid = response.data.id
+            console.log(conid)
+            setConversationid(conid);
+        })
+    }, []);
 
 
     const MTT = (message) => {
-        console.error('Character data is missing');
+        if (!character) {
+            console.error('Character data is missing');
+            return; // 캐릭터 데이터가 없으면 함수 종료
+        }    
         axios.post(post_mtt_url,
             {
-                conversation_id: character.book,
+                conversation_id: conversationid,
                 character_id: character.id,
                 message: message,
                 speaker: character.speaker,
@@ -86,14 +115,21 @@ function Chat() {
     }
 
     const onClickChatBtn = () => {
+
         if (msg === "") {
             return;
+        }
+        if (!character) {
+            console.error('Character data is missing');
+            return; // 캐릭터 데이터가 없으면 함수 종료
         }
         const newMsg = {
             message: msg,
             time: format(new Date(), 'hh:mm aa'),
             isOwnMessage: true
         }
+        console.log(msg)
+        console.log(character.id)
         setMessages((prevMessages) => [...prevMessages, newMsg]);
         MTT(msg)
         setMsg("");

@@ -12,11 +12,11 @@ function CharProfile({img, character, mode}){
 
     const onClickBtn = () => {
         setIsClk(true);
-    }
+    };
 
-    if (!character) {
-        return null;
-    }
+    const onRequestClose = () => {
+        setIsClk(false);
+    };
 
     return (
         <div className={styles.profileDiv}>
@@ -24,7 +24,7 @@ function CharProfile({img, character, mode}){
                 <img className={styles.profileImg} src={profile} alt={character.name}/>
             </button>
             <p className={styles.name}>{character.name}</p>
-            <Modal isOpen={isClk} onRequestClose={setIsClk} name={character.name} description={character.description} src={profile} mode={mode} content={`${character.description}`}/>
+            <Modal isOpen={isClk} onRequestClose={onRequestClose} name={character.name} description={character.description} src={profile} mode={mode} content={`${character.description}`} characterid={character.id}/>
         </div>
     )
 };

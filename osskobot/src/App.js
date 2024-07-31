@@ -68,10 +68,10 @@ function App() {
         <Route path="/bookclick/:id" element={<ProtectedRoute>
           <Bookclick />
         </ProtectedRoute>} />
-        <Route path="/bookclick/:id/:id" element={<ProtectedRoute>
+        <Route path="/bookclick/:id/chatcharchoose" element={<ProtectedRoute>
           <ChatCharChoose />
         </ProtectedRoute>} />
-        <Route path="/bookclick/:id/:id/chat" element={<ProtectedRoute>
+        <Route path="/bookclick/:id/chatcharchoose/:characterid/chat" element={<ProtectedRoute>
           <Chat />
         </ProtectedRoute>} />
         <Route path="/bookclick/:id/bookreport" element={<ProtectedRoute>
