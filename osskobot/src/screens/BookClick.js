@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './BookClick.module.css';
@@ -6,11 +6,12 @@ import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
 import cookies from 'js-cookie';
 import { format } from 'date-fns'
+import Pagination from 'react-js-pagination';
+
 
 function BookClick() {
     const location = useLocation();
     const params = useParams();
-    const commentEndRef = useRef(null);
     const [book, setBook] = useState(
         {
             title: "",
@@ -25,10 +26,18 @@ function BookClick() {
     const [index, setIndex] = useState(1)
     const [commentMsg, setCommentMsg] = useState('');
     const [commentInfos, setCommentInfos] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const scrollToBottom = () => {
-        commentEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
     };
+
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentComments = commentInfos.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => {
         const getBookDetail = async() => {
@@ -43,17 +52,19 @@ function BookClick() {
     }, [])
 
     useEffect(() => {
+        setCommentInfos([]);
+        setLoading(true);
         axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('token')}`;
         const getComments = async() => {
-            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/comments/`)
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/books/${params.id}/comments/`)
             .then((response) => {
                 setCommentInfos(response.data);
             }).catch((error) => {
                 console.log(error);
             });
         }
-        getComments();
-        setTimeout(scrollToBottom, 100);
+        setTimeout(getComments, 1000);
+        setLoading(false);
     }, [mode])
 
     const onChangeComment = (e) => {
@@ -74,7 +85,7 @@ function BookClick() {
                         'Authorization': `Bearer ${cookies.get('token')}`
                     },
                 }
-            ).then(() => {
+            ).then((response) => {
                 setMode((current) => {return !current});
             })
         }
@@ -162,19 +173,35 @@ function BookClick() {
                                     <textarea className={styles.commentInput} placeholder='댓글을 입력해주세요.' onChange={onChangeComment} value={commentMsg} ></textarea>
                                     <input type="submit" value="댓글달기" className={styles.commentBtn} />
                                 </form>
-                                <div className={styles.commentsDiv} ref={commentEndRef}>
-                                    {
-                                        commentInfos.map((comment, idx) => {
-                                            console.log(comment.user === cookies.get('username'));
-                                            return <li style={{listStyleType:"none", marginBottom:"3px"}} key={idx}>
-                                                <CommentBoard id={comment.id} nickname={comment.user} comment={comment.content} date={format(comment.created_at, 'yyyy-MM-dd')} likes={comment.likes_count} 
-                                                    onLikes={comment.likes.includes(parseInt(cookies.get('pk')))}
-                                                    isMine={comment.user === cookies.get('username')}
-                                                />
-                                            </li>
-                                        })
-                                    }
-                                    <div ref={commentEndRef} />
+                                <div className={styles.commentsDiv}>
+                                    {currentComments.map((comment, idx) => (
+                                        <li style={{ listStyleType: "none", marginBottom: "3px" }} key={comment.id}>
+                                            <CommentBoard
+                                                id={comment.id}
+                                                nickname={comment.user}
+                                                comment={comment.content}
+                                                date={format(new Date(comment.created_at), 'yyyy-MM-dd h:mm a')}
+                                                likes={comment.likes_count}
+                                                onLikes={comment.likes.includes(parseInt(cookies.get('pk')))}
+                                                isMine={comment.user === cookies.get('username')}
+                                                reload={setMode}
+                                            />
+                                        </li>
+                                    ))}
+                                    <Pagination
+                                        activePage={page}
+                                        itemsCountPerPage={itemsPerPage}
+                                        totalItemsCount={commentInfos.length}
+                                        pageRangeDisplayed={5}
+                                        prevPageText={"<"}
+                                        nextPageText={">"}
+                                        onChange={handlePageChange}
+                                        innerClass={styles.pagination}
+                                        itemClass={styles.paginationItem}
+                                        linkClass={styles.paginationLink}
+                                        activeClass={styles.active}
+                                        disabledClass={styles.disabled}
+                                    />
                                 </div>
                             </div>
                     }

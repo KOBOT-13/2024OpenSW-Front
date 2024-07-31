@@ -6,7 +6,7 @@ import axios from 'axios';
 import cookies from 'js-cookie';
 
 
-function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine }) {
+function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, reload}) {
     const [isLikes, setIsLikes] = useState(onLikes);
     const [isDel, setIsDel] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -44,8 +44,16 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine }) {
         setNewComment(e.target.value);
     }
     const onClickChangeComment = () => {
-        // commnet를 newcomment로 변경하는 api 진행
-        console.log("API 실행 " , newComment, "로 댓글 변경");
+        axios.patch(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`, 
+            {
+                content: newComment
+            },
+        ).then((response) => {
+            console.log(response);
+            
+        }).catch((error) => {
+            console.log(error);
+        })
         setIsEdit(false);
     }
     const onClickCancle = () => {
@@ -56,6 +64,17 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine }) {
         if (isDel) {
             // 댓글 삭제하는 api 실행
             console.log("댓글 삭제하는 API 실행 ");
+            axios.delete(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`)
+            .then((response) => {
+                console.log(response);
+                reload((current) => {
+                    console.log(current);
+                    return !current
+                });
+            }).catch((error) => {
+                console.log(error);
+            })
+            setIsDel(false);
         }
     }, [isDel]);
 
