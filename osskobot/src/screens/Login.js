@@ -32,7 +32,9 @@ function Login({ setReload }) {
             }
         ).then((response) => {
             const token = response.data.access
+            const refresh_token = response.data.access
             cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
+            cookies.set('refresh_token', refresh_token, { expires: 1, sameSite: 'Lax' });
             cookies.set('pk', response.data.user['pk'], {expires: 1, sameSite: 'Lax'});
             setReload((current) => { return !current });
             axios.get(`${process.env.REACT_APP_API_ADDRESS}users/profile/`,

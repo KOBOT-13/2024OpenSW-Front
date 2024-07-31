@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import styles from './CheckModal.module.css';
 
-function CustomModal({ isOpen, onRequestClose, setIsDel }) {
+function CustomModal({ isOpen, onRequestClose, setIsDel, msg }) {
     const onClickYes = () => {
         setIsDel(true);
         onRequestClose(false);
@@ -16,7 +16,7 @@ function CustomModal({ isOpen, onRequestClose, setIsDel }) {
             onRequestClose={() => onRequestClose(false)}
             className={styles.customModal}
         >
-            <h1 style={{marginTop:"10%"}}>정말로 삭제하시겠습니까?</h1>
+            <h1 style={{marginTop:"10%"}}>{msg}</h1>
             <div className={styles.buttonDiv}>
                 <button onClick={onClickYes} className={styles.yesBtn}>
                     네
