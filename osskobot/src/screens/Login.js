@@ -4,7 +4,7 @@ import styles from './Login.module.css';
 import axios from 'axios';
 import cookies from 'js-cookie';
 
-function Login({setReload}) {
+function Login({ setReload }) {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({
         email: '',
@@ -20,7 +20,7 @@ function Login({setReload}) {
     };
 
     const login = () => {
-        axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/login/`, 
+        axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/login/`,
             {
                 email: userInfo.email,
                 password: userInfo.password
@@ -30,17 +30,28 @@ function Login({setReload}) {
                     'Content-type': 'application/json'
                 }
             }
-        )
-            .then((response) => {
-                const token = response.data.access
-                cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
-                setReload((current) => {return !current});
-                alert("로그인이 완료되었습니다.");
-                navigate("/");
-            })
-            .catch((error) => {
-                alert("이메일 또는 비밀번호가 옳바르지 않습니다.");
-            })
+        ).then((response) => {
+            const token = response.data.access
+            cookies.set('token', token, { expires: 1, sameSite: 'Lax' });
+            cookies.set('pk', response.data.user['pk'], {expires: 1, sameSite: 'Lax'});
+            setReload((current) => { return !current });
+            axios.get(`${process.env.REACT_APP_API_ADDRESS}users/profile/`,
+                {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${cookies.get('token')}`
+                    },
+                    withCredentials: true,
+                }).then((response) => {
+                    cookies.set('username', response.data.username, {expires: 1, sameSite: 'Lax'})
+                }).catch((error) => {
+                    console.log(error);
+                })
+            alert("로그인이 완료되었습니다.");
+            navigate("/");
+        }).catch((error) => {
+            alert("이메일 또는 비밀번호가 옳바르지 않습니다.");
+        })
     }
     return (
         <div className={styles.mainContainer}>
