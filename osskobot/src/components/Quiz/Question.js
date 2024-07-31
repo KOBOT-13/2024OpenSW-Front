@@ -34,9 +34,11 @@ const Question = ({ data, onAnswer, showAnswer, isCorrect, handleNextQuestion })
         </div>
       )}
       {isCorrect && (
-        <div className="correct-box">
+        <><div className="correct-box">
           <p>정답을 맞췄습니다!</p>
-        </div>
+        </div><div>
+            <p>2초뒤에 화면이 넘어갑니다</p>
+          </div></> 
       )}
     </div>
   );
