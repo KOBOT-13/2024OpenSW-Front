@@ -1,31 +1,93 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import axios from 'axios';
 import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
+import cookies from 'js-cookie';
+import { format } from 'date-fns'
+import Pagination from 'react-js-pagination';
+
 
 function BookClick() {
     const location = useLocation();
-
+    const params = useParams();
+    const [book, setBook] = useState(
+        {
+            title: "",
+            author: "",
+            publisher: "",
+            publication_date: "",
+            cover_image: "",
+            synopsis: ""
+        }
+    );
+    const [mode, setMode] = useState(false);
     const [index, setIndex] = useState(1)
-
     const [commentMsg, setCommentMsg] = useState('');
     const [commentInfos, setCommentInfos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentComments = commentInfos.slice(indexOfFirstItem, indexOfLastItem);
+
+    useEffect(() => {
+        const getBookDetail = async() => {
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/book/${params.id}/`)
+            .then((response) => {
+                setBook(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        getBookDetail();
+    }, [])
+
+    useEffect(() => {
+        setCommentInfos([]);
+        setLoading(true);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('token')}`;
+        const getComments = async() => {
+            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/books/${params.id}/comments/`)
+            .then((response) => {
+                setCommentInfos(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        setTimeout(getComments, 1000);
+        setLoading(false);
+    }, [mode])
+
     const onChangeComment = (e) => {
         setCommentMsg(e.target.value);
     }
-    const onSubmitClk = (e) => {
+    const onSubmitClk = async(e) => {
         e.preventDefault();
         if(commentMsg !== ''){
-            const date = new Date();
             setCommentMsg('');
-            const newCommentInfo = {
-                nickname: '이재영',
-                comment: commentMsg,
-                date: date.toLocaleString(),
-                likes: 0
-            };
-            setCommentInfos([...commentInfos, newCommentInfo]);
+            axios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/`,
+                {
+                    'book': params.id,
+                    'content': commentMsg
+                },
+                {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${cookies.get('token')}`
+                    },
+                }
+            ).then((response) => {
+                setMode((current) => {return !current});
+            })
         }
     };
 
@@ -37,18 +99,18 @@ function BookClick() {
         <div className={styles.mainContainer}>
             <div className={styles.bookDetail}>
                 <div className={styles.bookImgDiv}>
-                    <img className={styles.bookImg} src='https://image.yes24.com/goods/128199845/XL' alt='디테일 이미지' />
+                    <img className={styles.bookImg} src={book.cover_image} alt='디테일 이미지' />
                 </div>
                 <div className={styles.bookInfo}>
-                    <h1>아기돼지 삼형제</h1>
+                    <h1>{book.title}</h1>
                     <h3>
-                        저자 :
+                        저자 : {book.author}
                     </h3>
                     <h3>
-                        출판사 :
+                        출판사 : {book.publisher}
                     </h3>
                     <h3>
-                        출간일 :
+                        출간일 : {book.publication_date}
                     </h3>
                 </div>
             </div>
@@ -56,10 +118,10 @@ function BookClick() {
             <div className={styles.buttonDiv}>
                 <ul className={styles.buttonUl}>
                     <li className={styles.buttonLi}>
-                        <Link to={`${location.pathname}/${1}`}><button className={styles.button}>대화하기</button></Link>
+                        <Link to={`${location.pathname}/chatcharchoose`}><button className={styles.button}>대화하기</button></Link>
                     </li>
                     <li className={styles.buttonLi}>
-                        <button className={styles.button}>독서퀴즈</button>
+                        <Link to={`${location.pathname}/quiz`}><button className={styles.button}>독서퀴즈</button></Link>
                     </li>
                     <li className={styles.buttonLi}>
                         <Link to={`${location.pathname}/bookreport`}><button className={styles.button}>독후감 쓰기</button></Link>
@@ -95,7 +157,7 @@ function BookClick() {
                     </ul>
                 </div>
                 <div className={styles.multiPage}>
-                    {index === 1 ? <p style={{ margin: 10 }}>이 책은 영국에서 시작되어 하루에 3명 씩 행운을 가져다 주었습니다.</p> :
+                    {index === 1 ? <p style={{ margin: 10, textAlign: "justify", lineHeight: "1.6", color: "#666" }}>{book.synopsis}</p> :
                         index === 2 ? 
                         <div className={styles.charProfilesDiv}>
                             <CharProfile mode={1}/>
@@ -112,13 +174,34 @@ function BookClick() {
                                     <input type="submit" value="댓글달기" className={styles.commentBtn} />
                                 </form>
                                 <div className={styles.commentsDiv}>
-                                    {
-                                        commentInfos.map((comment, idx) => {
-                                            return <li style={{listStyleType:"none", marginBottom:"3px"}} key={idx}>
-                                                <CommentBoard nickname={comment.nickname} comment={comment.comment} date={comment.date} likes={comment.likes} />
-                                            </li>
-                                        })
-                                    }
+                                    {currentComments.map((comment, idx) => (
+                                        <li style={{ listStyleType: "none", marginBottom: "3px" }} key={comment.id}>
+                                            <CommentBoard
+                                                id={comment.id}
+                                                nickname={comment.user}
+                                                comment={comment.content}
+                                                date={format(new Date(comment.created_at), 'yyyy-MM-dd h:mm a')}
+                                                likes={comment.likes_count}
+                                                onLikes={comment.likes.includes(parseInt(cookies.get('pk')))}
+                                                isMine={comment.user === cookies.get('username')}
+                                                reload={setMode}
+                                            />
+                                        </li>
+                                    ))}
+                                    <Pagination
+                                        activePage={page}
+                                        itemsCountPerPage={itemsPerPage}
+                                        totalItemsCount={commentInfos.length}
+                                        pageRangeDisplayed={5}
+                                        prevPageText={"<"}
+                                        nextPageText={">"}
+                                        onChange={handlePageChange}
+                                        innerClass={styles.pagination}
+                                        itemClass={styles.paginationItem}
+                                        linkClass={styles.paginationLink}
+                                        activeClass={styles.active}
+                                        disabledClass={styles.disabled}
+                                    />
                                 </div>
                             </div>
                     }

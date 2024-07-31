@@ -1,0 +1,18 @@
+/* Quiz.css */
+.next-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 20px 40px;
+    font-size: 18px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .next-button:hover {
+    background-color: #45a049;
+  }
+  

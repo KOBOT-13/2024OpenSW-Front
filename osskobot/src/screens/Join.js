@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 import axios from 'axios';
 import styles from './Join.module.css';
 
@@ -7,19 +8,20 @@ function Join() {
     const navigate = useNavigate();
 
     const [errorMsg, setErrorMsg] = useState("");
-    const [validIdMsg, setValidIdMsg] = useState("");
     const [validPasswordMsg, setValidPasswordMsg] = useState("");
     const [validPassword2Msg, setValidPassword2Msg] = useState("");
-    const [validEmailMsg, setValidEmail2Msg] = useState("");
+    const [validEmailMsg, setValidEmailMsg] = useState("");
+    const [validNicknameMsg, setValidNickname] = useState("");
+    const [validDateMsg, setValidDateMsg] = useState("");
 
-    const [isId, setIsId] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
     const [isPassword2, setIsPassword2] = useState(false);
     const [isEmail, setIsEmail] = useState(false);
+    const [isNickname, setIsNickname] = useState(false);
+    const [isDate, setIsDate] = useState(false);
 
     const [userInfo, setUserInfo] = useState({
         email: '',
-        id: '',
         password: '',
         password2: '',
         nickname: '',
@@ -40,32 +42,16 @@ function Join() {
         const emailCurrent = e.target.value;
 
         if (e.target.value.length === 0) {
-            setValidEmail2Msg("필수 입력항목입니다.");
+            setValidEmailMsg("필수 입력항목입니다.");
         }
         else if (!emailRegEx.test(emailCurrent)) {
-            setValidEmail2Msg("이메일 형식을 지켜주세요.");
+            setValidEmailMsg("이메일 형식을 지켜주세요.");
         }
         else {
-            setValidEmail2Msg("O");
+            setValidEmailMsg("O");
             setIsEmail(true);
         }
 
-    });
-
-    const onChangeId = ((e) => {
-        handleInputChange(e);
-        if (e.target.value.length === 0) {
-            setValidIdMsg("필수 입력항목입니다.");
-            setIsId(false);
-        }
-        else if (e.target.value.length < 3 || e.target.value.length > 16) {
-            setValidIdMsg("아이디는 3글자 이상 16글자 이하로 해주세요.");
-            setIsId(false);
-        }
-        else {
-            setValidIdMsg("O");
-            setIsId(true);
-        }
     });
 
     const onChangePassword = ((e) => {
@@ -100,14 +86,44 @@ function Join() {
         }
     });
 
+    const onChangeNickname = ((e) => {
+        handleInputChange(e);
+
+        if (e.target.value.length === 0) {
+            setValidNickname("필수 입력항목입니다.");
+        }
+        else if (e.target.value.length < 3 || e.target.value.length > 11 ) {
+            setValidNickname("이메일은 3자에서 11자 사이로 입력해주세요.");
+        }
+        else {
+            setValidNickname("O");
+            setIsNickname(true);
+        }
+        
+    });
+
+    const onChangeDate = ((e) => {
+        handleInputChange(e);
+        const date_now = format(new Date(), 'yyyy-MM-dd');
+        const date_user = format(new Date(e.target.value), 'yyyy-MM-dd');
+        if(date_user >= date_now){
+            setValidDateMsg("날짜를 다시 선택해주세요.");
+        }
+        else{
+            setValidDateMsg("O");
+            setIsDate(true);
+        }
+    });
+
     const join = () => {
-        if (isId && isPassword && isPassword2 && isEmail) {
+        if (isPassword && isPassword2 && isEmail && isDate && isNickname) {
             axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/registration/`,
                 {
-                    username: userInfo.id,
+                    username: userInfo.nickname,
                     email: userInfo.email,
                     password1: userInfo.password,
-                    password2: userInfo.password2
+                    password2: userInfo.password2,
+                    birth_date: userInfo.date
                 },
                 {
                     headers: {
@@ -140,14 +156,14 @@ function Join() {
                 <div className={styles.joinInfo1}>
                     <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
                     <span className={styles.validSpan}>{validEmailMsg}</span>
-                    <input type='text' className={styles.idInput} placeholder='아이디' name='id' onChange={onChangeId} />
-                    <span className={styles.validSpan}>{validIdMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />
                     <span className={styles.validSpan}>{validPasswordMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호 확인' name='password2' onChange={onChangePassword2} />
                     <span className={styles.validSpan}>{validPassword2Msg}</span>
-                    <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={handleInputChange} />
-                    <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={handleInputChange} />
+                    <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={onChangeNickname} />
+                    <span className={styles.validSpan}>{validNicknameMsg}</span>
+                    <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={onChangeDate} />
+                    <span className={styles.validSpan}>{validDateMsg}</span>
                 </div>
                 <div>
                     <pre className={styles.errorMsg}>{errorMsg}</pre>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './BookRequestModal.module.css';
 import Modal from 'react-modal';
+import axios from 'axios';
+import cookies from 'js-cookie';
 
 function LabelContent({ label, placeholder, value, onChange }) {
     const [activeBorder, setActiveBorder] = useState({
@@ -46,8 +48,30 @@ function BookRequest({isOpen, onRequestClose}) {
     const [characters, setCharacters] = useState('');
 
     const onClickApply = () => {
-        console.log(`책 : ${bookName}\n저자 : ${author}\n출판사 : ${publisher}\n등장인물 : ${characters}`)
-        alert("신청되었습니다.");
+        if(bookName.length === 0){
+            alert("책제목은 필수입니다.");
+            return;
+        }
+        axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('token')}`;
+        axios.post(`${process.env.REACT_APP_API_ADDRESS}books/book_requests/`, 
+            {
+                "title": bookName,
+                "author": author,
+                "publisher": publisher,
+                "character": characters
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            }   
+        ).then((response) => {
+            console.log(response);
+            alert("신청되었습니다.");
+        }).catch((error) => {
+            console.log(error);
+            alert("실패");
+        })
         setBookName('');
         setAuthor('');
         setPublisher('');
