@@ -15,7 +15,7 @@
     "react-loading": "^2.0.3",
     "react-modal": "^3.16.1",
     "react-qs": "^1.1.3",
-    "react-router-dom": "^6.24.1",
+    "react-router-dom": "^6.25.1",
     "react-scripts": "^5.0.1",
     "react-speech-recognition": "^3.10.0",
     "styled-components": "^6.1.12",

@@ -79,7 +79,7 @@ function BookClick() {
             <div className={styles.buttonDiv}>
                 <ul className={styles.buttonUl}>
                     <li className={styles.buttonLi}>
-                        <Link to={`${location.pathname}/${1}`}><button className={styles.button}>대화하기</button></Link>
+                        <Link to={`${location.pathname}/chatcharchoose`}><button className={styles.button}>대화하기</button></Link>
                     </li>
                     <li className={styles.buttonLi}>
                         <Link to={`${location.pathname}/quiz`}><button className={styles.button}>독서퀴즈</button></Link>
