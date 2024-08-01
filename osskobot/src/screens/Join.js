@@ -47,9 +47,8 @@ function Join() {
         else if (!emailRegEx.test(emailCurrent)) {
             setValidEmailMsg("이메일 형식을 지켜주세요.");
         }
-        else {
-            setValidEmailMsg("O");
-            setIsEmail(true);
+        else if(!isEmail){
+            setValidEmailMsg("이메일 중복 확인을 해주세요");
         }
 
     });
@@ -93,13 +92,11 @@ function Join() {
             setValidNickname("필수 입력항목입니다.");
         }
         else if (e.target.value.length < 3 || e.target.value.length > 11 ) {
-            setValidNickname("이메일은 3자에서 11자 사이로 입력해주세요.");
+            setValidNickname("닉네임은 3자에서 11자 사이로 입력해주세요.");
         }
-        else {
-            setValidNickname("O");
-            setIsNickname(true);
+        else if(!isNickname){
+            setValidNickname("닉네임 중복 확인을 해주세요.");
         }
-        
     });
 
     const onChangeDate = ((e) => {
@@ -113,6 +110,32 @@ function Join() {
             setValidDateMsg("O");
             setIsDate(true);
         }
+    });
+
+    const onClickCheckEmail = (() => {
+        publicAxios.post('users/check-email/',
+            {
+                "email": userInfo.email
+            }
+        ).then((response) => {
+            setValidEmailMsg(response.data.detail);
+            setIsEmail(true);
+        }).catch((error) => {
+            setValidEmailMsg(error.response.data.detail);
+        });
+    });
+
+    const onClickCheckNickname = (() => {
+        publicAxios.post('users/check-username/',
+            {
+                "username": userInfo.nickname
+            }
+        ).then((response) => {
+            setValidNickname(response.data.detail)
+            setIsNickname(true);
+        }).catch((error) => {
+            setValidNickname(error.response.data.detail);
+        });
     });
 
     const join = () => {
@@ -149,13 +172,19 @@ function Join() {
                     회원가입
                 </div>
                 <div className={styles.joinInfo1}>
-                    <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
+                    <div className={styles.emailDiv}>
+                        <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
+                        <button onClick={onClickCheckEmail} className={styles.checkBtn}>중복확인</button>
+                    </div>
                     <span className={styles.validSpan}>{validEmailMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />
                     <span className={styles.validSpan}>{validPasswordMsg}</span>
                     <input type='password' className={styles.passwordInput} placeholder='비밀번호 확인' name='password2' onChange={onChangePassword2} />
                     <span className={styles.validSpan}>{validPassword2Msg}</span>
-                    <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={onChangeNickname} />
+                    <div>
+                        <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={onChangeNickname} />
+                        <button onClick={onClickCheckNickname} className={styles.checkBtn}>중복확인</button>
+                    </div>
                     <span className={styles.validSpan}>{validNicknameMsg}</span>
                     <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={onChangeDate} />
                     <span className={styles.validSpan}>{validDateMsg}</span>
