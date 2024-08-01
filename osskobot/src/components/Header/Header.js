@@ -1,12 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import styles from './Header.module.css';
+import EndChat from '../ChatMsg/EndChat';
 
 function Header(props) {
-    const {isLogin, setIsLogin} = props;
+    const {isLogin, setIsLogin } = props;
+    const location = useLocation();
+    const { id, characterid  } = useParams();
+
+    const handleChatEndBtn = () => {
+        if (location.pathname.startsWith('/bookclick/') && location.pathname.includes('/chat')) {
+            EndChat(id, characterid)
+        }
+    }
 
     return (
         <header className={styles.Header}>
-            <Link className={styles.appname} to="/">웹이름</Link>
+            <Link className={styles.appname} to="/"onClick={handleChatEndBtn}>웹이름</Link>
             {isLogin ?
                 <div className={styles.logoutmypagediv}>
                     <Link className={styles.logout} to="/logout"><strong>로그아웃</strong></Link>

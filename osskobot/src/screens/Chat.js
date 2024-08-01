@@ -6,12 +6,13 @@ import { IoIosWarning } from "react-icons/io";
 import image from '../assets/profile.png';
 import ChatMsg from '../components/ChatMsg/ChatMsg';
 import STT from '../components/ChatMsg/STT';
+import EndChat from '../components/ChatMsg/EndChat'
 import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
 import axios from 'axios';
 import cookies from 'js-cookie';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 function Chat() {
     const [messages, setMessages] = useState([]);
@@ -24,8 +25,8 @@ function Chat() {
     const audioRef = useRef(null);
     const { id, characterid } = useParams();
 
-    const get_characters_url = process.env.REACT_APP_API_GET_CHARACTERS_URL;
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
+
 
     // API로부터 캐릭터 데이터 가져오기
     useEffect(() => {
@@ -48,7 +49,7 @@ function Chat() {
 
     useEffect(() => {
         const createConversation = async () => {
-            const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/conversation/`,
+            const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/conversation/start_conversation/`,
                 {
                     book: id,
                     character: characterid,
@@ -69,7 +70,7 @@ function Chat() {
 
     useEffect(() => {
         const getMsg = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}dialogs/${characterid}/messages/`);
+            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}dialogs/${conversationid}/messages/`);
             const data = response.data;
             const last30Messages = data.slice(-30);
             const lastMessages = last30Messages.map(msg => ({
@@ -177,9 +178,9 @@ function Chat() {
         }
     };
 
-    // const onClickEndBtn = () => {
-
-    // }
+    const onClickEndBtn = () => {
+        EndChat(id, characterid)
+    };
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -231,6 +232,7 @@ function Chat() {
                 <button className={styles.chatBtn} onClick={onClickChatBtn}><IoSend size={20} /></button>
                 <button className={styles.STTBtn} onClick={onClickSTTBtn}><IoMdMic size={20} color={listening ? "red" : "black"} /></button>
             </div>
+            <button className={styles.endBtn} onClick={onClickEndBtn}></button>
             <audio ref={audioRef} />
         </div>
     );
