@@ -1,10 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import QuizList from '../forms/QuizList';
 import Question from '../components/Quiz/Question';
 import './Quiz.css'; // 추가된 CSS 파일 import
-import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
 
 const Quiz = () => {
