@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './BookReport.module.css';
 import reportForm1 from '../forms/reportForm1';
 import reportForm2 from '../forms/reportForm2';
 import reportForm3 from '../forms/reportForm3';
+import { privateAxios } from '../services/axiosConfig';
+import cookies from 'js-cookie';
 
 function BookReport() {
     const naviate = useNavigate();
-    
+    const bookId = useParams('id').id;
     const selectList = [
         { id: 0, value: "양식 선택" },
         { id: 1, value: "독후감" },
@@ -41,8 +43,17 @@ function BookReport() {
     }
 
     const onClickApply = () =>{
-        console.log("========API 호출 독후감 내용========");
-        console.log(formContent);
+        privateAxios.post(`books/posts/`,
+            {
+                "book": bookId,
+                "body": formContent
+            }
+        ).then((response) => {
+            alert("독후감 작성이 완료되었습니다.");
+            naviate(`/bookclick/${bookId}`);
+        }).catch((error) =>{
+            console.log(error);
+        });
     }
 
     const onClickCancle = () =>{
