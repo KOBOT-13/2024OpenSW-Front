@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './CommentBoard.module.css';
 import { AiFillLike } from "react-icons/ai";
 import CustomModal from '../Modal/CheckModal';
-import axios from 'axios';
-import cookies from 'js-cookie';
+import { privateAxios } from '../../services/axiosConfig';
 
 
 function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, reload}) {
@@ -16,17 +15,9 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, rel
 
     const click = () => {
         setIsLikes((current) => !current);
-        axios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/like/`, 
-            {},
-            {
-                headers: {
-                    'accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('token')}`
-                },
-                withCredentials: true,
-            }
-        ).then((response) => {
-            axios.get(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/liked_users/`)
+        privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/like/`, )
+        .then((response) => {
+            privateAxios.get(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/liked_users/`)
             .then((response) => {
                 setLikes(response.data.liked_users.length);
             }).catch((error) => console.log(error));
@@ -44,7 +35,7 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, rel
         setNewComment(e.target.value);
     }
     const onClickChangeComment = () => {
-        axios.patch(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`, 
+        privateAxios.patch(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`, 
             {
                 content: newComment
             },
@@ -64,7 +55,7 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, rel
         if (isDel) {
             // 댓글 삭제하는 api 실행
             console.log("댓글 삭제하는 API 실행 ");
-            axios.delete(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`)
+            privateAxios.delete(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`)
             .then((response) => {
                 console.log(response);
                 reload((current) => {

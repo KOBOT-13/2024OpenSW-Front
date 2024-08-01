@@ -4,6 +4,7 @@ import banner from '../assets/banner.jpg'
 import BookRequestModal from '../components/Modal/BookRequestModal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { publicAxios } from '../services/axiosConfig';
 import cookies from 'js-cookie';
 
 function Home() {
@@ -16,7 +17,7 @@ function Home() {
     ];
 
     const onClickApplyBtn = async () => {
-        await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`,
+        await publicAxios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`,
             {
                 token: cookies.get('token')
             }
@@ -30,7 +31,7 @@ function Home() {
 
     useEffect(() => {
         const getBooks = async () => {
-            axios.get(`${process.env.REACT_APP_API_ADDRESS}books/AllBooks/`)
+            publicAxios.get(`${process.env.REACT_APP_API_ADDRESS}books/AllBooks/`)
                 .then((response) => {
                     setBooks(response.data)
                 })
