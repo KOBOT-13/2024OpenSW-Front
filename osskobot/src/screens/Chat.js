@@ -11,8 +11,8 @@ import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
 import axios from 'axios';
-import cookies from 'js-cookie';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { publicAxios, privateAxios } from '../services/axiosConfig';
 
 function Chat() {
     const [messages, setMessages] = useState([]);
@@ -32,7 +32,7 @@ function Chat() {
     useEffect(() => {
         const getCharacters = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/${id}/characters/`);
+                const response = await publicAxios.get(`books/${id}/characters/`);
                 if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -49,16 +49,10 @@ function Chat() {
 
     useEffect(() => {
         const createConversation = async () => {
-            const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/conversation/start_conversation/`,
+            const response = await privateAxios.post(`dialogs/conversation/start_conversation/`,
                 {
                     book: id,
                     character: characterid,
-                },
-                {
-                    headers: {
-                        "Content-Type": 'application/json',
-                        'Authorization': `Bearer ${cookies.get('token')}`
-                    }
                 }
             );
             const conid = response.data.id;
@@ -70,7 +64,7 @@ function Chat() {
 
     useEffect(() => {
         const getMsg = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}dialogs/${conversationid}/messages/`);
+            const response = await publicAxios.get(`dialogs/${conversationid}/messages/`);
             const data = response.data;
             const last30Messages = data.slice(-30);
             const lastMessages = last30Messages.map(msg => ({
@@ -92,7 +86,7 @@ function Chat() {
             console.error('Character data is missing');
             return; // 캐릭터 데이터가 없으면 함수 종료
         }       
-        axios.post(post_mtt_url,
+        privateAxios.post(`dialogs/mtt/`,
             {
                 conversation_id: conversationid,
                 character_id: character.id,
@@ -106,12 +100,6 @@ function Chat() {
                 format: character.format,
                 alpha: character.alpha,
                 end_pitch: character.end_pitch,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('token')}`
-                }
             }
         )
             .then((response) => {
