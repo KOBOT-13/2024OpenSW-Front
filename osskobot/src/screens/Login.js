@@ -36,14 +36,8 @@ function Login({ setReload }) {
             cookies.set('refresh_token', refresh_token);
             cookies.set('pk', response.data.user['pk']);
             setReload((current) => { return !current });
-            axios.get(`${process.env.REACT_APP_API_ADDRESS}users/profile/`,
-                {
-                    headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    withCredentials: true,
-                }).then((response) => {
+            privateAxios.get(`users/profile/`)
+            .then((response) => {
                     cookies.set('username', response.data.username)
                 }).catch((error) => {
                     console.log(error);

@@ -13,7 +13,7 @@ function Logout({setReload}) {
     useEffect(() => {
         if(isLogout){
             const logoutAPI = async() => {
-                privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/logout/`, 
+                privateAxios.post(`users/auth/logout/`, 
                     {
                         refresh: cookies.get('refresh_token')
                     },

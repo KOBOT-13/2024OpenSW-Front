@@ -53,7 +53,7 @@ function BookRequest({isOpen, onRequestClose}) {
             alert("책제목은 필수입니다.");
             return;
         }
-        privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}books/book_requests/`, 
+        privateAxios.post(`books/book_requests/`, 
             {
                 "title": bookName,
                 "author": author,

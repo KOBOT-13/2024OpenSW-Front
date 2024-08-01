@@ -17,12 +17,11 @@ function Home() {
     ];
 
     const onClickApplyBtn = async () => {
-        await publicAxios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`,
+        await publicAxios.post(`users/auth/token/verify/`,
             {
                 token: cookies.get('token')
             }
         ).then((response) => {
-            console.log(response);
             setIsBookRequestModalOpen(true);
         }).catch((error) => {
             console.log(error);
