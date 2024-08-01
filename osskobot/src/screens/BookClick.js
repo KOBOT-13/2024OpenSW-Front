@@ -74,7 +74,7 @@ function BookClick() {
         e.preventDefault();
         if(commentMsg !== ''){
             setCommentMsg('');
-            privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/`,
+            privateAxios.post(`books/comments/`,
                 {
                     'book': params.id,
                     'content': commentMsg

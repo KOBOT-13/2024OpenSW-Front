@@ -2,19 +2,16 @@ import axios from "axios";
 import CharProfile from "../components/CharProfile/CharProfile";
 import styles from './ChatCharChoose.module.css';
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
+import { publicAxios, privateAxios } from '../services/axiosConfig';
 
 function CharCharChoose() {
     const [characters, setCharacters] = useState([]);
     const { id, characterid } = useParams();
-    const navigate = useNavigate();
-
-    const post_con_url = process.env.REACT_APP_API_POST_CON
 
     useEffect(() => {
         const getCharacters = async () => {
-            const characters_response = await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/${id}/characters/`);
+            const characters_response = await publicAxios.get(`books/${id}/characters/`);
             setCharacters(characters_response.data)
         };
         getCharacters();

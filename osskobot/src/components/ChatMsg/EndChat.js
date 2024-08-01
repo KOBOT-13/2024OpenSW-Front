@@ -1,17 +1,12 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
+import { publicAxios, privateAxios } from '../../services/axiosConfig';
 
 export const EndChat = async (id, characterid) => {
-    const response = await axios.post(`${process.env.REACT_APP_API_ADDRESS}dialogs/endchat/`,
+    const response = await privateAxios.post(`dialogs/endchat/`,
         {
             book: id,
             character: characterid
-        },
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${cookies.get('token')}`
-            }
         }
     );
 };
