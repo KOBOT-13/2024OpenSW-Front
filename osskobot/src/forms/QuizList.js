@@ -1,6 +1,6 @@
 const QuizList = (id) => {
   switch (id) {
-    case 1:
+    case 8:
       return [
         {
           question: "아기 돼지 삼형제에서 벽돌로 집을 지은 돼지는 누구일까요?",
@@ -28,7 +28,7 @@ const QuizList = (id) => {
           answer: "굴뚝"
         }
       ];
-    case 2:
+    case 9:
       return [
         {
           question: "백설공주에 나오는 난쟁이의 수는 몇명일까요?",
@@ -56,7 +56,7 @@ const QuizList = (id) => {
           answer: "왕자"
         }
       ];
-    case 3:
+    case 10:
       return [
         {
           question: "피터팬에서 피터팬이 사는 곳은 어디일까요?",
@@ -84,7 +84,7 @@ const QuizList = (id) => {
           answer: "초록"
         }
       ];
-    case 4:
+    case 11:
       return [
         {
           question: "놀부의 아내가 흥부의 싸다귀를 때린 물건은 무엇일까요?",
@@ -112,7 +112,7 @@ const QuizList = (id) => {
           answer: "금은보화"
         }
       ];
-    case 5:
+    case 12:
       return [
         {
           question: "헨젤과 그레텔의 부모님의 직업은 무엇일까요?",

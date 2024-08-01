@@ -7,7 +7,7 @@ const Question = ({ data, onAnswer, showAnswer, isCorrect, handleNextQuestion })
     if (isCorrect) {
       const timer = setTimeout(() => {
         handleNextQuestion();
-      }, 1000); // 1초 후 다음 질문으로 이동
+      }, 2000); 
       return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
     }
   }, [isCorrect, handleNextQuestion]);
@@ -34,9 +34,11 @@ const Question = ({ data, onAnswer, showAnswer, isCorrect, handleNextQuestion })
         </div>
       )}
       {isCorrect && (
-        <div className="correct-box">
+        <><div className="correct-box">
           <p>정답을 맞췄습니다!</p>
-        </div>
+        </div><div>
+            <p>2초뒤에 화면이 넘어갑니다</p>
+          </div></> 
       )}
     </div>
   );
