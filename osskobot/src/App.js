@@ -20,6 +20,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(undefined);
   const [reload, setReload] = useState(false);
   const token = cookies.get('token');
+  // cookies.remove('token');
   useEffect(() => {
     if (token) {
       setIsLogin(true);

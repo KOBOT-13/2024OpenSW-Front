@@ -7,7 +7,6 @@ import { privateAxios } from '../services/axiosConfig';
 
 const Quiz = () => {
   const navigate = useNavigate();
-
   const [quizData, setQuizdata] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(1);
@@ -15,16 +14,21 @@ const Quiz = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
+  const [isStart, setIsStart] = useState(false);
   const bookId = Number(useParams().id);
 
   useEffect(() => {
-    privateAxios.get(`quizzes/book_id_quizzes/${bookId}/`)
-    .then((response) => {
-      console.log(response);
-      setQuizdata(response.data);
-    }).catch((error) => {
-      console.log(error);
-    })
+    const getQuizzes = async() => {
+      privateAxios.get(`quizzes/book_id_quizzes/${bookId}/`)
+      .then((response) => {
+        console.log(response);
+        setQuizdata(response.data);
+        setIsStart(true);
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+    getQuizzes();
   }, []);
 
   const handleAnswer = (selectedOption) => {
@@ -94,7 +98,7 @@ const Quiz = () => {
             <button className="share-button" onClick={goCommunity}>결과 공유하기</button> 
           </div>
         </div>
-      ) : (
+      ) : isStart ? (
         <Question
           data={quizData[currentQuestionIndex]}
           onAnswer={handleAnswer}
@@ -102,7 +106,8 @@ const Quiz = () => {
           isCorrect={isCorrect}
           handleNextQuestion={handleNextQuestion}
         />
-      )}
+      ) : <div>Loading...</div>}
+      {/* 로딩 페이지  */}
       {showAnswer && !showResult && (
         <button onClick={handleNextQuestion} className="next-button">다음 질문</button>
       )}
