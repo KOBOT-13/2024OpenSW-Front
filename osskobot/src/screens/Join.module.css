@@ -9,6 +9,7 @@
         flex-direction: column;
         align-items: center;
         width: 50%;
+
         .joinFontDiv {
             display: flex;
             align-items: center;
@@ -25,7 +26,17 @@
         .joinInfo1 {
             display: flex;
             flex-direction: column;
-            width: 50%;
+            width: 51%;
+
+            .emailDiv{
+                display: flex;
+                align-items: center;
+            }
+            .checkBtn{
+                height: 100%;
+                margin-top: 30px;
+                margin-left: 5px;
+            }
             .emailInput,
             .idInput,
             .passwordInput {
