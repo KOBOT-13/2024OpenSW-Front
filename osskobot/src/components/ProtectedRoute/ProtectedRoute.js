@@ -1,26 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+import {privateAxios} from '../../services/axiosConfig';
 import Cookies from 'js-cookie';
+import refreshToken from '../../services/refreshToken';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ setReload, children }) => {
     const [isLogin, setIsLogin] = useState(false);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
+    console.log(setReload);
     useEffect(() => {
+        const token = Cookies.get('token');
+
         const checkLoginStatus = async () => {
-            await axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/token/verify/`, {
-                token: Cookies.get('token')
+            await privateAxios.post(`users/auth/token/verify/`, {
+                token: token
             }).then((response) => {
                 setIsLogin(true);
                 setLoading(false);
             }).catch((error) => {
-                setIsLogin(false);
-                alert("로그인을 해주세요.");
+                refreshToken();
+                setIsLogin(true);
+                setLoading(false);
             });
         };
 
-        checkLoginStatus();
+        if(token){
+            checkLoginStatus();
+        }
+        else{
+            alert("로그인을 해주세요.");
+            navigate('/login');
+            setIsLogin(false);
+            setLoading(false);
+        }
     }, []);
 
     if (loading) {

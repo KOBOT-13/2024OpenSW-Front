@@ -1,6 +1,6 @@
 import {useNavigate} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import {privateAxios} from '../services/axiosConfig';
 import cookies from 'js-cookie';
 import CustomModal from '../components/Modal/CheckModal';
 
@@ -13,20 +13,16 @@ function Logout({setReload}) {
     useEffect(() => {
         if(isLogout){
             const logoutAPI = async() => {
-                axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/logout/`, 
+                privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/logout/`, 
                     {
                         refresh: cookies.get('refresh_token')
                     },
-                    {
-                        headers:{
-                            'Authorization' : `Bearer ${cookies.get('token')}`
-                        }
-                    }
                 ).then((response) => {
                     cookies.remove('token');
                     cookies.remove('refresh_token');
                     cookies.remove('username');
                     cookies.remove('pk');
+                    cookies.remove('expires');
                     navigate('/');
                     alert("로그아웃 되었습니다.");
                     setReload((current) => { return !current });
