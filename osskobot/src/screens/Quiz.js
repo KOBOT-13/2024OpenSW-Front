@@ -1,23 +1,33 @@
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuizList from '../forms/QuizList';
 import Question from '../components/Quiz/Question';
 import './Quiz.css'; // 추가된 CSS 파일 import
-import axios from 'axios';
 import cookies from 'js-cookie';
+import { privateAxios } from '../services/axiosConfig';
 
 const Quiz = () => {
   const navigate = useNavigate();
 
+  const [quizData, setQuizdata] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(1);
   const [showResult, setShowResult] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   const bookId = Number(useParams().id);
-  const quizData = QuizList(bookId);
+
+  useEffect(() => {
+    privateAxios.get(`quizzes/book_id_quizzes/${bookId}/`)
+    .then((response) => {
+      console.log(response);
+      setQuizdata(response.data);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }, []);
 
   const handleAnswer = (selectedOption) => {
     if (isAnswered) return;
@@ -47,7 +57,7 @@ const Quiz = () => {
   };
 
   const retryQuiz = () => {
-    setCurrentQuestionIndex(0); // 첫 번째 질문으로 리셋
+    setCurrentQuestionIndex(1); // 첫 번째 질문으로 리셋
     setScore(0); // 점수 초기화
     setShowResult(false); // 결과 페이지 숨기기
     setShowAnswer(false); // 답변 표시 숨기기
@@ -61,15 +71,10 @@ const Quiz = () => {
 
   // 점수를 서버에 전송하는 함수
   const sendScore = () => {
-    axios.post(`${process.env.REACT_APP_API_ADDRESS}mypages/quiz/${bookId}/record/`,
+    privateAxios.post(`mypages/quiz/${bookId}/record/`,
       {
         "score": score
       },
-      {
-        headers: {
-          'Authorization': `Bearer ${cookies.get('token')}`
-        }
-      }
     )
       .then(response => {
         console.log("Score sent successfully:", response.data);

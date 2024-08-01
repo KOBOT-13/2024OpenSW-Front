@@ -4,6 +4,7 @@ import './Question.css'; // 추가된 CSS 파일 import
 const Question = ({ data, onAnswer, showAnswer, isCorrect, handleNextQuestion }) => {
   
   useEffect(() => {
+    console.log(data);
     if (isCorrect) {
       const timer = setTimeout(() => {
         handleNextQuestion();
