@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './BookRequestModal.module.css';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { privateAxios } from '../../services/axiosConfig';
 import cookies from 'js-cookie';
 
 function LabelContent({ label, placeholder, value, onChange }) {
@@ -52,19 +53,13 @@ function BookRequest({isOpen, onRequestClose}) {
             alert("책제목은 필수입니다.");
             return;
         }
-        axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('token')}`;
-        axios.post(`${process.env.REACT_APP_API_ADDRESS}books/book_requests/`, 
+        privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}books/book_requests/`, 
             {
                 "title": bookName,
                 "author": author,
                 "publisher": publisher,
                 "character": characters
             },
-            {
-                headers: {
-                    'Content-type': 'application/json',
-                }
-            }   
         ).then((response) => {
             console.log(response);
             alert("신청되었습니다.");

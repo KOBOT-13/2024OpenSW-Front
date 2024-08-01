@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { publicAxios, privateAxios } from '../services/axiosConfig';
 import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
@@ -41,7 +42,7 @@ function BookClick() {
 
     useEffect(() => {
         const getBookDetail = async() => {
-            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/book/${params.id}/`)
+            await publicAxios.get(`books/book/${params.id}/`)
             .then((response) => {
                 setBook(response.data);
             }).catch((error) => {
@@ -54,9 +55,8 @@ function BookClick() {
     useEffect(() => {
         setCommentInfos([]);
         setLoading(true);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('token')}`;
         const getComments = async() => {
-            await axios.get(`${process.env.REACT_APP_API_ADDRESS}books/books/${params.id}/comments/`)
+            await privateAxios.get(`books/books/${params.id}/comments/`)
             .then((response) => {
                 setCommentInfos(response.data);
             }).catch((error) => {
@@ -74,17 +74,11 @@ function BookClick() {
         e.preventDefault();
         if(commentMsg !== ''){
             setCommentMsg('');
-            axios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/`,
+            privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/`,
                 {
                     'book': params.id,
                     'content': commentMsg
                 },
-                {
-                    headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${cookies.get('token')}`
-                    },
-                }
             ).then((response) => {
                 setMode((current) => {return !current});
             })

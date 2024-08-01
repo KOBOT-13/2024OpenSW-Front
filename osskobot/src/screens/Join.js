@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import axios from 'axios';
+import { publicAxios } from '../services/axiosConfig';
 import styles from './Join.module.css';
 
 function Join() {
@@ -117,7 +117,7 @@ function Join() {
 
     const join = () => {
         if (isPassword && isPassword2 && isEmail && isDate && isNickname) {
-            axios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/registration/`,
+            publicAxios.post(`${process.env.REACT_APP_API_ADDRESS}users/auth/registration/`,
                 {
                     username: userInfo.nickname,
                     email: userInfo.email,
@@ -125,11 +125,6 @@ function Join() {
                     password2: userInfo.password2,
                     birth_date: userInfo.date
                 },
-                {
-                    headers: {
-                        'Content-type': 'application/json'
-                    }
-                }
             )
                 .then((response) => {
                     navigate("/login");

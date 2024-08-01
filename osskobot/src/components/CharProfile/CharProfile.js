@@ -6,10 +6,6 @@ import React, { useState, useEffect } from 'react';
 function CharProfile({img, character, mode}){
     const [isClk, setIsClk] = useState(false);
 
-    // useEffect(() => {
-    //     setModalOpen(true);
-    // }, []);
-
     const onClickBtn = () => {
         setIsClk(true);
     };
