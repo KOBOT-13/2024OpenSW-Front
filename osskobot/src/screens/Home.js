@@ -1,13 +1,13 @@
 import styles from './Home.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import banner from '../assets/banner.jpg'
 import BookRequestModal from '../components/Modal/BookRequestModal';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { publicAxios } from '../services/axiosConfig';
+import { publicAxios, privateAxios } from '../services/axiosConfig';
 import cookies from 'js-cookie';
 
 function Home() {
+    const navigate = useNavigate();
     const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
     const [books, setBooks] = useState([]);
 
@@ -17,15 +17,21 @@ function Home() {
     ];
 
     const onClickApplyBtn = async () => {
-        await publicAxios.post(`users/auth/token/verify/`,
-            {
-                token: cookies.get('token')
-            }
-        ).then((response) => {
-            setIsBookRequestModalOpen(true);
-        }).catch((error) => {
-            console.log(error);
-        })
+        const token = cookies.get('token');
+        if(token){
+            await privateAxios.post(`users/auth/token/verify/`,
+                {
+                    token: token
+                }
+            ).then((response) => {
+                setIsBookRequestModalOpen(true);
+            }).catch((error) => {
+                setIsBookRequestModalOpen(true);
+            })
+        } else{
+            alert("로그인을 해주세요.");
+            navigate('/login');
+        }
     } 
 
     useEffect(() => {

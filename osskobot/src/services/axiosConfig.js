@@ -11,7 +11,7 @@ const privateAxios = axios.create({
 
 privateAxios.interceptors.request.use(
   async (config) => {
-    const token = cookies.get('token');
+    let token = cookies.get('token');
     if (token) {
       const expiryTime = new Date(cookies.get('expires'));
       if (expiryTime <= new Date()) {
