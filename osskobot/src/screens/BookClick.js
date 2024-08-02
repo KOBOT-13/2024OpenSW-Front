@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import axios from 'axios';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
@@ -27,6 +26,7 @@ function BookClick() {
     const [index, setIndex] = useState(1)
     const [commentMsg, setCommentMsg] = useState('');
     const [commentInfos, setCommentInfos] = useState([]);
+    const [charProfileInfos, setCharProfileInfos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [page, setPage] = useState(1);
@@ -66,6 +66,19 @@ function BookClick() {
         setTimeout(getComments, 1000);
         setLoading(false);
     }, [mode])
+
+    useEffect(() => {
+        const getCharProfile = async() => {
+            await privateAxios.get(`books/${params.id}/characters/`)
+            .then((response) => {
+                setCharProfileInfos(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        getCharProfile();
+    }, []);
 
     const onChangeComment = (e) => {
         setCommentMsg(e.target.value);
@@ -154,13 +167,11 @@ function BookClick() {
                     {index === 1 ? <p style={{ margin: 10, textAlign: "justify", lineHeight: "1.6", color: "#666" }}>{book.synopsis}</p> :
                         index === 2 ? 
                         <div className={styles.charProfilesDiv}>
-                            <CharProfile mode={1}/>
-                            <CharProfile mode={1}/>
-                            <CharProfile mode={1}/>
-                            <CharProfile mode={1}/>
-                            <CharProfile mode={1}/>
-                            <CharProfile mode={1}/>
-                            <CharProfile mode={1}/>
+                            {
+                                charProfileInfos.map((value, key) => {
+                                    return <CharProfile character={value} mode={1} />
+                                })
+                            }
                         </div> :
                             <div className={styles.commnetBoard}>
                                 <form className={styles.commentForm} onSubmit={onSubmitClk}>
