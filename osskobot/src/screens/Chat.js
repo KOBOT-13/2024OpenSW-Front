@@ -11,7 +11,7 @@ import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 
 function Chat() {
@@ -24,6 +24,7 @@ function Chat() {
     const { transcript, listening, resetTranscript } = STT();
     const audioRef = useRef(null);
     const { id, characterid } = useParams();
+    const navigate = useNavigate();
 
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
 
@@ -168,6 +169,7 @@ function Chat() {
 
     const onClickEndBtn = () => {
         EndChat(id, characterid)
+        navigate(`/bookclick/${id}`)
     };
 
     useEffect(() => {
