@@ -74,10 +74,10 @@ function LabelPassword({ label, btnName, type }) {
     )
 }
 
-function ProfileModify({ isOpen, onRequestClose }) {
+function ProfileModify({ isOpen, onRequestClose, nickname, date }) {
     // api 사용해서 newNickName, newDate와 각각의 placeholder에 기존 값 넣어두기
-    const [newNickName, setNewNickName] = useState("이재영");
-    const [newDate, setNewDate] = useState("2002-12-04");
+    const [newNickName, setNewNickName] = useState(nickname);
+    const [newDate, setNewDate] = useState(`${date}`);
     const [newPassword, setNewPassword] = useState("");
 
     const onClickApply = () => {
@@ -94,7 +94,7 @@ function ProfileModify({ isOpen, onRequestClose }) {
         >
             <h1>프로필 수정</h1>
             <div className={styles.modifyDiv}>
-                <LabelContent label={"닉네임"} type={"text"} placeholder={"이재영"} value={newNickName} onChange={setNewNickName} />
+                <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} />
                 <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
                 <p style={{ marginLeft: "3%", marginBottom: "0px" }}>비밀번호 변경</p>
                 <LabelPassword label={"이메일"} btnName={"이메일 인증"} type={"text"} />
