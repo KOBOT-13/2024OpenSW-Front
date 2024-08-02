@@ -5,7 +5,6 @@ import reportForm1 from '../forms/reportForm1';
 import reportForm2 from '../forms/reportForm2';
 import reportForm3 from '../forms/reportForm3';
 import { privateAxios } from '../services/axiosConfig';
-import cookies from 'js-cookie';
 
 function BookReport() {
     const naviate = useNavigate();

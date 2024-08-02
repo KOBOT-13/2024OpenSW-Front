@@ -9,7 +9,7 @@ const refreshToken = async() => {
     ).then((response) => {
         const { access, refresh } = response.data;
         const expires = new Date(new Date().getTime() + 25 * 60000);
-        cookies.set('token', access, { expires: expires });
+        cookies.set('token', access);
         cookies.set('refresh_token', refresh);
         cookies.set('expires', expires);
     

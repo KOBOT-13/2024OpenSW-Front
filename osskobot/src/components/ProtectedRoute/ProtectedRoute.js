@@ -8,7 +8,6 @@ const ProtectedRoute = ({ setReload, children }) => {
     const [isLogin, setIsLogin] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    console.log(setReload);
     useEffect(() => {
         const token = Cookies.get('token');
 

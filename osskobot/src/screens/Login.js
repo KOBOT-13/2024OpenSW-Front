@@ -1,7 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './Login.module.css';
-import axios from 'axios';
 import {privateAxios, publicAxios} from '../services/axiosConfig';
 import cookies from 'js-cookie';
 
