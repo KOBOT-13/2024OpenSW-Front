@@ -14,12 +14,11 @@ function Mypage() {
     const nickname = cookies.get('username');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
-
+    const [reload, setReload] = useState(false);
     useEffect(() => {
         const userInfoFetch = async () => {
             privateAxios.get(`users/profile/`)
                 .then((response) => {
-                    console.log(response);
                     setDate(response.data.birth_date);
                     setEmail(response.data.email);
                 }).catch((error) => {
@@ -28,7 +27,7 @@ function Mypage() {
         }
 
         userInfoFetch();
-    }, []);
+    }, [reload]);
 
     const handleButtonClick = (index) => {
         setActiveIndex(index);
@@ -47,7 +46,7 @@ function Mypage() {
                     <p className={styles.profileP}>E-mail : {email}</p>
                 </div>
             </div>
-            <ProfileModifyModal date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen}/>
+            <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen}/>
             <div className={styles.myReadActDiv}>
                 <h3 style={{marginBottom:"0"}}>나의 독후활동</h3>
                 <div className={styles.btnsDiv}>
