@@ -1,6 +1,10 @@
 .profileModal {
     position: absolute;
-    inset: 15% 30% 20% 30%;
+    height: 388px;
+    width: 382px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: white;
     overflow-y: auto;
     border-radius: 4px;
