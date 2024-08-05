@@ -1,15 +1,16 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 import styles from './Header.module.css';
 import EndChat from '../ChatMsg/EndChat';
+import { useConversation } from '../ChatMsg/ConversationContext';
 
 function Header(props) {
-    const {isLogin, setIsLogin } = props;
+    const { isLogin, setIsLogin } = props;
     const location = useLocation();
-    const { id, characterid  } = useParams();
+    const { conversationid } = useConversation();
 
     const handleChatEndBtn = () => {
         if (location.pathname.startsWith('/bookclick/') && location.pathname.includes('/chat')) {
-            EndChat(id, characterid)
+            EndChat(conversationid)
         }
     }
 

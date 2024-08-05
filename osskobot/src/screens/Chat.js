@@ -10,20 +10,23 @@ import EndChat from '../components/ChatMsg/EndChat'
 import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
+import { useConversation } from '../components/ChatMsg/ConversationContext';
+
+const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
 
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [msg, setMsg] = useState("");
     const [character, setCharacter] = useState(null);
     const [STTNone, setSTTNone] = useState(false);
-    const [conversationid, setConversationid] = useState(null);
+    const { conversationid, setConversationid } = useConversation();
     const messagesEndRef = useRef(null);
     const { transcript, listening, resetTranscript } = STT();
     const audioRef = useRef(null);
     const { id, characterid } = useParams();
+    const navigate = useNavigate();
 
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
 
@@ -71,7 +74,8 @@ function Chat() {
                 message: msg.message,
                 time: format(new Date(msg.timestamp), 'hh:mm aa'),
                 tts: msg.tts_file,
-                isOwnMessage: msg.sender_type === 'user'
+                isOwnMessage: msg.sender_type === 'user',
+                date: formatDate(msg.timestamp),
             }));
             setMessages(lastMessages);
         };
@@ -110,7 +114,8 @@ function Chat() {
                     message: bot_response,
                     time: format(new Date(), 'hh:mm aa'),
                     tts: `${process.env.REACT_APP_ADDRESS}${tts_url}`,
-                    isOwnMessage: false
+                    isOwnMessage: false,
+                    date: formatDate(new Date()),
                 };
                 console.log(newMsg.tts)
                 setMessages((prevMessages) => [...prevMessages, newMsg]);
@@ -135,7 +140,8 @@ function Chat() {
         const newMsg = {
             message: msg,
             time: format(new Date(), 'hh:mm aa'),
-            isOwnMessage: true
+            isOwnMessage: true,
+            data: formatDate(new Date()),
         }
         console.log(msg)
         console.log(character.id)
@@ -151,7 +157,8 @@ function Chat() {
                 const newMsg = {
                     message: transcript,
                     time: format(new Date(), 'hh:mm aa'),
-                    isOwnMessage: true
+                    isOwnMessage: true,
+                    data: formatDate(new Date()),
                 };
                 setMessages((prevMessages) => [...prevMessages, newMsg]);
                 MTT(transcript)
@@ -167,8 +174,30 @@ function Chat() {
         }
     };
 
+    const renderMsg = () => {
+        let lastDate = null;
+        return messages.map((msg, index) => {
+            const showDate = lastDate !== msg.date;
+            lastDate = msg.date
+
+            return (
+                <React.Fragment key={index}>
+                    {showDate && <div className={styles.dateSeparator}>{msg.date}</div>}
+                    <ChatMsg
+                        message={msg.message}
+                        time={msg.time}
+                        isOwnMessage={msg.isOwnMessage}
+                        playAudio={() => playAudio(msg.tts)}
+                    />
+                </React.Fragment>
+            );
+        });
+    };
+
     const onClickEndBtn = () => {
-        EndChat(id, characterid)
+        console.log(conversationid)
+        EndChat(conversationid)
+        navigate(`/bookclick/${id}`)
     };
 
     useEffect(() => {
@@ -189,14 +218,7 @@ function Chat() {
             <div className={styles.imgChatDiv}>
                 <img src={image} className={styles.profileImg} alt="Profile" />
                 <div className={styles.chatDiv}>
-                    {messages.map(msg => (
-                        <ChatMsg
-                            message={msg.message}
-                            time={msg.time}
-                            isOwnMessage={msg.isOwnMessage}
-                            playAudio={() => playAudio(msg.tts)}
-                        />
-                    ))}
+                    {renderMsg()}
                     <div ref={messagesEndRef} />
                 </div>
             </div>

@@ -14,7 +14,9 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoginProtectedRoute from "./components/ProtectedRoute/LoginProtectedRoute";
 import { useEffect, useState } from "react";
 import cookies from 'js-cookie';
+import Find from "./screens/Find";
 import Quiz from "./screens/Quiz";
+import { ConversationProvider } from "./components/ChatMsg/ConversationContext";
 
 function App() {
   const [isLogin, setIsLogin] = useState(undefined);
@@ -31,6 +33,7 @@ function App() {
 
   return (
     <Router>
+      <ConversationProvider>
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -41,6 +44,7 @@ function App() {
           <Logout setReload={setReload} />
         </ProtectedRoute>} />
         <Route path="/join" element={<Join />} />
+        <Route path="/find" element={<Find />} />
         <Route path="/mypage" element={<ProtectedRoute>
           <Mypage />
         </ProtectedRoute>} />
@@ -59,6 +63,7 @@ function App() {
         </ProtectedRoute>} />
         <Route path="/bookclick/:id/quiz" element={<Quiz />} />
       </Routes>
+      </ConversationProvider>
     </Router>
   );
 }

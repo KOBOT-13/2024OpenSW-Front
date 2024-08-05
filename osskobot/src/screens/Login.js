@@ -34,10 +34,11 @@ function Login({ setReload }) {
             cookies.set('expires', expires);
             cookies.set('refresh_token', refresh_token);
             cookies.set('pk', response.data.user['pk']);
+            cookies.set('email', response.data.user['email']);
             setReload((current) => { return !current });
             privateAxios.get(`users/profile/`)
             .then((response) => {
-                    cookies.set('username', response.data.username)
+                    cookies.set('username', response.data.username);
                 }).catch((error) => {
                     console.log(error);
                 })
