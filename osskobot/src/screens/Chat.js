@@ -10,16 +10,16 @@ import EndChat from '../components/ChatMsg/EndChat'
 import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
+import { useConversation } from '../components/ChatMsg/ConversationContext';
 
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [msg, setMsg] = useState("");
     const [character, setCharacter] = useState(null);
     const [STTNone, setSTTNone] = useState(false);
-    const [conversationid, setConversationid] = useState(null);
+    const { conversationid, setConversationid } = useConversation();
     const messagesEndRef = useRef(null);
     const { transcript, listening, resetTranscript } = STT();
     const audioRef = useRef(null);
@@ -169,7 +169,8 @@ function Chat() {
     };
 
     const onClickEndBtn = () => {
-        EndChat(id, characterid)
+        console.log(conversationid)
+        EndChat(conversationid)
         navigate(`/bookclick/${id}`)
     };
 

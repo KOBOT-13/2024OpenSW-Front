@@ -1,12 +1,10 @@
-import axios from 'axios';
-import cookies from 'js-cookie';
-import { publicAxios, privateAxios } from '../../services/axiosConfig';
+import { privateAxios } from '../../services/axiosConfig';
 
-export const EndChat = async (id, characterid) => {
+export const EndChat = async (id) => {
+    console.log(id)
     const response = await privateAxios.post(`dialogs/endchat/`,
         {
-            book: id,
-            character: characterid
+            conversation_id: id,
         }
     );
 };
