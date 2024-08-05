@@ -1,0 +1,36 @@
+.quizRecordContainer {
+    padding: 20px;
+    background-color: lightgray;
+}
+
+.storyCovers {
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+    margin-bottom: 20px;
+}
+
+.storyCover {
+    width: 100px;
+    height: 150px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.storyCover:hover {
+    transform: scale(1.1);
+}
+
+.quizRecord {
+    background-color: white;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.noSelection {
+    color: gray;
+    text-align: center;
+    padding: 20px;
+}

@@ -6,6 +6,7 @@ import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
 import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
+import QuizRecord from './MypageQuizRecord';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -66,7 +67,7 @@ function Mypage() {
                         activeIndex === 0 ? <div>0</div> 
                         : activeIndex === 1 ? <div>1</div>
                         : activeIndex === 2 ? <div>2</div>
-                        : activeIndex === 3 ? <div>3</div>
+                        : activeIndex === 3 ? <QuizRecord/>
                         : <div>4</div>
                     }
                 </div>
