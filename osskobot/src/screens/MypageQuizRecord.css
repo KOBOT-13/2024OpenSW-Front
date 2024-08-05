@@ -17,20 +17,31 @@
     transition: transform 0.2s;
 }
 
+.storyCover.active {
+    border: 2px solid blue;
+}
+
 .storyCover:hover {
     transform: scale(1.1);
 }
 
-.quizRecord {
+.quizRecordList {
     background-color: white;
-    margin: 10px 0;
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.noSelection {
-    color: gray;
+.quizRecord {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.noSelection, .noRecords {
     text-align: center;
+    color: gray;
     padding: 20px;
 }
