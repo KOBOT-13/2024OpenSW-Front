@@ -7,6 +7,7 @@ import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -18,6 +19,8 @@ function Mypage() {
     const [reload, setReload] = useState(false);
     const [reloadPost, setReloadPost] = useState(false);
     const [reportInfo, setReportInfo] = useState([]);
+    const [conversations, setConversations] = useState([]);
+    const navigate = useNavigate();
     const imgs = {
         5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
         4: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/5.jpg`, title: "흥부와 놀부" },
@@ -52,6 +55,16 @@ function Mypage() {
         getPosts();
     }, [reloadPost])
 
+    useEffect(() => {
+        privateAxios.get(`dialogs/conversation/`)
+            .then(response => { 
+                console.log(response.data)
+                const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                setConversations(sortedConversations);
+            })
+
+    }, []);
+
     const handleButtonClick = (index) => {
         setActiveIndex(index);
     };
@@ -59,6 +72,11 @@ function Mypage() {
     const onClickProfile = () => {
         setIsOpen(true);
     }
+
+    const chatlistclick = (id, characterid) => {
+        navigate(`/bookclick/${id}/chatcharchoose/${characterid}/chat`);
+    };
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.profileDiv} onClick={onClickProfile}>
@@ -87,7 +105,7 @@ function Mypage() {
                 <div className={styles.readActDiv}>
                     {
                         activeIndex === 0 ? <div>0</div>
-                            : activeIndex === 1 ? <PreviousChat />
+                            : activeIndex === 1 ? <PreviousChat conversations={conversations} onChatClick={chatlistclick} />    
                                 : activeIndex === 2 ?
                                     reportInfo.map((value, key) => {
                                         console.log(value);
