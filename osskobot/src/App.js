@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoginProtectedRoute from "./components/ProtectedRoute/LoginProtectedRoute";
 import { useEffect, useState } from "react";
 import cookies from 'js-cookie';
+import Find from "./screens/Find";
 import Quiz from "./screens/Quiz";
 import { ConversationProvider } from "./components/ChatMsg/ConversationContext";
 
@@ -43,6 +44,7 @@ function App() {
           <Logout setReload={setReload} />
         </ProtectedRoute>} />
         <Route path="/join" element={<Join />} />
+        <Route path="/find" element={<Find />} />
         <Route path="/mypage" element={<ProtectedRoute>
           <Mypage />
         </ProtectedRoute>} />
