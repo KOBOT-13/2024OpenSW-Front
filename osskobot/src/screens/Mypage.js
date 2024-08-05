@@ -5,6 +5,7 @@ import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
 import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
+import QuizRecord from './MypageQuizRecord';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -111,7 +112,7 @@ function Mypage() {
                                         console.log(value);
                                         return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} content={value.body} setReload={setReloadPost} />
                                     })
-                                    : activeIndex === 3 ? <div>3</div>
+                                    : activeIndex === 3 ? <QuizRecord/>
                                         : <div>4</div>
                     }
                 </div>
