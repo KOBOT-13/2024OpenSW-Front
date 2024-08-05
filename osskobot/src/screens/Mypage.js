@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './Mypage.module.css';
 import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
+import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
 
@@ -64,7 +65,7 @@ function Mypage() {
                 <div className={styles.readActDiv}>
                     {
                         activeIndex === 0 ? <div>0</div> 
-                        : activeIndex === 1 ? <div>1</div>
+                        : activeIndex === 1 ? <PreviousChat />
                         : activeIndex === 2 ? <div>2</div>
                         : activeIndex === 3 ? <div>3</div>
                         : <div>4</div>
