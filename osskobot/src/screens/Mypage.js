@@ -1,11 +1,11 @@
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale'
 import { useEffect, useState } from 'react';
 import styles from './Mypage.module.css';
 import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
 import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
+import BookReportInfo from '../components/BookReport/BookReportInfo';
+import { format } from 'date-fns';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -15,9 +15,18 @@ function Mypage() {
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
     const [reload, setReload] = useState(false);
+    const [reportInfo, setReportInfo] = useState([]);
+    const imgs = {
+        5:{img : `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title:"백설공주"},
+        4:{img : `${process.env.REACT_APP_ADDRESS}/media/book_covers/5.jpg`, title:"흥부와 놀부"},
+        3:{img : `${process.env.REACT_APP_ADDRESS}/media/book_covers/3.jpg`, title:"피터팬"},
+        2:{img : `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title:"헨젤과 그레텔"},
+        1:{img : `${process.env.REACT_APP_ADDRESS}/media/book_covers/2.jpg`, title:"아기 돼지 삼형제"}
+    }
+
     useEffect(() => {
         const userInfoFetch = async () => {
-            privateAxios.get(`users/profile/`)
+            await privateAxios.get(`users/profile/`)
                 .then((response) => {
                     setDate(response.data.birth_date);
                     setEmail(response.data.email);
@@ -25,9 +34,18 @@ function Mypage() {
                     console.log(error);
                 });
         }
-
         userInfoFetch();
     }, [reload]);
+
+    useEffect(() => {
+        privateAxios.get(`books/my_posts`)
+        .then((response) => {
+            setReportInfo(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
 
     const handleButtonClick = (index) => {
         setActiveIndex(index);
@@ -65,7 +83,11 @@ function Mypage() {
                     {
                         activeIndex === 0 ? <div>0</div> 
                         : activeIndex === 1 ? <div>1</div>
-                        : activeIndex === 2 ? <div>2</div>
+                        : activeIndex === 2 ? 
+                        reportInfo.map((value, key) => {
+                            console.log(value);
+                            return <BookReportInfo imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} />
+                        })
                         : activeIndex === 3 ? <div>3</div>
                         : <div>4</div>
                     }
