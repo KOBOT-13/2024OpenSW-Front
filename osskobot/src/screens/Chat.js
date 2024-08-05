@@ -90,6 +90,7 @@ function Chat() {
             {
                 conversation_id: conversationid,
                 character_id: character.id,
+                summary_message_id: conversationid,
                 message: message,
                 speaker: character.speaker,
                 volume: character.volume,
