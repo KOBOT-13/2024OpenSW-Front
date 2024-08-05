@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './Mypage.module.css';
 import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
+import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
@@ -86,7 +87,7 @@ function Mypage() {
                 <div className={styles.readActDiv}>
                     {
                         activeIndex === 0 ? <div>0</div>
-                            : activeIndex === 1 ? <div>1</div>
+                            : activeIndex === 1 ? <PreviousChat />
                                 : activeIndex === 2 ?
                                     reportInfo.map((value, key) => {
                                         console.log(value);
