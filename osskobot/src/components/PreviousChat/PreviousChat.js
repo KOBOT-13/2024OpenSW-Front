@@ -11,7 +11,8 @@ function PreviousChat({}) {
         privateAxios.get(`dialogs/conversation/`)
             .then(response => { 
                 console.log(response.data)
-                setConversations(response.data);
+                const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                setConversations(sortedConversations);
             })
 
     }, []);
