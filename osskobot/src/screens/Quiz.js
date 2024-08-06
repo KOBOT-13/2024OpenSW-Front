@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Question from '../components/Quiz/Question';
 import './Quiz.css'; // 추가된 CSS 파일 import
 import { privateAxios } from '../services/axiosConfig';
-
+import postReadBook from '../services/postReadBook';
 const Quiz = () => {
   const navigate = useNavigate();
   const [quizData, setQuizdata] = useState([]);
@@ -55,6 +55,7 @@ const Quiz = () => {
     } else {
       setShowResult(true);
       sendScore(); // 퀴즈가 끝났을 때 점수를 서버에 전송
+      postReadBook(bookId)
     }
   };
 
