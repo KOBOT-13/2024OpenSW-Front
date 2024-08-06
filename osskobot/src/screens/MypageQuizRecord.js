@@ -11,7 +11,7 @@ const QuizRecord = () => {
         // 동화 목록 가져오기
         const fetchStories = async () => {
             try {
-                const response = await privateAxios.get('/stories/list'); // API endpoint 예시
+                const response = await privateAxios.get('books/AllBooks/'); // API endpoint 예시
                 setStories(response.data);
             } catch (error) {
                 console.log(error);
@@ -26,7 +26,7 @@ const QuizRecord = () => {
 
         try {
             // 해당 동화의 퀴즈 기록 가져오기
-            const response = await privateAxios.get(`/quizzes/records/${story.id}`); // API endpoint 예시
+            const response = await privateAxios.get(`mypage/quizRecord/`); // API endpoint 예시
             setQuizRecords(response.data);
         } catch (error) {
             console.log(error);
