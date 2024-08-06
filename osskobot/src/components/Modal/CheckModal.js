@@ -13,7 +13,6 @@ function CustomModal({ isOpen, onRequestClose, setIsDel, msg }) {
     return (
         <Modal
             isOpen={isOpen}
-            onRequestClose={() => onRequestClose(false)}
             className={styles.customModal}
         >
             <h1 style={{marginTop:"10%"}}>{msg}</h1>
