@@ -19,6 +19,16 @@ function Login({ setReload }) {
         }));
     };
 
+    const getUserReadBook = () => {
+        privateAxios.get(`books/user-read-book-list/get/`)
+        .then((response) => {
+            const newReadBooks = response.data.map((value) => value.book.id);
+            cookies.set("read_books", JSON.stringify(newReadBooks));
+        }).catch((error) => {
+            console.log(error);
+        });
+    } 
+
     const login = () => {
         publicAxios.post(`users/auth/login/`,
             {
@@ -34,10 +44,12 @@ function Login({ setReload }) {
             cookies.set('expires', expires);
             cookies.set('refresh_token', refresh_token);
             cookies.set('pk', response.data.user['pk']);
+            cookies.set('email', response.data.user['email']);
+            getUserReadBook();
             setReload((current) => { return !current });
             privateAxios.get(`users/profile/`)
             .then((response) => {
-                    cookies.set('username', response.data.username)
+                    cookies.set('username', response.data.username);
                 }).catch((error) => {
                     console.log(error);
                 })

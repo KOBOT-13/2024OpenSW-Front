@@ -5,6 +5,7 @@ import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
 import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
 import { privateAxios } from '../services/axiosConfig';
+import QuizRecord from './MypageQuizRecord';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -22,12 +23,13 @@ function Mypage() {
     const [reportInfo, setReportInfo] = useState([]);
     const [conversations, setConversations] = useState([]);
     const [comments, setComments] = useState([]);
+    const [readBooks, setReadBooks] = useState([]);
     const navigate = useNavigate();
     const imgs = {
-        5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
+        2: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
         4: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/5.jpg`, title: "흥부와 놀부" },
         3: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/3.jpg`, title: "피터팬" },
-        2: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title: "헨젤과 그레텔" },
+        5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title: "헨젤과 그레텔" },
         1: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/2.jpg`, title: "아기 돼지 삼형제" }
     }
 
@@ -45,17 +47,23 @@ function Mypage() {
     }, [reload]);
 
     useEffect(() => {
-        const getPosts = async () => {
+        const getPosts = () => {
             privateAxios.get(`books/my_posts`)
                 .then((response) => {
                     setReportInfo(response.data);
-                    console.log(response.data);
                 }).catch((error) => {
                     console.log(error);
                 });
         }
         getPosts();
     }, [reloadPost])
+
+    useEffect(() => {
+        privateAxios.get(`books/user-read-book-list/get/`)
+        .then((response) => {
+            setReadBooks(response.data);
+        })        
+    }, []);
 
     useEffect(() => {
         privateAxios.get(`dialogs/conversation/`)
@@ -113,16 +121,19 @@ function Mypage() {
                 <hr />
                 <div className={styles.readActDiv}>
                     {
-                        activeIndex === 0 ? <div>0</div>
+                        activeIndex === 0 ? 
+                            readBooks.map((value, key) => {
+                                console.log(value);
+                                return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book.id].img} title={imgs[value.book.id].title} reviewDate={value.read_date} />
+                            })
                             : activeIndex === 1 ? <PreviousChat conversations={conversations} onChatClick={chatlistclick} />    
                                 : activeIndex === 2 ?
                                     reportInfo.map((value, key) => {
-                                        console.log(value);
                                         return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} content={value.body} setReload={setReloadPost} />
                                     })
-                                    : activeIndex === 3 ? <div>3</div>
-                                        :activeIndex === 4 ? <MyComments comments={comments} />
-                                            : <div>4 </div>
+                                    : activeIndex === 3 ? <QuizRecord/>
+                                        : activeIndex === 4 ? <MyComments comments={comments} />
+                                            : <div>4</div>
                     }
                 </div>
 

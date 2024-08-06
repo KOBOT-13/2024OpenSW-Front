@@ -50,7 +50,7 @@ function LabelContent({ label, type, placeholder, value, onChange }) {
     )
 }
 
-function LabelPassword({ label, btnName, type }) {
+function LabelPassword({ label, btnName, type, value, onChange, onClick }) {
     const [activeBorder, setActiveBorder] = useState({
         labelBorder: false,
     });
@@ -79,8 +79,10 @@ function LabelPassword({ label, btnName, type }) {
                 className={`${styles['password']} ${labelBorder ? styles['active'] : ''}`}
                 onFocus={() => handleFocusBorder('labelBorder')}
                 onBlur={() => handleBlurBorder('labelBorder')}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
             />
-            <button className={styles.btn}>{btnName}</button>
+            <button className={styles.btn} onClick={onClick} >{btnName}</button>
         </div>
     )
 }
@@ -88,8 +90,8 @@ function LabelPassword({ label, btnName, type }) {
 function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
     const [newNickName, setNewNickName] = useState('');
     const [newDate, setNewDate] = useState('');
-    const [newPassword, setNewPassword] = useState("");
-    const [validMsg, setValidMsg] = useState("");
+    const [email, setEmail] = useState('');
+    const [validMsg, setValidMsg] = useState('');
 
     useEffect(() => {
         setNewNickName(nickname);
@@ -132,6 +134,22 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
             });
         }
     }
+ 
+    const onClickEmailValidate = () => {
+        if(cookies.get('email') === email){
+            publicAxios.post(`users/password_reset/`, 
+                {
+                    "email" : email
+                }
+            ).then(() => {
+                alert("비밀번호 변경 이메일이 전송되었습니다.");
+            }).catch((error) => {
+                console.log(error);
+            })
+        }else{
+            alert("로그인 된 계정의 이메일을 입력해주세요.");
+        }
+    }
 
     return (
         <Modal
@@ -144,8 +162,7 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                 <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} />
                 <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
                 <p style={{ marginLeft: "3%", marginBottom: "0px" }}>비밀번호 변경</p>
-                <LabelPassword label={"이메일"} btnName={"이메일 인증"} type={"text"} />
-                <LabelPassword label={"인증번호"} btnName={"확인"} type={"number"} />
+                <LabelPassword label={"이메일"} btnName={"이메일 인증"} type={"text"} value={email} onChange={setEmail} onClick={onClickEmailValidate} />
                 <ErrorSpan>{validMsg}</ErrorSpan>
                 <button className={styles.applyBtn} onClick={onClickApply}>적용</button>
                 <button className={styles.cancleBtn} onClick={() => onRequestClose(false)}>취소</button>

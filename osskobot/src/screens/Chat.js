@@ -13,6 +13,8 @@ import SpeechRecognition from 'react-speech-recognition';
 import { useNavigate, useParams } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import { useConversation } from '../components/ChatMsg/ConversationContext';
+import postReadBook from '../services/postReadBook';
+
 
 const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
 
@@ -108,6 +110,7 @@ function Chat() {
             }
         )
             .then((response) => {
+                postReadBook(id);
                 const bot_response = response.data.message
                 const tts_url = response.data.file_url
                 const newMsg = {
