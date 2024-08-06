@@ -7,7 +7,7 @@ import CharProfile from '../components/CharProfile/CharProfile';
 import cookies from 'js-cookie';
 import { format } from 'date-fns'
 import Pagination from 'react-js-pagination';
-
+import postReadBook from '../services/postReadBook';
 
 function BookClick() {
     const location = useLocation();
@@ -92,7 +92,8 @@ function BookClick() {
                     'book': params.id,
                     'content': commentMsg
                 },
-            ).then((response) => {
+            ).then(() => {
+                postReadBook(params.id);
                 setMode((current) => {return !current});
             })
         }

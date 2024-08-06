@@ -5,6 +5,7 @@ import reportForm1 from '../forms/reportForm1';
 import reportForm2 from '../forms/reportForm2';
 import reportForm3 from '../forms/reportForm3';
 import { privateAxios } from '../services/axiosConfig';
+import postReadBook from '../services/postReadBook';
 
 function BookReport() {
     const naviate = useNavigate();
@@ -47,7 +48,8 @@ function BookReport() {
                 "book": bookId,
                 "body": formContent
             }
-        ).then((response) => {
+        ).then(() => {
+            postReadBook(bookId);
             alert("독후감 작성이 완료되었습니다.");
             naviate(`/bookclick/${bookId}`);
         }).catch((error) =>{

@@ -13,8 +13,9 @@ const CardContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: auto;
+  width: 160px;
+  height: 180px;
+  object-fit: cover;
 `;
 
 const Content = styled.div`

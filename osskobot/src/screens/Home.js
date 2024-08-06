@@ -36,7 +36,7 @@ function Home() {
 
     useEffect(() => {
         const getBooks = async () => {
-            publicAxios.get(`${process.env.REACT_APP_API_ADDRESS}books/AllBooks/`)
+            publicAxios.get(`books/AllBooks/`)
                 .then((response) => {
                     setBooks(response.data)
                 })
