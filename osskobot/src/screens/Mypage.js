@@ -23,10 +23,10 @@ function Mypage() {
     const [conversations, setConversations] = useState([]);
     const navigate = useNavigate();
     const imgs = {
-        5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
+        2: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
         4: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/5.jpg`, title: "흥부와 놀부" },
         3: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/3.jpg`, title: "피터팬" },
-        2: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title: "헨젤과 그레텔" },
+        5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title: "헨젤과 그레텔" },
         1: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/2.jpg`, title: "아기 돼지 삼형제" }
     }
 
