@@ -185,7 +185,7 @@ function Chat() {
 
             return (
                 <React.Fragment key={index}>
-                    {showDate && <div className={styles.dateSeparator}>{msg.date}</div>}
+                    {showDate && msg.isOwnMessage && <div className={styles.dateSeparator}>{msg.date}</div>}
                     <ChatMsg
                         message={msg.message}
                         time={msg.time}
