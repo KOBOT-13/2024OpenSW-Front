@@ -9,6 +9,7 @@ import QuizRecord from './MypageQuizRecord';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import MyComments from '../components/MyComments/MyComments';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -21,6 +22,7 @@ function Mypage() {
     const [reloadPost, setReloadPost] = useState(false);
     const [reportInfo, setReportInfo] = useState([]);
     const [conversations, setConversations] = useState([]);
+    const [comments, setComments] = useState([]);
     const [readBooks, setReadBooks] = useState([]);
     const navigate = useNavigate();
     const imgs = {
@@ -73,6 +75,13 @@ function Mypage() {
 
     }, []);
 
+    useEffect(() => {
+        privateAxios.get('books/comments')
+            .then(response => {
+                setComments(response.data);
+            })
+    }, []);
+
     const handleButtonClick = (index) => {
         setActiveIndex(index);
     };
@@ -123,7 +132,8 @@ function Mypage() {
                                         return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} content={value.body} setReload={setReloadPost} />
                                     })
                                     : activeIndex === 3 ? <QuizRecord/>
-                                        : <div>4</div>
+                                        : activeIndex === 4 ? <MyComments comments={comments} />
+                                            : <div>4</div>
                     }
                 </div>
 
