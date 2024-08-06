@@ -9,7 +9,7 @@ const Quiz = () => {
   const navigate = useNavigate();
   const [quizData, setQuizdata] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(1);
+  const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -74,9 +74,10 @@ const Quiz = () => {
 
   // 점수를 서버에 전송하는 함수
   const sendScore = () => {
-    privateAxios.post(`mypages/quiz/${bookId}/record/`,
+    privateAxios.post(`mypages/quizRecord/`,
       {
-        "score": score
+        "score": score ,
+        "book" : bookId
       },
     )
       .then(response => {
