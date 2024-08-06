@@ -1,10 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { format } from 'date-fns';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { format } from "date-fns";
 
 const CommentContainer = styled.div`
-    width: 200%;
-    z-index: -1000;
+    width: 100%;
 `;
 
 const ChatList = styled.ul`
@@ -18,8 +17,6 @@ const ChatListItem = styled.li`
     margin: 10px 0;
     cursor: pointer;
     overflow: hidden;
-    position: relative;
-
     &:hover {
         background-color: #e0e0e0;
     }
@@ -32,11 +29,10 @@ const CommentTitle = styled.p`
 
 const CommentContent = styled.p`
     margin-bottom: 5px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    max-height: ${(props) => props.expanded ? `${props.scrollHeight}px` : '3.2em'};
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: max-height 0.3s ease;
 `;
 
 const CommentDate = styled.p`
@@ -49,9 +45,14 @@ const ShowMore = styled.span`
     margin-top: 5px;
     color: blue;
     cursor: pointer;
+    text-decoration: underline;
 `;
 
-function MyComments({ comments }) {
+function Comments({ comments }) {
+    const commentRefs = useRef([]);
+    const [expandedCommentId, setExpandedCommentId] = useState(null);
+    const [scrollHeights, setScrollHeights] = useState({});
+    const [showMore, setShowMore] = useState({});
 
     const getBookTitle = (bookId) => {
         switch (bookId) {
@@ -63,42 +64,53 @@ function MyComments({ comments }) {
                 return '피터팬';
             case 4:
                 return '흥부와 놀부';
-            case 5:
-                return '헨젤과 그레텔';
             default:
-                return '알 수 없는 책';
+                return '헨젤과 그레텔';
         }
     };
 
-    const handleShowMore = (e) => {
-        console.log('더보기 버튼 클릭됨');
-        const parent = e.target.closest('li');
-        if (parent) {
-            const content = parent.querySelector('.comment-content');
-            if (content) {
-                console.log('댓글 내용 엘리먼트 찾음');
-                content.style.webkitLineClamp = 'unset';
-                e.target.style.display = 'none';
-            } else {
-                console.log('댓글 내용 엘리먼트 없음');
+    useEffect(() => {
+        commentRefs.current = commentRefs.current.slice(0, comments.length);
+    }, [comments]);
+
+    useEffect(() => {
+        const newScrollHeights = {};
+        const newShowMore = {};
+        commentRefs.current.forEach((ref, index) => {
+            if (ref) {
+                const height = ref.scrollHeight;
+                newScrollHeights[comments[index].id] = height;
+                newShowMore[comments[index].id] = height > 51;
             }
-        } else {
-            console.log('부모 엘리먼트 없음');
-        }
-    };
+        });
+        setScrollHeights(newScrollHeights);
+        setShowMore(newShowMore);
+    }, [comments]);
 
-    const shouldShowMore = (content) => content.length > 100;
+    const handleShowMore = (id) => {
+        setExpandedCommentId((prevId) => (prevId === id ? null : id));
+    };
 
     return (
         <CommentContainer>
             <h1>내가 쓴 댓글</h1>
             <ChatList>
-                {comments.map(comment => (
+                {comments.map((comment, index) => (
                     <ChatListItem key={comment.id}>
                         <CommentTitle>책 제목: {getBookTitle(comment.book)}</CommentTitle>
-                        <CommentContent className="comment-content">내용: {comment.content}</CommentContent>
+                        <CommentContent
+                            ref={(el) => (commentRefs.current[index] = el)}
+                            expanded={expandedCommentId === comment.id}
+                            scrollHeight={scrollHeights[comment.id] || 0}
+                        >
+                            내용: {comment.content}
+                        </CommentContent>
                         <CommentDate>날짜: {format(new Date(comment.updated_at), 'yyyy-MM-dd hh:mm aa')}</CommentDate>
-                        {shouldShowMore(comment.content) && <ShowMore onClick={handleShowMore}>더보기</ShowMore>}
+                        {showMore[comment.id] && (
+                            <ShowMore onClick={() => handleShowMore(comment.id)}>
+                                {expandedCommentId === comment.id ? '접기' : '더보기'}
+                            </ShowMore>
+                        )}
                     </ChatListItem>
                 ))}
             </ChatList>
@@ -106,4 +118,4 @@ function MyComments({ comments }) {
     );
 }
 
-export default MyComments;
+export default Comments;
