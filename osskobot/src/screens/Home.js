@@ -5,6 +5,7 @@ import BookRequestModal from '../components/Modal/BookRequestModal';
 import { useEffect, useState } from 'react';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import cookies from 'js-cookie';
+import SubHeader from '../components/Header/SubHeader';
 
 function Home() {
     const navigate = useNavigate();
@@ -50,6 +51,7 @@ function Home() {
 
     return (
         <div className={styles.mainDiv}>
+            <SubHeader/>
             <div className={styles.banner}>
                 <div className={styles.imgDiv}>
                     <img className={styles.bannerImg} alt='이미지' src={banner} />
