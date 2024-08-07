@@ -28,7 +28,7 @@ const Div = styled.div`
     }
     &.Right{
         display: flex;
-        width: 269px;
+        width: 280px;
         height: 30px;
         align-items: center;
         justify-content: space-between;
@@ -129,9 +129,9 @@ const SearchIcon = styled(Search)`
     font-size: 20px;
     margin-right: 10px;
 `
-
-const ArrowIcon = styled(Arrow)`
-
+const CustomLink = styled(Link)`
+    text-decoration: none;
+    color: black;
 `
 
 function Header(props) {
@@ -150,30 +150,44 @@ function Header(props) {
             <Div className='BG1440'>
                 <Div className='BG'>
                     <Div className='Left'>
-                        <Div className='CI'>
-                            <Logo />
-                            <P className='title'>아이랑 아이(AI)랑</P>
-                        </Div>
+                        <CustomLink to="/" onClick={handleChatEndBtn}>
+                            <Div className='CI'>
+                                <Logo />
+                                <P className='title'>아이랑 아이(AI)랑</P>
+                            </Div>
+                        </CustomLink>
                         <Div className='Menu'>
                             <Ul className='content'>
                                 <Li><P className='service-intro'>서비스 소개</P></Li>
                                 <Li className='Test'>
                                     <Div className='SearchContainer'>
-                                        <SearchIcon/>
-                                        <Input placeholder='도서검색'/>
+                                        <SearchIcon />
+                                        <Input placeholder='도서검색' />
                                     </Div>
                                 </Li>
                             </Ul>
                         </Div>
                     </Div>
-                    <Div className='Right'>
-                        <P className='Login'>로그인</P>
-                        <P className='Join'>회원가입</P>
-                        <Div className='BookApplyContainer'>
-                            <P className='BookApply'>도서 신청하기</P>
-                            <ArrowIcon/>
-                        </Div>
-                    </Div>
+                    {
+                        isLogin ?
+                            <Div className='Right'>
+                                <CustomLink to='/logout'><P className='Login'>로그아웃</P></CustomLink>
+                                <CustomLink to='/mypage'><P className='Join'>마이페이지</P></CustomLink>
+                                <Div className='BookApplyContainer'>
+                                    <P className='BookApply'>도서 신청하기</P>
+                                    <Arrow />
+                                </Div>
+                            </Div>
+                            :
+                            <Div className='Right'>
+                                <CustomLink to='/login'><P className='Login'>로그인</P></CustomLink>
+                                <CustomLink to='/join'><P className='Join'>회원가입</P></CustomLink>
+                                <Div className='BookApplyContainer'>
+                                    <P className='BookApply'>도서 신청하기</P>
+                                    <Arrow />
+                                </Div>
+                            </Div>
+                    }
                 </Div>
             </Div>
         </header>
