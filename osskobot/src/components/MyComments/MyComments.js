@@ -4,6 +4,7 @@ import { format } from "date-fns";
 
 const CommentContainer = styled.div`
     width: 100%;
+    overflow: hidden;
 `;
 
 const ChatList = styled.ul`
@@ -29,9 +30,11 @@ const CommentTitle = styled.p`
 
 const CommentContent = styled.p`
     margin-bottom: 5px;
-    max-height: ${(props) => props.expanded ? `${props.scrollHeight}px` : '3.2em'};
+    max-height: ${(props) => (props.expanded ? `${props.scrollHeight}px` : '3.2em')};
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-word;
+    overflow-wrap: break-word;
     transition: max-height 0.3s ease;
 `;
 
@@ -80,7 +83,7 @@ function Comments({ comments }) {
             if (ref) {
                 const height = ref.scrollHeight;
                 newScrollHeights[comments[index].id] = height;
-                newShowMore[comments[index].id] = height > 51;
+                newShowMore[comments[index].id] = height > 50; // 임계값 조정 가능
             }
         });
         setScrollHeights(newScrollHeights);
