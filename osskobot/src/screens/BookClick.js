@@ -63,7 +63,7 @@ function BookClick() {
                 console.log(error);
             });
         }
-        setTimeout(getComments, 1000);
+        setTimeout(getComments, 500);
         setLoading(false);
     }, [mode])
 
