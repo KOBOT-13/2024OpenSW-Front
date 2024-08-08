@@ -8,6 +8,11 @@ import cookies from 'js-cookie';
 import { format } from 'date-fns'
 import Pagination from 'react-js-pagination';
 import postReadBook from '../services/postReadBook';
+import { Div, Image, P, Hr } from './BookClick.styled';
+import BookClickBtn from '../components/CustomButton/BookClickBtn';
+import { ReactComponent as talk } from '../assets/talk.svg';
+import { ReactComponent as quiz } from '../assets/quiz.svg';
+import { ReactComponent as report } from '../assets/report.svg';
 
 function BookClick() {
     const location = useLocation();
@@ -40,41 +45,47 @@ function BookClick() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentComments = commentInfos.slice(indexOfFirstItem, indexOfLastItem);
 
+    const featBtn = [
+        { path: "chatcharchoose", label: "등장인물과 대화하기", icon: talk },
+        { path: "quiz", label: "독서퀴즈 맞추기", icon: quiz },
+        { path: "bookreport", label: "독후감 작성하기", icon: report },
+    ]
+
     useEffect(() => {
-        const getBookDetail = async() => {
+        const getBookDetail = async () => {
             await publicAxios.get(`books/book/${params.id}/`)
-            .then((response) => {
-                setBook(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
+                .then((response) => {
+                    setBook(response.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
         }
         getBookDetail();
-    }, [])
+    }, []);
 
     useEffect(() => {
         setCommentInfos([]);
         setLoading(true);
-        const getComments = async() => {
+        const getComments = async () => {
             await privateAxios.get(`books/books/${params.id}/comments/`)
-            .then((response) => {
-                setCommentInfos(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
+                .then((response) => {
+                    setCommentInfos(response.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
         }
         setTimeout(getComments, 500);
         setLoading(false);
     }, [mode])
 
     useEffect(() => {
-        const getCharProfile = async() => {
+        const getCharProfile = async () => {
             await privateAxios.get(`books/${params.id}/characters/`)
-            .then((response) => {
-                setCharProfileInfos(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
+                .then((response) => {
+                    setCharProfileInfos(response.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
         }
 
         getCharProfile();
@@ -83,9 +94,9 @@ function BookClick() {
     const onChangeComment = (e) => {
         setCommentMsg(e.target.value);
     }
-    const onSubmitClk = async(e) => {
+    const onSubmitClk = async (e) => {
         e.preventDefault();
-        if(commentMsg !== ''){
+        if (commentMsg !== '') {
             setCommentMsg('');
             privateAxios.post(`books/comments/`,
                 {
@@ -94,7 +105,7 @@ function BookClick() {
                 },
             ).then(() => {
                 postReadBook(params.id);
-                setMode((current) => {return !current});
+                setMode((current) => { return !current });
             })
         }
     };
@@ -105,23 +116,27 @@ function BookClick() {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.bookDetail}>
-                <div className={styles.bookImgDiv}>
-                    <img className={styles.bookImg} src={book.cover_image} alt='디테일 이미지' />
-                </div>
-                <div className={styles.bookInfo}>
-                    <h1>{book.title}</h1>
-                    <h3>
-                        저자 : {book.author}
-                    </h3>
-                    <h3>
-                        출판사 : {book.publisher}
-                    </h3>
-                    <h3>
-                        출간일 : {book.publication_date}
-                    </h3>
-                </div>
-            </div>
+            <Div className='Detail'>
+                <Div className='Frame'>
+                    <Image src={book.cover_image} />
+                    <Div className='Right'>
+                        <Div className='Info'>
+                            <P className='title'>{book.title}</P>
+                            <Hr />
+                            <Div className='Sub-Info'>
+                                <P>저자 : {book.author}</P>
+                                <P>출판사 : {book.publisher}</P>
+                                <P>출간일 : {book.publication_date}</P>
+                            </Div>
+                        </Div>
+                        <Div className='Btns'>
+                            {featBtn.map((value, key) => {
+                                return <BookClickBtn key={key} label={value.label} icon={value.icon} path={value.path} id={params.id} />
+                            })}
+                        </Div>
+                    </Div>
+                </Div>
+            </Div>
 
             <div className={styles.buttonDiv}>
                 <ul className={styles.buttonUl}>
@@ -166,14 +181,14 @@ function BookClick() {
                 </div>
                 <div className={styles.multiPage}>
                     {index === 1 ? <p style={{ margin: 10, textAlign: "justify", lineHeight: "1.6", color: "#666" }}>{book.synopsis}</p> :
-                        index === 2 ? 
-                        <div className={styles.charProfilesDiv}>
-                            {
-                                charProfileInfos.map((value, key) => {
-                                    return <CharProfile character={value} mode={1} />
-                                })
-                            }
-                        </div> :
+                        index === 2 ?
+                            <div className={styles.charProfilesDiv}>
+                                {
+                                    charProfileInfos.map((value, key) => {
+                                        return <CharProfile character={value} mode={1} />
+                                    })
+                                }
+                            </div> :
                             <div className={styles.commnetBoard}>
                                 <form className={styles.commentForm} onSubmit={onSubmitClk}>
                                     <textarea className={styles.commentInput} placeholder='댓글을 입력해주세요.' onChange={onChangeComment} value={commentMsg} ></textarea>
