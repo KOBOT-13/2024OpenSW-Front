@@ -157,7 +157,7 @@ function Header(props) {
                         </CustomLink>
                         <Div className='Menu'>
                             <Ul className='content'>
-                                <Li><P className='service-intro'>서비스 소개</P></Li>
+                                <CustomLink to="/serviceinfo"><Li><P className='service-intro'>서비스 소개</P></Li></CustomLink>
                                 <Li className='Test'>
                                     <Div className='SearchContainer'>
                                         <SearchIcon />
