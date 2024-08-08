@@ -8,9 +8,10 @@ import cookies from 'js-cookie';
 import SubHeader from '../components/Header/SubHeader';
 import SelectBox from '../components/SelectBox/SelectBox';
 import CategoryBtn from '../components/CustomButton/CategoryBtn';
+import Book from '../components/Book/Book';
 
 const Div = styled.div`
-    width: 1440px;
+    width: 77.5%;
     &.Wrap-Heading{
         display: flex;
         justify-content: space-between;
@@ -18,8 +19,10 @@ const Div = styled.div`
         margin-top: 45px;
         height: 60px;
     }
-    &.Category{
-        
+    &.Books{
+        margin-top: 30px;
+        display:flex;
+        flex-flow: row wrap;   
     }
 `;
 
@@ -91,7 +94,12 @@ function Home() {
                     return <CategoryBtn onClick={() => setIndex(value.index)} content={value.content} index={value.index === index}/>
                 })}
             </Div>
-            <div className={styles.bookshelp}>
+            <Div className='Books'>
+                {books.map((value) => {
+                    return <Book title={value.title} author={value.author} id={value.id} cover_image={value.cover_image}/>
+                })}
+            </Div>
+            {/* <div className={styles.bookshelp}>
                 <div>
                     <ul className={styles.bookFilter}>
                         {filters.map(filter => (
@@ -113,7 +121,7 @@ function Home() {
                     }
                 </div>
             </div>
-            <BookRequestModal isOpen={isBookRequestModalOpen} onRequestClose={setIsBookRequestModalOpen} />
+            <BookRequestModal isOpen={isBookRequestModalOpen} onRequestClose={setIsBookRequestModalOpen} /> */}
         </div>
     )
 }

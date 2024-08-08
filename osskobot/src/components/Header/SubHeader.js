@@ -32,7 +32,7 @@ const Div = styled.div`
 
 const P = styled.p`
     margin: 0;
-    font-family: 'Pretendard-Medium';
+    font-family: 'Pretendard-Bold';
     font-size: 20px;
     color: ${({ index }) => (index ? 'black' : '#BBBBBB')};
     user-select: none;

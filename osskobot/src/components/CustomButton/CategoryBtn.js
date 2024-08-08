@@ -8,7 +8,7 @@ const Button = styled.button`
     padding: 10px 20px 10px 20px;
     border-radius: 20px;
     border-color: rgba(0, 0, 0, 0.05);
-    margin-top: 10px
+    margin-top: 10px;
     margin-right: 10px;
 `;
 
