@@ -1,19 +1,53 @@
 import styles from './Home.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import banner from '../assets/banner.jpg'
+import styled from 'styled-components';
 import BookRequestModal from '../components/Modal/BookRequestModal';
 import { useEffect, useState } from 'react';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import cookies from 'js-cookie';
+import SubHeader from '../components/Header/SubHeader';
+import SelectBox from '../components/SelectBox/SelectBox';
+import CategoryBtn from '../components/CustomButton/CategoryBtn';
+import Book from '../components/Book/Book';
+
+const Div = styled.div`
+    width: 77.5%;
+    &.Wrap-Heading{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 45px;
+        height: 60px;
+    }
+    &.Books{
+        margin-top: 30px;
+        display:flex;
+        flex-flow: row wrap;   
+    }
+`;
+
+const P = styled.p`
+    font-family: 'Pretendard-SemiBold';
+    font-size: 22px;
+    margin: 0;
+`;
 
 function Home() {
     const navigate = useNavigate();
     const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
     const [books, setBooks] = useState([]);
+    const [index, setIndex] = useState(1);
 
     const filters = [
         { id: 1, text: '내 책장' },
         { id: 2, text: '둘러보기' },
+    ];
+
+    const category = [
+        {index: 1, content: "전체"},
+        {index: 2, content: "설화"},
+        {index: 3, content: "이솝우화"},
+        {index: 4, content: "동물"},
     ];
 
     const onClickApplyBtn = async () => {
@@ -50,23 +84,22 @@ function Home() {
 
     return (
         <div className={styles.mainDiv}>
-            <div className={styles.banner}>
-                <div className={styles.imgDiv}>
-                    <img className={styles.bannerImg} alt='이미지' src={banner} />
-                </div>
-                <div className={styles.buttonDiv}>
-                    <Link className={styles.serviceLink} to="/serviceinfo">
-                        <button className={styles.serviceBtn}>
-
-                            <strong>서비스 소개</strong>
-                        </button>
-                    </Link>
-                    <button className={styles.applyBtn} onClick={onClickApplyBtn}>
-                        <strong>도서 신청하기</strong>
-                    </button>
-                </div>
-            </div>
-            <div className={styles.bookshelp}>
+            <SubHeader/>
+            <Div className='Wrap-Heading'>
+                <P>둘러보기</P>
+                <SelectBox/>
+            </Div>
+            <Div className='Category'>
+                {category.map((value) => {
+                    return <CategoryBtn onClick={() => setIndex(value.index)} content={value.content} index={value.index === index}/>
+                })}
+            </Div>
+            <Div className='Books'>
+                {books.map((value) => {
+                    return <Book title={value.title} author={value.author} id={value.id} cover_image={value.cover_image}/>
+                })}
+            </Div>
+            {/* <div className={styles.bookshelp}>
                 <div>
                     <ul className={styles.bookFilter}>
                         {filters.map(filter => (
@@ -88,7 +121,7 @@ function Home() {
                     }
                 </div>
             </div>
-            <BookRequestModal isOpen={isBookRequestModalOpen} onRequestClose={setIsBookRequestModalOpen} />
+            <BookRequestModal isOpen={isBookRequestModalOpen} onRequestClose={setIsBookRequestModalOpen} /> */}
         </div>
     )
 }
