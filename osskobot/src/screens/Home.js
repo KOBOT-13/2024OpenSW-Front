@@ -11,7 +11,7 @@ import CategoryBtn from '../components/CustomButton/CategoryBtn';
 import Book from '../components/Book/Book';
 
 const Div = styled.div`
-    width: 77.5%;
+    width: 68%;
     &.Wrap-Heading{
         display: flex;
         justify-content: space-between;
