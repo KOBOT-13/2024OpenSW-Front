@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
-import styles from './BookClick.module.css';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
 import cookies from 'js-cookie';
 import { format } from 'date-fns'
-import Pagination from 'react-js-pagination';
 import postReadBook from '../services/postReadBook';
-import { Div, Image, P, Hr, TextArea, Button } from './BookClick.styled';
+import { Div, Image, P, Hr, TextArea, Button, CommentsPage } from './BookClickStyled';
 import BookClickBtn from '../components/CustomButton/BookClickBtn';
 import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';
@@ -36,7 +34,7 @@ function BookClick() {
     const [loading, setLoading] = useState(true);
 
     const [page, setPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
 
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
@@ -53,9 +51,9 @@ function BookClick() {
     ];
 
     const bottomBtn = [
-        {index: 1, label:"책 소개"},
-        {index: 2, label:"등장인물 소개"},
-        {index: 3, label:"독후활동 공유"}
+        { index: 1, label: "책 소개" },
+        { index: 2, label: "등장인물 소개" },
+        { index: 3, label: "독후활동 공유" }
     ];
 
     useEffect(() => {
@@ -71,31 +69,21 @@ function BookClick() {
     }, []);
 
     useEffect(() => {
-        setCommentInfos([]);
-        setLoading(true);
-        const getComments = async () => {
-            await privateAxios.get(`books/books/${params.id}/comments/`)
-                .then((response) => {
-                    setCommentInfos(response.data);
-                }).catch((error) => {
-                    console.log(error);
-                });
-        }
-        setTimeout(getComments, 500);
-        setLoading(false);
-    }, [mode])
+        privateAxios.get(`books/books/${params.id}/comments/`)
+        .then((response) => {
+            setCommentInfos(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, [])
 
     useEffect(() => {
-        const getCharProfile = async () => {
-            await privateAxios.get(`books/${params.id}/characters/`)
-                .then((response) => {
-                    setCharProfileInfos(response.data);
-                }).catch((error) => {
-                    console.log(error);
-                });
-        }
-
-        getCharProfile();
+        privateAxios.get(`books/${params.id}/characters/`)
+        .then((response) => {
+            setCharProfileInfos(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
     }, []);
 
     const onChangeComment = (e) => {
@@ -112,15 +100,21 @@ function BookClick() {
                     'book': params.id,
                     'content': commentMsg
                 },
-            ).then(() => {
+            ).then((response) => {
                 postReadBook(params.id);
-                setMode((current) => { return !current });
+                const newComment = response.data;
+                setCommentInfos((prevComments) => [newComment, ...prevComments]);
             })
         }
     };
 
+    const removeComment = (id) => {
+        const updatedComments = commentInfos.filter(commnet => commnet.id !== id);
+        setCommentInfos(updatedComments);
+    };
+
     return (
-        <div className={styles.mainContainer}>
+        <Div className='MainContainer'>
             <Div className='Detail'>
                 <Div className='Frame'>
                     <Image src={book.cover_image} />
@@ -142,110 +136,65 @@ function BookClick() {
                     </Div>
                 </Div>
             </Div>
-            <Div className='Bottom'>
-                <Div className='Btns-Bottom'>
+            <Div className='Middle'>
+                <Div className='Btns-Middle'>
                     {bottomBtn.map((value) => {
-                        return <BottomBorderBtn key={value.index} onClick={() => setIndex(value.index)} label={value.label} index={value.index === index}/>
+                        return <BottomBorderBtn key={value.index} onClick={() => setIndex(value.index)} label={value.label} index={value.index === index} />
                     })}
                 </Div>
-                <Div className='Content-Bottom'>
+                <Div className='Content-Middle'>
                     {index === 1 ?
-                    <Div className='Book-Intro'>
-                        {book.synopsis}
-                    </Div>
-                    : index === 2 ?
-                    <Div className='Char-Intro'>
-                        {charProfileInfos.map((value, key) => {
-                            return <CharProfile character={value} key={key} />
-                        })}
-                    </Div>
-                    :<Div className='Comment-Bottom'>
-                        <Div className='Comment-Board'>
-                            <TextArea value={commentMsg} onChange={onChangeComment} placeholder='댓글을 입력해주세요.'></TextArea>
-                            <Div className='Comment-Btn'>
-                                <P className='comment-size'>{commentMsg.length} / 150</P>
-                                <Button onClick={onSubmitClk}>댓글달기</Button>
-                            </Div>
+                        <Div className='Book-Intro'>
+                            {book.synopsis}
                         </Div>
-                    </Div>}
+                        : index === 2 ?
+                            <Div className='Char-Intro'>
+                                {charProfileInfos.map((value, key) => {
+                                    return <CharProfile character={value} key={key} />
+                                })}
+                            </Div>
+                            : <Div className='Comment-Middle'>
+                                <Div className='Comment-Board'>
+                                    <TextArea value={commentMsg} onChange={onChangeComment} placeholder='댓글을 입력해주세요.'></TextArea>
+                                    <Div className='Comment-Btn'>
+                                        <P className='comment-size'>{commentMsg.length} / 150</P>
+                                        <Button onClick={onSubmitClk}>댓글달기</Button>
+                                    </Div>
+                                </Div>
+                                <Div className='Bottom'>
+                                    <Div className='Comment-Written'>
+                                        <P className='cwtitle'>작성된 댓글</P>
+                                        <Div className='Comments'>
+                                            {currentComments.map((value) => {
+                                                return <CommentBoard
+                                                    key={value.id}
+                                                    id={value.id}
+                                                    nickname={value.user}
+                                                    comment={value.content}
+                                                    date={format(new Date(value.created_at), 'yyyy-MM-dd h:mm a')}
+                                                    likes={value.likes_count}
+                                                    onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
+                                                    isMine={value.user === cookies.get('username')}
+                                                    reload={setMode}
+                                                    delCommnet={removeComment}
+                                                />
+                                            })}
+                                        </Div>
+                                        <CommentsPage
+                                            activePage={page}
+                                            itemsCountPerPage={itemsPerPage}
+                                            totalItemsCount={commentInfos.length}
+                                            pageRangeDisplayed={10}
+                                            prevPageText={"<"}
+                                            nextPageText={">"}
+                                            onChange={handlePageChange}
+                                        />
+                                    </Div>
+                                </Div>
+                            </Div>}
                 </Div>
             </Div>
-            {/* <div className={styles.multiContainer}>
-                <div className={styles.multiBtns}>
-                    <ul className={styles.mulitBtnUl}>
-                        <li className={styles.multiBtnLi}>
-                            <button onClick={() => click(1)} className={
-                                index === 1 ? styles.clickMultiBtn : styles.multiBtn
-                            }>
-                                책 소개
-                            </button>
-                        </li>
-                        <li className={styles.multiBtnLi}>
-                            <button onClick={() => click(2)} className={
-                                index === 2 ? styles.clickMultiBtn : styles.multiBtn
-                            }>
-                                등장인물 소개
-                            </button>
-                        </li>
-                        <li className={styles.multiBtnLi}>
-                            <button onClick={() => click(3)} className={
-                                index === 3 ? styles.clickMultiBtn : styles.multiBtn
-                            }>
-                                독후활동 공유
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <div className={styles.multiPage}>
-                    {index === 1 ? <p style={{ margin: 10, textAlign: "justify", lineHeight: "1.6", color: "#666" }}>{book.synopsis}</p> :
-                        index === 2 ?
-                            <div className={styles.charProfilesDiv}>
-                                {
-                                    charProfileInfos.map((value, key) => {
-                                        return <CharProfile character={value} mode={1} />
-                                    })
-                                }
-                            </div> :
-                            <div className={styles.commnetBoard}>
-                                <form className={styles.commentForm} onSubmit={onSubmitClk}>
-                                    <textarea className={styles.commentInput} placeholder='댓글을 입력해주세요.' onChange={onChangeComment} value={commentMsg} ></textarea>
-                                    <input type="submit" value="댓글달기" className={styles.commentBtn} />
-                                </form>
-                                <div className={styles.commentsDiv}>
-                                    {currentComments.map((comment, idx) => (
-                                        <li style={{ listStyleType: "none", marginBottom: "3px" }} key={comment.id}>
-                                            <CommentBoard
-                                                id={comment.id}
-                                                nickname={comment.user}
-                                                comment={comment.content}
-                                                date={format(new Date(comment.created_at), 'yyyy-MM-dd h:mm a')}
-                                                likes={comment.likes_count}
-                                                onLikes={comment.likes.includes(parseInt(cookies.get('pk')))}
-                                                isMine={comment.user === cookies.get('username')}
-                                                reload={setMode}
-                                            />
-                                        </li>
-                                    ))}
-                                    <Pagination
-                                        activePage={page}
-                                        itemsCountPerPage={itemsPerPage}
-                                        totalItemsCount={commentInfos.length}
-                                        pageRangeDisplayed={5}
-                                        prevPageText={"<"}
-                                        nextPageText={">"}
-                                        onChange={handlePageChange}
-                                        innerClass={styles.pagination}
-                                        itemClass={styles.paginationItem}
-                                        linkClass={styles.paginationLink}
-                                        activeClass={styles.active}
-                                        disabledClass={styles.disabled}
-                                    />
-                                </div>
-                            </div>
-                    }
-                </div>
-            </div> */}
-        </div>
+        </Div>
     )
 }
 
