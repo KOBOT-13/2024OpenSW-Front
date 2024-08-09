@@ -1,11 +1,6 @@
 import styled from "styled-components";
-import Pagination from 'react-js-pagination';
 
 export const Div = styled.div`
-    &.MainContainer{
-        display: flex;
-        flex-direction: column;
-    }
     &.Detail{
         display: flex;
         justify-content: center;
@@ -34,18 +29,18 @@ export const Div = styled.div`
         width: 100%;
         gap:20px;
     }
-    &.Middle{
+    &.Bottom{
         margin-top: 40px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    &.Btns-Middle{
+    &.Btns-Bottom{
         width: 1160px;
         display: flex;
     }
-    &.Content-Middle{
+    &.Content-Bottom{
         width: 1160px;
         display: flex;
         justify-content: center;
@@ -60,7 +55,7 @@ export const Div = styled.div`
         display: flex;
         justify-content: space-evenly;
     }
-    &.Comment-Middle{
+    &.Comment-Bottom{
         width: 100%;
     }
     &.Comment-Board{
@@ -80,22 +75,6 @@ export const Div = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-    &.Bottom{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 40px;
-    }
-    &.Comment-Written{
-        width: 1160px;
-    }
-    &.Comments{
-        width: 100%;
-        height: auto;
-        margin-top: 20px;
-        border-top: 1px solid rgba(0, 0, 0, 0.5);
-        background-color: #F7F7F7;
     }
 `;
 
@@ -121,11 +100,6 @@ export const P = styled.p`
         margin-left: 10px;
         font-size: 11px;
         align-self: flex-end;
-    }
-    &.cwtitle{
-        font-family: 'Pretendard-Bold';
-        font-size: 16px;
-        margin: 0;
     }
 `;
 
@@ -159,49 +133,3 @@ export const Button = styled.button`
     margin-left: 10px;
     cursor: pointer;
 `;
-
-const StyledPaginationWrapper = styled.div`
-    ul {
-        display: flex;
-        justify-content: center;
-        padding: 10px 0;
-        list-style: none;
-    }
-  
-    li {
-        margin: 0 5px;
-    }
-
-    li a {
-        display: block;
-        padding: 8px 16px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        color: #007bff;
-        text-decoration: none;
-        cursor: pointer;
-
-        &:hover {
-        background-color: #f0f0f0;
-        }
-    }
-
-    .active a {
-        background-color: #007bff;
-        color: white;
-        border: 1px solid #007bff;
-    }
-
-    .disabled a {
-        color: #ccc;
-        cursor: not-allowed;
-    }
-`;
-
-export const CommentsPage = (props) => {
-    return (
-        <StyledPaginationWrapper>
-            <Pagination {...props} />
-        </StyledPaginationWrapper>
-    )
-}
