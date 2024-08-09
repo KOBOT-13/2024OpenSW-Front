@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './components/Header/Header';
+import Footer from "./components/Footer/Footer";
 import Home from './screens/Home';
 import Login from './screens/Login';
 import Join from './screens/Join';
@@ -63,6 +64,7 @@ function App() {
         </ProtectedRoute>} />
         <Route path="/bookclick/:id/quiz" element={<Quiz />} />
       </Routes>
+      <Footer/>
       </ConversationProvider>
     </Router>
   );
