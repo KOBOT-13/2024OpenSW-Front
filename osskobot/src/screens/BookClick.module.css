@@ -1,0 +1,142 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    .bookDetail{
+        width: 100%;
+        margin-top: 30px;
+        margin-left: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .bookImgDiv{
+            flex: 0 0 20%;
+            .bookImg{
+                width: 100%;
+                object-fit: contain;
+                border: 1px solid black;
+            }
+        }
+        .bookInfo{
+            margin-left: 50px;
+            margin-top: 30px;
+            width: 60%;
+        }
+    }
+
+    .buttonDiv{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+        .buttonUl{
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            .buttonLi{
+                margin-left: 8px;
+                list-style: none;
+                .button{
+                    font-size: 30px;
+                    background-color: black;
+                    color: white;
+                }
+            }   
+        }
+    }
+
+    .multiContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .multiBtns{
+            width: 80%;
+            display: flex;
+            height: 44px;
+            .mulitBtnUl{
+                display: flex;
+                padding: 0;
+                .multiBtnLi{
+                    list-style: none;
+                    .multiBtn{
+                        background-color: transparent;
+                        border: 1px solid black;
+                        font-size: 20px;
+                    }
+                    .clickMultiBtn{
+                        background-color: gray;
+                        border: 1px solid black;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        .multiPage{
+            width: 80%;
+            background-color:antiquewhite;
+            display: flex;
+            justify-content: center;
+            .charProfilesDiv{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                width: 80%;
+            }
+            .commnetBoard{
+                width: 100%;
+                .commentForm{
+                    margin: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    .commentInput{
+                        height: 100px;
+                        border: 1px solid black;
+                    }
+                    .commentBtn{
+                        margin-top: 10px;
+                        align-self: flex-end;
+                        width: 20%;
+                    }
+                }
+                .commentsDiv{
+                    margin: 20px;
+                }
+            }
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    list-style: none;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    display: block;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pagination li a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .active a {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}
+
+.pagination .disabled a {
+    color: #ccc;
+    cursor: not-allowed;
+}

@@ -1,12 +1,13 @@
 import Modal from "react-modal";
 import styles from './CheckModal.module.css';
 
-function CustomModal({ isOpen, onRequestClose, del, msg }) {
+function CustomModal({ isOpen, onRequestClose, setIsDel, msg }) {
     const onClickYes = () => {
-        del();
+        setIsDel(true);
         onRequestClose(false);
     }
     const onClickNo = () => {
+        setIsDel(false);
         onRequestClose(false);
     }
     return (
