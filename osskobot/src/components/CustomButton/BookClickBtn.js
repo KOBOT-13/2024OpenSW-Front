@@ -19,12 +19,11 @@ const P = styled.p`
     white-space: nowrap;
 `;
 
-function BookClickBtn({icon, label, path, id}){
+function BookClickBtn({icon: Icon, label, path, id}){
     const navigate = useNavigate();
     const onClickDiv = () => {
         navigate(`/bookclick/${id}/${path}`);
     };
-    const Icon = styled(icon)``;
     return(
         <Div onClick={onClickDiv}>
             <Icon/>

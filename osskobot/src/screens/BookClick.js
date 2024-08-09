@@ -13,6 +13,7 @@ import BookClickBtn from '../components/CustomButton/BookClickBtn';
 import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';
 import { ReactComponent as report } from '../assets/report.svg';
+import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 
 function BookClick() {
     const location = useLocation();
@@ -49,7 +50,13 @@ function BookClick() {
         { path: "chatcharchoose", label: "등장인물과 대화하기", icon: talk },
         { path: "quiz", label: "독서퀴즈 맞추기", icon: quiz },
         { path: "bookreport", label: "독후감 작성하기", icon: report },
-    ]
+    ];
+
+    const bottomBtn = [
+        {index: 1, label:"책 소개"},
+        {index: 2, label:"등장인물 소개"},
+        {index: 3, label:"독후활동 공유"}
+    ];
 
     useEffect(() => {
         const getBookDetail = async () => {
@@ -110,10 +117,6 @@ function BookClick() {
         }
     };
 
-    const click = (id) => {
-        setIndex(id);
-    };
-
     return (
         <div className={styles.mainContainer}>
             <Div className='Detail'>
@@ -137,23 +140,27 @@ function BookClick() {
                     </Div>
                 </Div>
             </Div>
-
-            <div className={styles.buttonDiv}>
-                <ul className={styles.buttonUl}>
-                    <li className={styles.buttonLi}>
-                        <Link to={`${location.pathname}/chatcharchoose`}><button className={styles.button}>대화하기</button></Link>
-                    </li>
-                    <li className={styles.buttonLi}>
-                        <Link to={`${location.pathname}/quiz`}><button className={styles.button}>독서퀴즈</button></Link>
-                    </li>
-                    <li className={styles.buttonLi}>
-                        <Link to={`${location.pathname}/bookreport`}><button className={styles.button}>독후감 쓰기</button></Link>
-                    </li>
-                </ul>
-            </div>
-
-            <div className={styles.multiContainer}>
-                {/*하단에 책 소개, 등장인물 소개, 리뷰 페이지가 들어가아 햠*/}
+            <Div className='Bottom'>
+                <Div className='Btns-Bottom'>
+                    {bottomBtn.map((value) => {
+                        return <BottomBorderBtn key={value.index} onClick={() => setIndex(value.index)} label={value.label} index={value.index === index}/>
+                    })}
+                </Div>
+                <Div className='Content-Bottom'>
+                    {index === 1 ?
+                    <Div className='Book-Intro'>
+                        {book.synopsis}
+                    </Div>
+                    : index === 2 ?
+                    <Div className='Char-Intro'>
+                        {charProfileInfos.map((value, key) => {
+                            return <CharProfile character={value} key={key} />
+                        })}
+                    </Div>
+                    :<Div></Div>}
+                </Div>
+            </Div>
+            {/* <div className={styles.multiContainer}>
                 <div className={styles.multiBtns}>
                     <ul className={styles.mulitBtnUl}>
                         <li className={styles.multiBtnLi}>
@@ -227,7 +234,7 @@ function BookClick() {
                             </div>
                     }
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

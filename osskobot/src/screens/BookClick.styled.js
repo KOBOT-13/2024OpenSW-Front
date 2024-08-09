@@ -10,7 +10,6 @@ export const Div = styled.div`
         display: flex;
         justify-content: center;
         margin: 30px 140px 0 140px;
-        padding: 57px 0 57px 100px;
         background-color: #fafafa;
         border-radius: 20px;
     }
@@ -21,16 +20,47 @@ export const Div = styled.div`
         flex-direction: column;
         justify-content: space-between;
     }
+    &.Info{
+        margin-top: 57px;
+    }
     &.Btns{
         display: flex;
         flex-wrap: wrap;
         width: 100%;
         gap:20px;
     }
+    &.Bottom{
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &.Btns-Bottom{
+        width: 1160px;
+        display: flex;
+    }
+    &.Content-Bottom{
+        width: 1160px;
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    &.Book-Intro{
+        font-family: 'Pretendard-Regular';
+        font-size: 16px;
+        line-height: 30px;
+    }
+    &.Char-Intro{
+        display: flex;
+        justify-content: space-evenly;
+    }
 `;
 
 export const Image = styled.img`
     margin-right: 100px;
+    margin: 57px 100px 57px 80px;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.3);
 `;
 
 export const P = styled.p`
@@ -42,6 +72,7 @@ export const P = styled.p`
         font-family: 'Pretendard-Bold';
         font-size: 24px;
         color: black;
+        margin-top: 0;
     }
 `;
 

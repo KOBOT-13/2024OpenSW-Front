@@ -34,7 +34,7 @@ const P = styled.p`
     margin: 0;
     font-family: 'Pretendard-Bold';
     font-size: 20px;
-    color: ${({ index }) => (index ? 'black' : '#BBBBBB')};
+    color: ${({ $props }) => ($props ? 'black' : '#BBBBBB')};
     user-select: none;
 `;
 
@@ -79,17 +79,17 @@ function SubHeader() {
                         <Ul>
                             <Li onClick={() => handleMenuClick(0)} >
                                 <Div className="Content">
-                                    <P index={index === 0}>둘러보기</P>
+                                    <P $props={index === 0}>둘러보기</P>
                                 </Div>
                             </Li>
                             <Li onClick={() => handleMenuClick(1)}>
                                 <Div className="Content">
-                                    <P index={index === 1}>내 책장</P>
+                                    <P $props={index === 1}>내 책장</P>
                                 </Div>
                             </Li>
                             <Li onClick={() => handleMenuClick(2)}>
                                 <Div className="Content">
-                                    <P index={index === 2}>추천 도서</P>
+                                    <P $props={index === 2}>추천 도서</P>
                                 </Div>
                             </Li>
                         </Ul>
