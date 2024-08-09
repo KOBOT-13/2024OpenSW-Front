@@ -55,6 +55,27 @@ export const Div = styled.div`
         display: flex;
         justify-content: space-evenly;
     }
+    &.Comment-Bottom{
+        width: 100%;
+    }
+    &.Comment-Board{
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 10px;
+        box-sizing: border-box;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &.Comment-Btn{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 `;
 
 export const Image = styled.img`
@@ -74,10 +95,41 @@ export const P = styled.p`
         color: black;
         margin-top: 0;
     }
+    &.comment-size{
+        margin: 0;
+        margin-left: 10px;
+        font-size: 11px;
+        align-self: flex-end;
+    }
 `;
 
 export const Hr = styled.hr`
     width: 40px;
     margin: 0;
     border: 1px solid #007aff;
+`;
+
+export const TextArea = styled.textarea`
+    width: 100%;
+    height: 100%;
+    border:0;
+    padding: 10px;
+    resize: none;
+    overflow: auto;
+    box-sizing: border-box;
+    &:focus{
+        outline: 0;
+    }
+`;
+
+export const Button = styled.button`
+    font-family: 'Pretendard-Bold';
+    font-size: 14px;
+    background: none;
+    width: 97px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
 `;

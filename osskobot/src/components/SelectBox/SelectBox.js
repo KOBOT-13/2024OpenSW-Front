@@ -5,6 +5,9 @@ const Select = styled.select`
     font-size: 14px;
     border: none;
     color: rgba(55, 56, 60, 0.6);
+    &:focus{
+        outline: 0;
+    }
 `;
 
 

@@ -8,7 +8,7 @@ import cookies from 'js-cookie';
 import { format } from 'date-fns'
 import Pagination from 'react-js-pagination';
 import postReadBook from '../services/postReadBook';
-import { Div, Image, P, Hr } from './BookClick.styled';
+import { Div, Image, P, Hr, TextArea, Button } from './BookClick.styled';
 import BookClickBtn from '../components/CustomButton/BookClickBtn';
 import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';
@@ -99,7 +99,9 @@ function BookClick() {
     }, []);
 
     const onChangeComment = (e) => {
-        setCommentMsg(e.target.value);
+        if(e.target.value.length <= 150){
+            setCommentMsg(e.target.value);
+        }
     }
     const onSubmitClk = async (e) => {
         e.preventDefault();
@@ -157,7 +159,15 @@ function BookClick() {
                             return <CharProfile character={value} key={key} />
                         })}
                     </Div>
-                    :<Div></Div>}
+                    :<Div className='Comment-Bottom'>
+                        <Div className='Comment-Board'>
+                            <TextArea value={commentMsg} onChange={onChangeComment} placeholder='댓글을 입력해주세요.'></TextArea>
+                            <Div className='Comment-Btn'>
+                                <P className='comment-size'>{commentMsg.length} / 150</P>
+                                <Button onClick={onSubmitClk}>댓글달기</Button>
+                            </Div>
+                        </Div>
+                    </Div>}
                 </Div>
             </Div>
             {/* <div className={styles.multiContainer}>

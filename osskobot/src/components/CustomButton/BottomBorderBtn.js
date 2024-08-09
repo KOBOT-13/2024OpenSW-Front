@@ -11,7 +11,7 @@ const Div = styled.div`
 `;
 
 const P = styled.p`
-    font-family: 'Pretendard-Bold';
+    font-family: ${({ $props }) => ($props ? 'Pretendard-Bold' : 'Pretendard-Medium')};
     font-size: 16px;
     text-align: center;
     user-select: none;
@@ -20,7 +20,7 @@ const P = styled.p`
 function BottomBorderBtn({label, index, onClick}){
     return(
         <Div onClick={onClick} $props={index}>
-            <P>{label}</P>
+            <P $props={index}>{label}</P>
         </Div>
     )
 }
