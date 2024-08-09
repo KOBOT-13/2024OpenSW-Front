@@ -11,7 +11,7 @@ import CategoryBtn from '../components/CustomButton/CategoryBtn';
 import Book from '../components/Book/Book';
 
 const Div = styled.div`
-    width: 68%;
+    width: 70%;
     &.Wrap-Heading{
         display: flex;
         justify-content: space-between;
@@ -90,13 +90,13 @@ function Home() {
                 <SelectBox/>
             </Div>
             <Div className='Category'>
-                {category.map((value) => {
-                    return <CategoryBtn onClick={() => setIndex(value.index)} content={value.content} index={value.index === index}/>
+                {category.map((value, key) => {
+                    return <CategoryBtn key={key} onClick={() => setIndex(value.index)} content={value.content} index={value.index === index}/>
                 })}
             </Div>
             <Div className='Books'>
-                {books.map((value) => {
-                    return <Book title={value.title} author={value.author} id={value.id} cover_image={value.cover_image}/>
+                {books.map((value, key) => {
+                    return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image}/>
                 })}
             </Div>
             {/* <div className={styles.bookshelp}>

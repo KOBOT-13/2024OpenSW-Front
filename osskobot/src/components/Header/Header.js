@@ -78,6 +78,7 @@ const P = styled.p`
     &.BookApply{
         margin-right: 20px;
         color: #3063D2;
+        user-select: none;
     }
 `;
 
